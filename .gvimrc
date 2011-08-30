@@ -11,5 +11,5 @@ set mousehide "Hide the mouse cursor when typing
 set showmatch   "Show matching brackets
 
 set lines=50  
-set linespace=2
+set linespace=3
   
