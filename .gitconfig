@@ -1,0 +1,18 @@
+[core]
+	excludesfile = /Users/rocketspops/.gitignore
+	editor = mate
+[alias]
+	st = status
+	ci = commit
+	co = checkout
+	br = branch
+[user]
+	name = rocketspops
+	email = billy@8thlight.com
+[color]
+	branch = auto
+	diff = auto
+	interactive = auto
+	status = auto
+[merge]
+	tool = opendiff
