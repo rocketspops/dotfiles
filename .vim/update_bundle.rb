@@ -10,7 +10,6 @@ git_bundles = [
   "git://github.com/scrooloose/nerdtree.git",
   "git://github.com/Lokaltog/vim-easymotion.git",
   "git://github.com/msanders/snipmate.vim.git",
-  "git://github.com/hail2u/vim-css3-syntax.git",
   "git://github.com/othree/html5.vim.git",
 ]
 

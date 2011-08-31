@@ -52,7 +52,7 @@ syn region cssMediaBlock transparent matchgroup=cssBraces start='{' end='}' cont
 
 syn match cssValueInteger contained "[-+]\=\d\+"
 syn match cssValueNumber contained "[-+]\=\d\+\(\.\d*\)\="
-syn match cssValueLength contained "[-+]\=\d\+\(\.\d*\)\=\(%\|mm\|cm\|in\|pt\|pc\|em\|ex\|px\)"
+syn match cssValueLength contained "\(\d\)\@<=\(%\|mm\|cm\|in\|pt\|pc\|em\|ex\|px\|rem\)"
 syn match cssValueAngle contained "[-+]\=\d\+\(\.\d*\)\=\(deg\|grad\|rad\)"
 syn match cssValueTime contained "+\=\d\+\(\.\d*\)\=\(ms\|s\)"
 syn match cssValueFrequency contained "+\=\d\+\(\.\d*\)\=\(Hz\|kHz\)"
@@ -83,23 +83,11 @@ syn region cssFunction contained matchgroup=cssFunctionName start="\<\(rgb\|clip
 
 syn match cssImportant contained "!\s*important\>"
 
-syn keyword cssCommonAttr contained auto none inherit
-syn keyword cssCommonAttr contained top bottom
-syn keyword cssCommonAttr contained medium normal
+syn region cssAttr matchgroup=cssAttrPunc start=":" end=";" keepend oneline 
+\contains=cssValueNumber,cssValueLength,cssCommonAttr,cssUIAttr,cssRenderAttr
 
-syn match cssFontProp contained "\<font\(-\(family\|style\|variant\|weight\|size\(-adjust\)\=\|stretch\)\)\=\>"
-syn match cssFontAttr contained "\<\(sans-\)\=\<serif\>"
-syn match cssFontAttr contained "\<small\(-\(caps\|caption\)\)\=\>"
-syn match cssFontAttr contained "\<x\{1,2\}-\(large\|small\)\>"
-syn match cssFontAttr contained "\<message-box\>"
-syn match cssFontAttr contained "\<status-bar\>"
-syn match cssFontAttr contained "\<\(\(ultra\|extra\|semi\|status-bar\)-\)\=\(condensed\|expanded\)\>"
-syn keyword cssFontAttr contained cursive fantasy monospace italic oblique
-syn keyword cssFontAttr contained bold bolder lighter larger smaller
-syn keyword cssFontAttr contained icon menu
-syn match cssFontAttr contained "\<caption\>"
-syn keyword cssFontAttr contained large smaller larger
-syn keyword cssFontAttr contained narrower wider
+syn match cssCommonAttr contained "\<\(auto\|none\|inherit\)\>"
+
 
 syn keyword cssColorProp contained color
 syn match cssColorProp contained "\<background\(-\(color\|image\|attachment\|position\)\)\=\>"
@@ -117,10 +105,11 @@ syn keyword cssTextAttr contained capitalize uppercase lowercase center justify 
 syn match cssBoxProp contained "\<\(margin\|padding\|border\)\(-\(top\|right\|bottom\|left\)\)\=\>"
 syn match cssBoxProp contained "\<border-\(\(\(top\|right\|bottom\|left\)-\)\=\(width\|color\|style\)\)\=\>"
 syn match cssBoxProp contained "\<\(width\|z-index\)\>"
+syn match cssBoxProp contained "\<outline\(-\(width\|style\|color\)\)\=\>"
 syn match cssBoxProp contained "\<\(min\|max\)-\(width\|height\)\>"
 syn keyword cssBoxProp contained width height float clear overflow clip visibility
 syn keyword cssBoxAttr contained thin thick both
-syn keyword cssBoxAttr contained dotted dashed solid double groove ridge inset outset
+syn keyword cssBoxAttr contained dotted dashed solid double groove ridge inset invert outset
 syn keyword cssBoxAttr contained hidden visible scroll collapse
 
 syn keyword cssGeneratedContentProp contained content quotes
@@ -138,15 +127,38 @@ syn match cssPagingProp contained "\<page\(-break-\(before\|after\|inside\)\)\=\
 syn keyword cssPagingProp contained size marks inside orphans widows
 syn keyword cssPagingAttr contained landscape portrait crop cross always avoid
 
-syn keyword cssUIProp contained cursor
-syn match cssUIProp contained "\<outline\(-\(width\|style\|color\)\)\=\>"
-syn match cssUIAttr contained "\<[ns]\=[ew]\=-resize\>"
-syn keyword cssUIAttr contained default crosshair pointer move wait help
-syn keyword cssUIAttr contained thin thick
-syn keyword cssUIAttr contained dotted dashed solid double groove ridge inset outset
-syn keyword cssUIAttr contained invert
+"=F O N T  P R O P E R T I E S
+"------------------------------------------------------"
 
-syn region cssAttr matchgroup=cssAttrPunc start=":" end=";" keepend oneline contains=cssRenderAttr
+syn keyword cssFontProp contained font-family
+                                \ font-style
+                                \ font-variant
+                                \ font-weight
+                                \ font-size
+                                \ font-size-adjust
+                                \ font-stretch
+
+syn match cssFontAttr contained "\<\(sans-\)\=\<serif\>"
+syn match cssFontAttr contained "\<small\(-\(caps\|caption\)\)\=\>"
+syn match cssFontAttr contained "\<x\{1,2\}-\(large\|small\)\>"
+syn match cssFontAttr contained "\<message-box\>"
+syn match cssFontAttr contained "\<status-bar\>"
+syn match cssFontAttr contained "\<\(\(ultra\|extra\|semi\|status-bar\)-\)\=\(condensed\|expanded\)\>"
+syn keyword cssFontAttr contained cursive fantasy monospace italic medium normal oblique
+syn keyword cssFontAttr contained bold bolder lighter larger smaller
+syn keyword cssFontAttr contained icon menu
+syn match cssFontAttr contained "\<caption\>"
+syn keyword cssFontAttr contained large smaller larger
+syn keyword cssFontAttr contained narrower wider
+
+"=U S E R  I N T E R F A C E  P R O P E R T I E S
+"------------------------------------------------------"
+
+syn keyword cssUIProp contained cursor
+
+syn match cssUIAttr contained "\<[ns]\=[ew]\=-resize\>"
+syn match cssUIAttr contained "\<\(default\|crosshair\|pointer\|move\|wait\|help\)\>"
+
 
 "=R E N D E R  P R O P E R T I E S
 "------------------------------------------------------"
@@ -162,14 +174,16 @@ syn keyword cssRenderProp contained bottom
                                   \ unicode-bidi 
                                   \ white-space 
 
-syn match cssRenderAttr contained "\<\(bottom\|
-                                   \left\|
-                                   \right\|
-                                   \top\)\>" 
-syn match cssRenderAttr contained "\<\(block\|compact\|inline\|inline-block\|inline-table\|list-item\|marker\|run-in\)\>"
+syn match cssRenderAttr contained "\<\(bottom\|left\|right\|top\)\>" 
+syn match cssRenderAttr contained "\<\(block\|compact\|inline\|inline-block\
+                                   \|inline-table\|list-item\|marker\|run-in\)\>"
 syn match cssRenderAttr contained "\<\(absolute\|fixed\|relative\|static\)\>"
-syn match cssRenderAttr contained "\<\(ltr\|rtl\|embed\|bidi-override\|pre\|nowrap\)\>"
-syn match cssRenderAttr contained "\<table\(-\(row-group\|\(header\|footer\)-group\|row\|column\(-group\)\=\|cell\|caption\)\)\=\>"
+syn match cssRenderAttr contained "\<\(bidi-override\|embed\|ltr\|nowrap\|pre\|rtl\)\>"
+syn match cssRenderAttr contained "\<table\(-\(row-group\|\(header\|footer\)-group\|
+                                   \row\|column\(-group\)\=\|cell\|caption\)\)\=\>"
+
+"=A U R A L  P R O P E R T I E S
+"------------------------------------------------------"
 
 syn match cssAuralProp contained "\<\(pause\|cue\)\(-\(before\|after\)\)\=\>"
 syn match cssAuralProp contained "\<\(play-during\|speech-rate\|voice-family\|pitch\(-range\)\=\|speak\(-\(punctuation\|numerals\)\)\=\)\>"

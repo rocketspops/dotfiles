@@ -13,7 +13,7 @@ runtime macros/matchit.vim
 :set showcmd
 
 set ofu=syntaxcomplete#Complete
-
+set iskeyword=a-z,A-Z,48-57,_,.,-,>
 set bs=indent,eol,start  "Allow backspacing over everything in insert mode
 
 set noeb vb t_vb= "Disable Visual bell and error bell

@@ -77,6 +77,7 @@ hi link cssBraces       htmlString
 hi cssProp              guifg=#222222 guibg=#EEEEEE gui=NONE 
 
 hi link cssBoxProp      cssProp
+hi link cssUIProp       cssProp
 hi link cssColorProp    cssProp
 hi link cssFontProp     cssProp
 hi link cssRenderProp   cssProp
@@ -88,7 +89,6 @@ hi cssValue             guifg=#0000EE guibg=#EEEEEE gui=NONE
 hi link cssCommonAttr   cssValue
 hi link cssTextAttr     cssValue
 hi link cssRenderAttr   cssValue
-hi link cssValueLength  cssValue
 hi link cssValueNumber  cssValue
 hi link cssFunctionName cssValue
 hi link cssUIAttr       cssValue
@@ -100,6 +100,7 @@ hi cssFunction          guifg=#0099FF guibg=#EEEEEE gui=NONE
 hi link cssUrl          cssFunction
 hi link cssStringQQ     cssFunction
 hi link cssUnicodeEscape cssFunction
+hi link cssValueLength  cssFunction
 
 hi link vimLineComment  LineNr
 hi link WindowDIM       LineNr
