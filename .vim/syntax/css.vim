@@ -84,7 +84,8 @@ syn region cssFunction contained matchgroup=cssFunctionName start="\<\(rgb\|clip
 syn match cssImportant contained "!\s*important\>"
 
 syn region cssAttr matchgroup=cssAttrPunc start=":" end=";" keepend oneline 
-\contains=cssValueNumber,cssValueLength,cssCommonAttr,cssUIAttr,cssRenderAttr
+\contains=cssValueNumber,cssValueLength,cssCommonAttr,cssBoxAttr,cssPagingAttr,
+\cssFontAttr,cssUIAttr,cssRenderAttr
 
 syn match cssCommonAttr contained "\<\(auto\|none\|inherit\)\>"
 
@@ -102,15 +103,6 @@ syn match cssTextAttr contained "\<\(text-\)\=\(top\|bottom\)\>"
 syn keyword cssTextAttr contained underline overline blink sub super middle
 syn keyword cssTextAttr contained capitalize uppercase lowercase center justify baseline sub super
 
-syn match cssBoxProp contained "\<\(margin\|padding\|border\)\(-\(top\|right\|bottom\|left\)\)\=\>"
-syn match cssBoxProp contained "\<border-\(\(\(top\|right\|bottom\|left\)-\)\=\(width\|color\|style\)\)\=\>"
-syn match cssBoxProp contained "\<\(width\|z-index\)\>"
-syn match cssBoxProp contained "\<outline\(-\(width\|style\|color\)\)\=\>"
-syn match cssBoxProp contained "\<\(min\|max\)-\(width\|height\)\>"
-syn keyword cssBoxProp contained width height float clear overflow clip visibility
-syn keyword cssBoxAttr contained thin thick both
-syn keyword cssBoxAttr contained dotted dashed solid double groove ridge inset invert outset
-syn keyword cssBoxAttr contained hidden visible scroll collapse
 
 syn keyword cssGeneratedContentProp contained content quotes
 syn match cssGeneratedContentProp contained "\<counter-\(reset\|increment\)\>"
@@ -123,9 +115,44 @@ syn match cssGeneratedContentAttr contained "\<\(decimal\(-leading-zero\)\=\|cjk
 syn keyword cssGeneratedContentAttr contained disc circle square hebrew armenian georgian
 syn keyword cssGeneratedContentAttr contained inside outside
 
-syn match cssPagingProp contained "\<page\(-break-\(before\|after\|inside\)\)\=\>"
-syn keyword cssPagingProp contained size marks inside orphans widows
-syn keyword cssPagingAttr contained landscape portrait crop cross always avoid
+"=B O X  P R O P E R T I E S
+"------------------------------------------------------"
+
+syn match cssBoxProp contained "\<\(margin\|padding\|border\)\(-\(top\|right\|bottom\|left\)\)\=\>"
+syn match cssBoxProp contained "\<border-\(\(\(top\|right\|bottom\|left\)-\)\=\(width\|color\|style\)\)\=\>"
+syn match cssBoxProp contained "\<outline\(-\(width\|style\|color\)\)\=\>"
+
+syn keyword cssBoxProp contained clear 
+                               \ clip
+                               \ float 
+                               \ height 
+                               \ max-height
+                               \ max-width
+                               \ min-height
+                               \ min-width
+                               \ overflow
+                               \ overflow-x
+                               \ overflow-y
+                               \ visibility
+                               \ width
+                               \ z-index
+
+syn match cssBoxAttr contained "\<\(collapse\|dashed\|dotted\|double\|groove\|hidden\|inset\|invert\|
+                                \outset\|ridge\|scroll\|solid\|thick\|thin\|visible\)\>"
+
+"=P A G I N G  P R O P E R T I E S
+"------------------------------------------------------"
+
+syn keyword cssPagingProp contained inside
+                                  \ marks
+                                  \ orphans
+                                  \ page-break-before
+                                  \ page-break-after
+                                  \ page-break-inside
+                                  \ size
+                                  \ widows
+
+syn match cssPagingAttr contained "\<\(landscape\|portrait\|crop\|cross\|always\|avoid\)\>"
 
 "=F O N T  P R O P E R T I E S
 "------------------------------------------------------"
@@ -138,18 +165,20 @@ syn keyword cssFontProp contained font-family
                                 \ font-size-adjust
                                 \ font-stretch
 
-syn match cssFontAttr contained "\<\(sans-\)\=\<serif\>"
-syn match cssFontAttr contained "\<small\(-\(caps\|caption\)\)\=\>"
-syn match cssFontAttr contained "\<x\{1,2\}-\(large\|small\)\>"
-syn match cssFontAttr contained "\<message-box\>"
-syn match cssFontAttr contained "\<status-bar\>"
-syn match cssFontAttr contained "\<\(\(ultra\|extra\|semi\|status-bar\)-\)\=\(condensed\|expanded\)\>"
-syn keyword cssFontAttr contained cursive fantasy monospace italic medium normal oblique
-syn keyword cssFontAttr contained bold bolder lighter larger smaller
-syn keyword cssFontAttr contained icon menu
-syn match cssFontAttr contained "\<caption\>"
-syn keyword cssFontAttr contained large smaller larger
-syn keyword cssFontAttr contained narrower wider
+syn match cssFontAttr contained "\<\(Arial\|Calibri\|Candara\|Cambria\|Consolas\|Corbel\|
+                                 \Constantia\|Courier\|Georgia\|Helvetica\|Lucida\|
+                                 \Tahoma\|Times\|Verdana\)\>" 
+
+syn match cssFontAttr contained "\<\(cursive\|fantasy\|monospace\|sans-serif\|serif\)\>" 
+syn match cssFontAttr contained "\<\(italic\|normal\|oblique\)\>"
+syn match cssFontAttr contained "\<\(\(ultra\|extra\|semi\)-\)\=\(condensed\|expanded\)\>"
+syn match cssFontAttr contained "\<\(large\|larger\|x-large\|medium\|small\|smaller\|x-small\)\>"
+
+syn match cssFontAttr contained "\<\(bold\|bolder\|lighter\|normal\|100\|200\|300\|
+                                 \400\|500\|600\|700\|800\|900\)\>" 
+
+syn match cssFontAttr contained "\<\(caption\|icon\|menu\|message-box\|small-caps\|
+                                 \small-caption\|status-bar\)\>"
 
 "=U S E R  I N T E R F A C E  P R O P E R T I E S
 "------------------------------------------------------"
@@ -158,7 +187,6 @@ syn keyword cssUIProp contained cursor
 
 syn match cssUIAttr contained "\<[ns]\=[ew]\=-resize\>"
 syn match cssUIAttr contained "\<\(default\|crosshair\|pointer\|move\|wait\|help\)\>"
-
 
 "=R E N D E R  P R O P E R T I E S
 "------------------------------------------------------"
@@ -175,10 +203,13 @@ syn keyword cssRenderProp contained bottom
                                   \ white-space 
 
 syn match cssRenderAttr contained "\<\(bottom\|left\|right\|top\)\>" 
+
 syn match cssRenderAttr contained "\<\(block\|compact\|inline\|inline-block\
                                    \|inline-table\|list-item\|marker\|run-in\)\>"
+
 syn match cssRenderAttr contained "\<\(absolute\|fixed\|relative\|static\)\>"
 syn match cssRenderAttr contained "\<\(bidi-override\|embed\|ltr\|nowrap\|pre\|rtl\)\>"
+
 syn match cssRenderAttr contained "\<table\(-\(row-group\|\(header\|footer\)-group\|
                                    \row\|column\(-group\)\=\|cell\|caption\)\)\=\>"
 
