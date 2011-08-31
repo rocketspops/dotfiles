@@ -13,3 +13,5 @@ set showmatch   "Show matching brackets
 set lines=50  
 set linespace=3
   
+macm Window.Select\ Previous\ Tab  key=<D-S-Left>
+macm Window.Select\ Next\ Tab	   key=<D-S-Right>
