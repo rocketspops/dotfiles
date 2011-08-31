@@ -66,60 +66,122 @@ syn region cssFontDescriptorFunction contained matchgroup=cssFunctionName start=
 syn match cssUnicodeRange contained "U+[0-9A-Fa-f?]\+"
 syn match cssUnicodeRange contained "U+\x\+-\x\+"
 
-syn keyword cssColor contained aqua black blue fuchsia gray green lime maroon navy olive purple red silver teal yellow
-" FIXME: These are actually case-insentivie too, but (a) specs recommend using
-" mixed-case (b) it's hard to highlight the word `Background' correctly in
-" all situations
-syn case match
-syn keyword cssColor contained ActiveBorder ActiveCaption AppWorkspace ButtonFace ButtonHighlight ButtonShadow ButtonText CaptionText GrayText Highlight HighlightText InactiveBorder InactiveCaption InactiveCaptionText InfoBackground InfoText Menu MenuText Scrollbar ThreeDDarkShadow ThreeDFace ThreeDHighlight ThreeDLightShadow ThreeDShadow Window WindowFrame WindowText Background
-syn case ignore
-syn match cssColor contained "\<transparent\>"
-syn match cssColor contained "\<white\>"
-syn match cssColor contained "#[0-9A-Fa-f]\{3\}\>"
-syn match cssColor contained "#[0-9A-Fa-f]\{6\}\>"
-"syn match cssColor contained "\<rgb\s*(\s*\d\+\(\.\d*\)\=%\=\s*,\s*\d\+\(\.\d*\)\=%\=\s*,\s*\d\+\(\.\d*\)\=%\=\s*)"
+"=C O L O R  P R O P E R T I E S
+"----------------------------------------------------------------------------"
+
+syn keyword cssColorProp contained color
+
+syn keyword cssColorAttr contained aliceblue antiquewhite aqua aquamarine azure
+                                 \ beige bisque black blanchedalmond blue blueviolet 
+                                 \ brown burlywood cadetblue chartreuse chocolate coral
+                                 \ cornflowerblue cornsilk crimson cyan darkblue
+                                 \ darkcyan darkgoldenrod darkgray darkgrey darkgreen
+                                 \ darkkhaki darkmagenta darkolivegreen darkorange 
+                                 \ darkorchid darkred darksalmon darkseagreen
+                                 \ darkslateblue darkslategray darkslategrey 
+                                 \ darkturquoise darkviolet deeppink deepskyblue
+                                 \ dimgray dimgrey dodgerblue firebrick floralwhite
+                                 \ forestgreen fuchsia gainsboro ghostwhite gold
+                                 \ goldenrod gray grey green greenyellow honeydew
+                                 \ hotpink indianred indigo ivory khaki lavender
+                                 \ lavenderblush lawngreen lemonchiffon lightblue
+                                 \ lightcoral lightcyan lightgoldenrodyellow lightgray
+                                 \ lightgrey lightgreen lightpink lightsalmon
+                                 \ lightseagreen lightskyblue lightslategray
+                                 \ lightslategrey lightsteelblue lightyellow lime
+                                 \ limegreen linen magenta maroon mediumaquamarine
+                                 \ mediumblue mediumorchid mediumpurple mediumseagreen
+                                 \ mediumslateblue mediumspringgreen mediumturquoise
+                                 \ mediumvioletred midnightblue mintcream mistyrose
+                                 \ moccasin navajowhite navy oldlace olive olivedrab
+                                 \ orange orangered orchid palegoldenrod palegreen
+                                 \ paleturquoise palevioletred papayawhip peachpuff
+                                 \ peru pink plum powderblue purple red rosybrown
+                                 \ royalblue saddlebrown salmon sandybrown seagreen
+                                 \ seashell sienna silver skyblue slateblue slategray
+                                 \ slategrey snow springgreen steelblue tan teal
+                                 \ thistle tomato transparent turquoise violet wheat 
+                                 \ white whitesmoke yellow yellowgreen
+
+syn match cssColorAttr contained "#[0-9A-Fa-f]\{-3}\>"
+syn match cssColorAttr contained "#[0-9A-Fa-f]\{-6}\>"
+
 syn region cssURL contained matchgroup=cssFunctionName start="\<url\s*(" end=")" oneline keepend
 syn region cssFunction contained matchgroup=cssFunctionName start="\<\(rgb\|clip\|attr\|counter\|rect\)\s*(" end=")" oneline keepend
 
-syn match cssImportant contained "!\s*important\>"
 
 syn region cssAttr matchgroup=cssAttrPunc start=":" end=";" keepend oneline 
-\contains=cssValueNumber,cssValueLength,cssCommonAttr,cssBoxAttr,cssPagingAttr,
+\contains=cssValueNumber,cssValueLength,cssColorAttr,cssImportant,cssCommonAttr,
+\cssBgAttr,cssGeneratedContentAttr,cssTextAttr,cssBoxAttr,cssPagingAttr,
 \cssFontAttr,cssUIAttr,cssRenderAttr
 
+"=C O L O R  P R O P E R T I E S
+"----------------------------------------------------------------------------"
+"
+"=C O M M O N  P R O P E R T I E S
+"----------------------------------------------------------------------------"
+
+syn match cssImportant contained "!\s*important\>"
 syn match cssCommonAttr contained "\<\(auto\|none\|inherit\)\>"
 
+"=B A C K G R O U N D  P R O P E R T I E S
+"----------------------------------------------------------------------------"
 
-syn keyword cssColorProp contained color
-syn match cssColorProp contained "\<background\(-\(color\|image\|attachment\|position\)\)\=\>"
-syn keyword cssColorAttr contained center scroll fixed
-syn match cssColorAttr contained "\<repeat\(-[xy]\)\=\>"
-syn match cssColorAttr contained "\<no-repeat\>"
+syn keyword cssBgProp contained background
+                              \ background-attachment
+                              \ background-color
+                              \ background-image
+                              \ background-position
 
-syn match cssTextProp "\<\(\(word\|letter\)-spacing\|text\(-\(decoration\|transform\|align\|index\|shadow\)\)\=\|vertical-align\|unicode-bidi\|line-height\)\>"
-syn match cssTextAttr contained "\<line-through\>"
-syn match cssTextAttr contained "\<text-indent\>"
-syn match cssTextAttr contained "\<\(text-\)\=\(top\|bottom\)\>"
-syn keyword cssTextAttr contained underline overline blink sub super middle
-syn keyword cssTextAttr contained capitalize uppercase lowercase center justify baseline sub super
+syn match cssBgAttr contained "\<\(center\|fixed\|no-repeat\|scroll\|
+                               \repeat-x\|repeat-y\)\>"
 
+"=G E N E R A T E D  C O N T E N T  P R O P E R T I E S
+"----------------------------------------------------------------------------"
 
-syn keyword cssGeneratedContentProp contained content quotes
-syn match cssGeneratedContentProp contained "\<counter-\(reset\|increment\)\>"
-syn match cssGeneratedContentProp contained "\<list-style\(-\(type\|position\|image\)\)\=\>"
+syn keyword cssGeneratedContentProp contained content 
+                                            \ counter-reset
+                                            \ counter-increment
+                                            \ list-style-type
+                                            \ list-style-position
+                                            \ list-style-image
+                                            \ quotes
+
 syn match cssGeneratedContentAttr contained "\<\(no-\)\=\(open\|close\)-quote\>"
-syn match cssAuralAttr contained "\<lower\>"
-syn match cssGeneratedContentAttr contained "\<\(lower\|upper\)-\(roman\|alpha\|greek\|latin\)\>"
+syn match cssGeneratedContentAttr contained "\<\(lower\|upper\)-\(roman\|alpha\|
+                                             \greek\|latin\)\>"
 syn match cssGeneratedContentAttr contained "\<\(hiragana\|katakana\)\(-iroha\)\=\>"
-syn match cssGeneratedContentAttr contained "\<\(decimal\(-leading-zero\)\=\|cjk-ideographic\)\>"
-syn keyword cssGeneratedContentAttr contained disc circle square hebrew armenian georgian
-syn keyword cssGeneratedContentAttr contained inside outside
+syn match cssGeneratedContentAttr contained "\<\(decimal\(-leading-zero\)\=\|
+                                             \cjk-ideographic\)\>"
+syn match cssGeneratedContentAttr contained "\<\(disc\|circle\|square\|hebrew\|
+                                             \armenian\|georgian\|inside\|outside\)\>"
+
+"=T E X T  P R O P E R T I E S
+"----------------------------------------------------------------------------"
+
+syn keyword cssTextProp contained letter-spacing 
+                                \ line-height 
+                                \ text-align 
+                                \ text-decoration 
+                                \ text-indent
+                                \ text-shadow
+                                \ text-transform 
+                                \ unicode-bidi
+                                \ vertical-align
+                                \ word-spacing
+
+syn match cssTextAttr contained "\<\(baseline\|blink\|capitalize\|center\|
+                                 \justify\|line-through\|middle\|overline\|
+                                 \sub\|super\|text-bottom\|
+                                 \text-top\|underline\|uppercase\)\>" 
 
 "=B O X  P R O P E R T I E S
-"------------------------------------------------------"
+"----------------------------------------------------------------------------"
 
-syn match cssBoxProp contained "\<\(margin\|padding\|border\)\(-\(top\|right\|bottom\|left\)\)\=\>"
-syn match cssBoxProp contained "\<border-\(\(\(top\|right\|bottom\|left\)-\)\=\(width\|color\|style\)\)\=\>"
+syn match cssBoxProp contained "\<\(margin\|padding\|border\)\(-\(top\|
+                                \right\|bottom\|left\)\)\=\>"
+syn match cssBoxProp contained "\<border-\(\(\(top\|right\|bottom\|left\)
+                                \-\)\=\(width\|color\|style\)\)\=\>"
 syn match cssBoxProp contained "\<outline\(-\(width\|style\|color\)\)\=\>"
 
 syn keyword cssBoxProp contained clear 
@@ -137,11 +199,12 @@ syn keyword cssBoxProp contained clear
                                \ width
                                \ z-index
 
-syn match cssBoxAttr contained "\<\(collapse\|dashed\|dotted\|double\|groove\|hidden\|inset\|invert\|
-                                \outset\|ridge\|scroll\|solid\|thick\|thin\|visible\)\>"
+syn match cssBoxAttr contained "\<\(collapse\|dashed\|dotted\|double\|groove\|
+                                \hidden\|inset\|invert\|\outset\|ridge\|
+                                \scroll\|solid\|thick\|thin\|visible\)\>"
 
 "=P A G I N G  P R O P E R T I E S
-"------------------------------------------------------"
+"----------------------------------------------------------------------------"
 
 syn keyword cssPagingProp contained inside
                                   \ marks
@@ -152,10 +215,11 @@ syn keyword cssPagingProp contained inside
                                   \ size
                                   \ widows
 
-syn match cssPagingAttr contained "\<\(landscape\|portrait\|crop\|cross\|always\|avoid\)\>"
+syn match cssPagingAttr contained "\<\(landscape\|portrait\|crop\|cross\|
+                                   \always\|avoid\)\>"
 
 "=F O N T  P R O P E R T I E S
-"------------------------------------------------------"
+"----------------------------------------------------------------------------"
 
 syn keyword cssFontProp contained font-family
                                 \ font-style
@@ -165,31 +229,33 @@ syn keyword cssFontProp contained font-family
                                 \ font-size-adjust
                                 \ font-stretch
 
-syn match cssFontAttr contained "\<\(Arial\|Calibri\|Candara\|Cambria\|Consolas\|Corbel\|
-                                 \Constantia\|Courier\|Georgia\|Helvetica\|Lucida\|
-                                 \Tahoma\|Times\|Verdana\)\>" 
+syn match cssFontAttr contained "\<\(Arial\|Calibri\|Candara\|Cambria\|
+                                 \Consolas\|Corbel\|Constantia\|Courier\|
+                                 \Georgia\|Helvetica\|Lucida\|\Tahoma\|
+                                 \Times\|Verdana\)\>" 
 
-syn match cssFontAttr contained "\<\(cursive\|fantasy\|monospace\|sans-serif\|serif\)\>" 
+syn match cssFontAttr contained "\<\(cursive\|fantasy\|monospace\|sans-serif\|
+                                 \serif\)\>" 
 syn match cssFontAttr contained "\<\(italic\|normal\|oblique\)\>"
-syn match cssFontAttr contained "\<\(\(ultra\|extra\|semi\)-\)\=\(condensed\|expanded\)\>"
-syn match cssFontAttr contained "\<\(large\|larger\|x-large\|medium\|small\|smaller\|x-small\)\>"
-
-syn match cssFontAttr contained "\<\(bold\|bolder\|lighter\|normal\|100\|200\|300\|
-                                 \400\|500\|600\|700\|800\|900\)\>" 
-
-syn match cssFontAttr contained "\<\(caption\|icon\|menu\|message-box\|small-caps\|
-                                 \small-caption\|status-bar\)\>"
+syn match cssFontAttr contained "\<\(\(ultra\|extra\|semi\)-\)\=\(condensed\|
+                                 \expanded\)\>"
+syn match cssFontAttr contained "\<\(large\|larger\|x-large\|medium\|small\|
+                                 \smaller\|x-small\)\>"
+syn match cssFontAttr contained "\<\(bold\|bolder\|lighter\|normal\)\>" 
+syn match cssFontAttr contained "\<\(caption\|icon\|menu\|message-box\|
+                                 \small-caps\|small-caption\|status-bar\)\>"
 
 "=U S E R  I N T E R F A C E  P R O P E R T I E S
-"------------------------------------------------------"
+"----------------------------------------------------------------------------"
 
 syn keyword cssUIProp contained cursor
 
 syn match cssUIAttr contained "\<[ns]\=[ew]\=-resize\>"
-syn match cssUIAttr contained "\<\(default\|crosshair\|pointer\|move\|wait\|help\)\>"
+syn match cssUIAttr contained "\<\(default\|crosshair\|progress\|pointer\|
+                               \move\|wait\|help\)\>"
 
 "=R E N D E R  P R O P E R T I E S
-"------------------------------------------------------"
+"----------------------------------------------------------------------------"
 
 syn keyword cssRenderProp contained bottom 
                                   \ direction 
@@ -199,23 +265,23 @@ syn keyword cssRenderProp contained bottom
                                   \ position 
                                   \ right 
                                   \ top 
-                                  \ unicode-bidi 
                                   \ white-space 
 
 syn match cssRenderAttr contained "\<\(bottom\|left\|right\|top\)\>" 
-
 syn match cssRenderAttr contained "\<\(block\|compact\|inline\|inline-block\
-                                   \|inline-table\|list-item\|marker\|run-in\)\>"
-
+                                   \|inline-table\|list-item\|marker\|
+                                   \run-in\)\>"
 syn match cssRenderAttr contained "\<\(absolute\|fixed\|relative\|static\)\>"
-syn match cssRenderAttr contained "\<\(bidi-override\|embed\|ltr\|nowrap\|pre\|rtl\)\>"
-
-syn match cssRenderAttr contained "\<table\(-\(row-group\|\(header\|footer\)-group\|
-                                   \row\|column\(-group\)\=\|cell\|caption\)\)\=\>"
+syn match cssRenderAttr contained "\<\(bidi-override\|embed\|ltr\|nowrap\|
+                                   \pre\|rtl\)\>"
+syn match cssRenderAttr contained "\<table\(-\(row-group\|\(header\|footer\)
+                                   \-group\|row\|column\(-group\)\=\|cell\|
+                                   \caption\)\)\=\>"
 
 "=A U R A L  P R O P E R T I E S
-"------------------------------------------------------"
+"----------------------------------------------------------------------------"
 
+syn match cssAuralAttr contained "\<lower\>"
 syn match cssAuralProp contained "\<\(pause\|cue\)\(-\(before\|after\)\)\=\>"
 syn match cssAuralProp contained "\<\(play-during\|speech-rate\|voice-family\|pitch\(-range\)\=\|speak\(-\(punctuation\|numerals\)\)\=\)\>"
 syn keyword cssAuralProp contained volume during azimuth elevation stress richness
