@@ -46,9 +46,11 @@ hi NonText              guifg=#EEEEEE guibg=#EEEEEE gui=NONE
 
 hi NERDTreeDir          guifg=#222222 guibg=#EEEEEE gui=BOLD
 hi NERDTreeDirSlash     guifg=#EEEEEE guibg=#EEEEEE gui=NONE
-hi NERDTreeCWD          guifg=#888888 guibg=#EEEEEE gui=BOLD
+hi NERDTreeCWD          guifg=#888888 guibg=#EEEEEE gui=NONE
+hi link NERDTreeBookmarksHeader NERDTreeCWD
+hi link NERDTreeBookmarkName NERDTreeDir
 hi NERDTreeLink         guifg=#222222 guibg=#EEEEEE gui=ITALIC
-hi NERDTreeUp           guifg=#0000EE guibg=#EEEEEE gui=UNDERLINE
+hi NERDTreeUp           guifg=#0000EE guibg=#EEEEEE gui=NONE
 hi NERDTreeHelp         guifg=#FF0000 guibg=#EEEEEE gui=NONE
 hi NERDTreeRO           guifg=#888888 guibg=#EEEEEE gui=NONE  
 hi NERDTreeStatusline   guifg=#EEEEEE guibg=#EEEEEE gui=NONE
