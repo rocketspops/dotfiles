@@ -169,8 +169,8 @@ syn keyword cssTextProp contained letter-spacing
                                 \ word-spacing
 
 syn match cssTextAttr contained "\<\(baseline\|blink\|capitalize\|center\|
-                                 \justify\|line-through\|middle\|overline\|
-                                 \sub\|super\|text-bottom\|
+                                 \justify\|line-through\|lowercase\|middle\|
+                                 \overline\|sub\|super\|text-bottom\|
                                  \text-top\|underline\|uppercase\)\>" 
 
 "=B O X  P R O P E R T I E S
@@ -232,25 +232,22 @@ syn match cssFontAttr contained "\<\(Arial\|Calibri\|Candara\|Cambria\|
                                  \Georgia\|Helvetica\|Lucida\|\Tahoma\|
                                  \Times\|Verdana\)\>" 
 
-syn match cssFontAttr contained "\<\(cursive\|fantasy\|monospace\|sans-serif\|
-                                 \serif\)\>" 
-syn match cssFontAttr contained "\<\(italic\|normal\|oblique\)\>"
-syn match cssFontAttr contained "\<\(\(ultra\|extra\|semi\)-\)\=\(condensed\|
-                                 \expanded\)\>"
-syn match cssFontAttr contained "\<\(large\|larger\|x-large\|medium\|small\|
-                                 \smaller\|x-small\)\>"
-syn match cssFontAttr contained "\<\(bold\|bolder\|lighter\|normal\)\>" 
-syn match cssFontAttr contained "\<\(caption\|icon\|menu\|message-box\|
-                                 \small-caps\|small-caption\|status-bar\)\>"
+syn match cssFontAttr contained "\<\(bold\|bolder\|caption\|cursive\|
+                                 \fantasy\|icon\|italic\|large\|larger\|
+                                 \lighter\|medium\|menu\|message-box\|
+                                 \monospace\|normal\|oblique\|sans-serif\|
+                                 \serif\|small\|small-caps\|small-caption\|
+                                 \smaller\|status-bar\|\(\(ultra\|extra\|semi\)
+                                 \-\)\=\(condensed\|expanded\)\|x-large\|
+                                 \x-small\|xx-large\|xx-small\)\>"
 
 "=U S E R  I N T E R F A C E  P R O P E R T I E S
 "----------------------------------------------------------------------------"
 
 syn keyword cssUIProp contained cursor
 
-syn match cssUIAttr contained "\<[ns]\=[ew]\=-resize\>"
 syn match cssUIAttr contained "\<\(default\|crosshair\|progress\|pointer\|
-                               \move\|wait\|help\)\>"
+                               \move\|wait\|help\|\([ns]\=[ew]\=-resize\)\)\>"
 
 "=R E N D E R  P R O P E R T I E S
 "----------------------------------------------------------------------------"
@@ -265,16 +262,13 @@ syn keyword cssRenderProp contained bottom
                                   \ top 
                                   \ white-space 
 
-syn match cssRenderAttr contained "\<\(bottom\|left\|right\|top\)\>" 
-syn match cssRenderAttr contained "\<\(block\|compact\|inline\|inline-block\
-                                   \|inline-table\|list-item\|marker\|
-                                   \run-in\)\>"
-syn match cssRenderAttr contained "\<\(absolute\|fixed\|relative\|static\)\>"
-syn match cssRenderAttr contained "\<\(bidi-override\|embed\|ltr\|nowrap\|
-                                   \pre\|rtl\)\>"
-syn match cssRenderAttr contained "\<table\(-\(row-group\|\(header\|footer\)
-                                   \-group\|row\|column\(-group\)\=\|cell\|
-                                   \caption\)\)\=\>"
+syn match cssRenderAttr contained "\<\(absolute\|block\|bidi-override\|bottom\|
+                                   \compact\|embed\|fixed\|inline\|inline-block\|
+                                   \inline-table\|left\|list-item\|ltr\|marker\|
+                                   \nowrap\|pre\|relative\|right\|rtl\|run-in\|
+                                   \static\|table\(-\(row-group\|\(header\|
+                                   \footer\)-group\|row\|column\(-group\)\=\|
+                                   \cell\|caption\)\)\=\|top\)\>" 
 
 "=A U R A L  P R O P E R T I E S
 "----------------------------------------------------------------------------"
