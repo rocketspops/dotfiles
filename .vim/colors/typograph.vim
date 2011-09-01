@@ -97,6 +97,7 @@ hi link cssColorAttr    cssValue
 hi link cssBoxAttr      cssValue
 hi link cssGeneratedContentAttr cssValue
 hi link cssBgAttr       cssValue
+hi link cssAuralAttr    cssValue
 
 hi cssFunction          guifg=#0099FF guibg=#EEEEEE gui=NONE
 

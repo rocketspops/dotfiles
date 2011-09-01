@@ -66,6 +66,15 @@ syn region cssFontDescriptorFunction contained matchgroup=cssFunctionName start=
 syn match cssUnicodeRange contained "U+[0-9A-Fa-f?]\+"
 syn match cssUnicodeRange contained "U+\x\+-\x\+"
 
+syn region cssAttr matchgroup=cssAttrPunc start=":" end=";" keepend oneline 
+\contains=cssValueNumber,cssValueLength,cssFunction,cssColorAttr,
+\cssImportant,cssCommonAttr,cssBgAttr,cssGeneratedContentAttr,cssTextAttr,
+\cssBoxAttr,cssPagingAttr,cssFontAttr,cssUIAttr,cssRenderAttr,cssAuralAttr
+
+syn region cssFunction contained matchgroup=cssFunctionName
+\ start="\<\(attr\|clip\|counter\|rgb\|rgba\|rect\|url\)\s*(" end=")"
+\ oneline keepend
+
 "=C O L O R  P R O P E R T I E S
 "----------------------------------------------------------------------------"
 
@@ -100,24 +109,13 @@ syn keyword cssColorAttr contained aliceblue antiquewhite aqua aquamarine azure
                                  \ royalblue saddlebrown salmon sandybrown seagreen
                                  \ seashell sienna silver skyblue slateblue slategray
                                  \ slategrey snow springgreen steelblue tan teal
-                                 \ thistle tomato transparent turquoise violet wheat 
+                                 \ thistle tomato turquoise violet wheat 
                                  \ white whitesmoke yellow yellowgreen
 
+syn match cssColorAttr contained "\<transparent\>"
 syn match cssColorAttr contained "#[0-9A-Fa-f]\{-3}\>"
 syn match cssColorAttr contained "#[0-9A-Fa-f]\{-6}\>"
 
-syn region cssURL contained matchgroup=cssFunctionName start="\<url\s*(" end=")" oneline keepend
-syn region cssFunction contained matchgroup=cssFunctionName start="\<\(rgb\|clip\|attr\|counter\|rect\)\s*(" end=")" oneline keepend
-
-
-syn region cssAttr matchgroup=cssAttrPunc start=":" end=";" keepend oneline 
-\contains=cssValueNumber,cssValueLength,cssColorAttr,cssImportant,cssCommonAttr,
-\cssBgAttr,cssGeneratedContentAttr,cssTextAttr,cssBoxAttr,cssPagingAttr,
-\cssFontAttr,cssUIAttr,cssRenderAttr
-
-"=C O L O R  P R O P E R T I E S
-"----------------------------------------------------------------------------"
-"
 "=C O M M O N  P R O P E R T I E S
 "----------------------------------------------------------------------------"
 
@@ -281,21 +279,40 @@ syn match cssRenderAttr contained "\<table\(-\(row-group\|\(header\|footer\)
 "=A U R A L  P R O P E R T I E S
 "----------------------------------------------------------------------------"
 
-syn match cssAuralAttr contained "\<lower\>"
-syn match cssAuralProp contained "\<\(pause\|cue\)\(-\(before\|after\)\)\=\>"
-syn match cssAuralProp contained "\<\(play-during\|speech-rate\|voice-family\|pitch\(-range\)\=\|speak\(-\(punctuation\|numerals\)\)\=\)\>"
-syn keyword cssAuralProp contained volume during azimuth elevation stress richness
-syn match cssAuralAttr contained "\<\(x-\)\=\(soft\|loud\)\>"
-syn keyword cssAuralAttr contained silent
-syn match cssAuralAttr contained "\<spell-out\>"
-syn keyword cssAuralAttr contained non mix
-syn match cssAuralAttr contained "\<\(left\|right\)-side\>"
-syn match cssAuralAttr contained "\<\(far\|center\)-\(left\|center\|right\)\>"
-syn keyword cssAuralAttr contained leftwards rightwards behind
-syn keyword cssAuralAttr contained below level above higher
-syn match cssAuralAttr contained "\<\(x-\)\=\(slow\|fast\)\>"
-syn keyword cssAuralAttr contained faster slower
-syn keyword cssAuralAttr contained male female child code digits continuous
+syn keyword cssAuralProp contained azimuth
+                                 \ cue
+                                 \ cue-after
+                                 \ cue-before
+                                 \ elevation
+                                 \ pause 
+                                 \ pause-after
+                                 \ pause-before
+                                 \ pitch
+                                 \ pitch-range
+                                 \ play-during
+                                 \ richness
+                                 \ speak
+                                 \ speak-header
+                                 \ speak-numeral
+                                 \ speak-punctuation
+                                 \ speech-rate
+                                 \ stress
+                                 \ voice-family
+                                 \ volume
+
+
+syn match cssAuralAttr contained "\<\(above\|always\|angle\|behind\|below\|
+                                  \center\|center-left\|center-right\|code\|
+                                  \continuous\|digits\|far-left\|far-right\|
+                                  \fast\|faster\|high\|higher\|left\|left-side\|
+                                  \leftwards\|level\|loud\|low\|lower\|medium\|
+                                  \mix\|normal\|once\|repeat\|right\|right-side\|
+                                  \rightwards\|silent\|slow\|slower\|soft\|
+                                  \spell-out\|\(x-\)\=\(fast\|high\|loud\|low\|
+                                  \slow\|soft\)\)\>"
+
+"=T A B L E  P R O P E R T I E S
+"----------------------------------------------------------------------------"
 
 syn match cssTableProp contained "\<\(caption-side\|table-layout\|border-collapse\|border-spacing\|empty-cells\|speak-header\)\>"
 syn keyword cssTableAttr contained fixed collapse separate show hide once always
