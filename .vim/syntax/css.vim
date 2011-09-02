@@ -1,23 +1,17 @@
+"
 " Vim syntax file
-" Language:	Cascading Style Sheets
-" Maintainer:	Claudio Fleiner <claudio@fleiner.com>
-" URL:		http://www.fleiner.com/vim/syntax/css.vim
-" Last Change:	2010 Jul 28
-" CSS2 by Nikolai Weibull
-" Full CSS2, HTML4 support by Yeti
+"
+" Language:	CSS
+" Maintainer:	Billy Whited (rocketspops@gmail.com)
+" URL:		
+" Last Change:  September 2nd, 2011	
 
-" For version 5.x: Clear all syntax items
-" For version 6.x: Quit when a syntax file was already loaded
-if !exists("main_syntax")
-  if version < 600
-    syntax clear
-  elseif exists("b:current_syntax")
+if exists("b:current_syntax")
   finish
 endif
-  let main_syntax = 'css'
-endif
 
-syn case ignore
+set iskeyword=@,-
+syn sync fromstart
 
 syn keyword cssTagName abbr acronym address applet area a b base
 syn keyword cssTagName basefont bdo big blockquote body br button
@@ -48,7 +42,7 @@ endtry
 syn match cssMedia "@media\>" nextgroup=cssMediaType skipwhite skipnl
 syn keyword cssMediaType contained screen print aural braile embosed handheld projection ty tv all nextgroup=cssMediaComma,cssMediaBlock skipwhite skipnl
 syn match cssMediaComma "," nextgroup=cssMediaType skipwhite skipnl
-syn region cssMediaBlock transparent matchgroup=cssBraces start='{' end='}' contains=cssTagName,cssError,cssComment,cssDefinition,cssURL,cssUnicodeEscape,cssIdentifier
+syn region cssMediaBlock transparent matchgroup=cssBraces start='{' end='}' contains=cssTagName,cssError,cssDefinition,cssURL,cssUnicodeEscape,cssIdentifier
 
 syn match cssValueInteger contained "[-+]\=\d\+"
 syn match cssValueNumber contained "[-+]\=\d\+\(\.\d*\)\="
@@ -68,7 +62,7 @@ syn match cssUnicodeRange contained "U+\x\+-\x\+"
 
 syn region cssAttr matchgroup=cssAttrPunc start=":" end=";" keepend oneline 
 \contains=cssValueNumber,cssValueLength,cssFunction,cssColorAttr,
-\cssImportant,cssCommonAttr,cssBgAttr,cssGeneratedContentAttr,cssTextAttr,
+\cssImportant,cssCommonAttr,cssBgAttr,cssGenContentAttr,cssTextAttr,
 \cssBoxAttr,cssPagingAttr,cssFontAttr,cssUIAttr,cssRenderAttr,cssAuralAttr
 
 syn region cssFunction contained matchgroup=cssFunctionName
@@ -137,28 +131,27 @@ syn match cssBgAttr contained "\<\(center\|fixed\|no-repeat\|scroll\|
 "=G E N E R A T E D  C O N T E N T  P R O P E R T I E S
 "----------------------------------------------------------------------------"
 
-syn keyword cssGeneratedContentProp contained content 
-                                            \ counter-reset
-                                            \ counter-increment
-                                            \ list-style-type
-                                            \ list-style-position
-                                            \ list-style-image
-                                            \ quotes
+syn match cssGenContentProp contained "\<quotes\>" 
 
-syn match cssGeneratedContentAttr contained "\<\(no-\)\=\(open\|close\)-quote\>"
-syn match cssGeneratedContentAttr contained "\<\(lower\|upper\)-\(roman\|alpha\|
-                                             \greek\|latin\)\>"
-syn match cssGeneratedContentAttr contained "\<\(hiragana\|katakana\)\(-iroha\)\=\>"
-syn match cssGeneratedContentAttr contained "\<\(decimal\(-leading-zero\)\=\|
-                                             \cjk-ideographic\)\>"
-syn match cssGeneratedContentAttr contained "\<\(disc\|circle\|square\|hebrew\|
-                                             \armenian\|georgian\|inside\|outside\)\>"
+syn keyword cssGenContentProp contained content 
+                                      \ counter-reset
+                                      \ counter-increment
+                                      \ list-style
+                                      \ list-style-type
+                                      \ list-style-position
+                                      \ list-style-image
+                                       
+syn match cssGenContentAttr contained "\<\(armenian\|circle\|decimal\(-leading-zero\)
+                                       \\|cjk-ideographic\|disc\|georgian\|hebrew\|
+                                       \inside\|\(lower\|upper\)-\(roman\|alpha\|
+                                       \greek\|latin\)\|outside\|\(no-\)\=\(open\|
+                                       \close\)-quote\|square\|\(hiragana\|
+                                       \katakana\)\(-iroha\)\=\)\>"
 
 "=T E X T  P R O P E R T I E S
 "----------------------------------------------------------------------------"
 
-syn keyword cssTextProp contained letter-spacing 
-                                \ line-height 
+syn keyword cssTextProp contained letter-spacing
                                 \ text-align 
                                 \ text-decoration 
                                 \ text-indent
@@ -176,11 +169,10 @@ syn match cssTextAttr contained "\<\(baseline\|blink\|capitalize\|center\|
 "=B O X  P R O P E R T I E S
 "----------------------------------------------------------------------------"
 
-syn match cssBoxProp contained "\<\(margin\|padding\|border\)\(-\(top\|
-                                \right\|bottom\|left\)\)\=\>"
-syn match cssBoxProp contained "\<border-\(\(\(top\|right\|bottom\|left\)
-                                \-\)\=\(width\|color\|style\)\)\=\>"
-syn match cssBoxProp contained "\<outline\(-\(width\|style\|color\)\)\=\>"
+syn match cssBoxProp contained "\<\(border-\(\(\(top\|right\|bottom\|left\)-\)
+                                \\=\(width\|color\|style\)\)\=\|outline\(-\
+                                \(width\|style\|color\)\)\=\|margin\|padding\|
+                                \border\|\(-\(top\|right\|bottom\|left\)\)\=\)\>"
 
 syn keyword cssBoxProp contained clear 
                                \ clip
@@ -294,7 +286,6 @@ syn keyword cssAuralProp contained azimuth
                                  \ voice-family
                                  \ volume
 
-
 syn match cssAuralAttr contained "\<\(above\|always\|angle\|behind\|below\|
                                   \center\|center-left\|center-right\|code\|
                                   \continuous\|digits\|far-left\|far-right\|
@@ -323,7 +314,7 @@ syn keyword cssPseudoClassId contained link visited active hover focus before af
 syn match cssPseudoClassId contained "\<first\(-\(line\|letter\|child\)\)\=\>"
 syn region cssPseudoClassLang matchgroup=cssPseudoClassId start=":lang(" end=")" oneline
 
-syn region cssComment start="/\*" end="\*/" contains=@Spell
+syn region cssComment start="/\*" end="\*/" keepend contains=@Spell
 
 syn match cssUnicodeEscape "\\\x\{1,6}\s\?"
 syn match cssSpecialCharQQ +\\"+ contained
@@ -332,87 +323,64 @@ syn region cssStringQQ start=+"+ skip=+\\\\\|\\"+ end=+"+ contains=cssUnicodeEsc
 syn region cssStringQ start=+'+ skip=+\\\\\|\\'+ end=+'+ contains=cssUnicodeEscape,cssSpecialCharQ
 syn match cssClassName "\.[A-Za-z][A-Za-z0-9_-]\+"
 
-if main_syntax == "css"
-  syn sync minlines=10
-endif
 
-" Define the default highlighting.
-" For version 5.7 and earlier: only when not done already
-" For version 5.8 and later: only when an item doesn't have highlighting yet
-if version >= 508 || !exists("did_css_syn_inits")
-  if version < 508
-    let did_css_syn_inits = 1
-    command -nargs=+ HiLink hi link <args>
-  else
-    command -nargs=+ HiLink hi def link <args>
-  endif
-
-  HiLink cssComment Comment
-  HiLink cssTagName Statement
-  HiLink cssSelectorOp Special
-  HiLink cssSelectorOp2 Special
-  HiLink cssFontProp StorageClass
-  HiLink cssColorProp StorageClass
-  HiLink cssTextProp StorageClass
-  HiLink cssBoxProp StorageClass
-  HiLink cssRenderProp StorageClass
-  HiLink cssAuralProp StorageClass
-  HiLink cssRenderProp StorageClass
-  HiLink cssGeneratedContentProp StorageClass
-  HiLink cssPagingProp StorageClass
-  HiLink cssTableProp StorageClass
-  HiLink cssUIProp StorageClass
-  HiLink cssFontAttr Type
-  HiLink cssColorAttr Type
-  HiLink cssTextAttr Type
-  HiLink cssBoxAttr Type
-  HiLink cssRenderAttr Type
-  HiLink cssAuralAttr Type
-  HiLink cssGeneratedContentAttr Type
-  HiLink cssPagingAttr Type
-  HiLink cssTableAttr Type
-  HiLink cssUIAttr Type
-  HiLink cssCommonAttr Type
-  HiLink cssPseudoClassId PreProc
-  HiLink cssPseudoClassLang Constant
-  HiLink cssValueLength Number
-  HiLink cssValueInteger Number
-  HiLink cssValueNumber Number
-  HiLink cssValueAngle Number
-  HiLink cssValueTime Number
-  HiLink cssValueFrequency Number
-  HiLink cssFunction Constant
-  HiLink cssURL String
-  HiLink cssFunctionName Function
-  HiLink cssColor Constant
-  HiLink cssIdentifier Function
-  HiLink cssInclude Include
-  HiLink cssImportant Special
-  HiLink cssBraces Function
-  HiLink cssBraceError Error
-  HiLink cssError Error
-  HiLink cssInclude Include
-  HiLink cssUnicodeEscape Special
-  HiLink cssStringQQ String
-  HiLink cssStringQ String
-  HiLink cssMedia Special
-  HiLink cssMediaType Special
-  HiLink cssMediaComma Normal
-  HiLink cssFontDescriptor Special
-  HiLink cssFontDescriptorFunction Constant
-  HiLink cssFontDescriptorProp StorageClass
-  HiLink cssFontDescriptorAttr Type
-  HiLink cssUnicodeRange Constant
-  HiLink cssClassName Function
-  delcommand HiLink
-endif
+hi def link cssComment Comment
+hi def link cssTagName Statement
+hi def link cssSelectorOp Special
+hi def link cssSelectorOp2 Special
+hi def link cssFontProp StorageClass
+hi def link cssColorProp StorageClass
+hi def link cssTextProp StorageClass
+hi def link cssBoxProp StorageClass
+hi def link cssRenderProp StorageClass
+hi def link cssAuralProp StorageClass
+hi def link cssRenderProp StorageClass
+hi def link cssGenContentProp StorageClass
+hi def link cssPagingProp StorageClass
+hi def link cssTableProp StorageClass
+hi def link cssUIProp StorageClass
+hi def link cssFontAttr Type
+hi def link cssColorAttr Type
+hi def link cssTextAttr Type
+hi def link cssBoxAttr Type
+hi def link cssRenderAttr Type
+hi def link cssAuralAttr Type
+hi def link cssGenContentAttr Type
+hi def link cssPagingAttr Type
+hi def link cssTableAttr Type
+hi def link cssUIAttr Type
+hi def link cssCommonAttr Type
+hi def link cssPseudoClassId PreProc
+hi def link cssPseudoClassLang Constant
+hi def link cssValueLength Number
+hi def link cssValueInteger Number
+hi def link cssValueNumber Number
+hi def link cssValueAngle Number
+hi def link cssValueTime Number
+hi def link cssValueFrequency Number
+hi def link cssFunction Constant
+hi def link cssURL String
+hi def link cssFunctionName Function
+hi def link cssColor Constant
+hi def link cssIdentifier Function
+hi def link cssInclude Include
+hi def link cssImportant Special
+hi def link cssBraces Function
+hi def link cssBraceError Error
+hi def link cssError Error
+hi def link cssInclude Include
+hi def link cssUnicodeEscape Special
+hi def link cssStringQQ String
+hi def link cssStringQ String
+hi def link cssMedia Special
+hi def link cssMediaType Special
+hi def link cssMediaComma Normal
+hi def link cssFontDescriptor Special
+hi def link cssFontDescriptorFunction Constant
+hi def link cssFontDescriptorProp StorageClass
+hi def link cssFontDescriptorAttr Type
+hi def link cssUnicodeRange Constant
+hi def link cssClassName Function
 
 let b:current_syntax = "css"
-
-if main_syntax == 'css'
-  unlet main_syntax
-endif
-
-
-" vim: ts=8
 

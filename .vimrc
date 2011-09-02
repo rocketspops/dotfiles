@@ -8,12 +8,12 @@ filetype plugin indent on
 
 runtime macros/matchit.vim
 
-:auto BufEnter * let &titlestring = hostname() . "/" . expand("%:p")
 :set title titlestring=%<%F%=%l/%L-%P titlelen=70
 :set showcmd
 
 set ofu=syntaxcomplete#Complete
-set iskeyword=a-z,A-Z,48-57,_,.,-,>
+"set iskeyword=a-z,A-Z,48-57,_,.,-,>
+
 set bs=indent,eol,start  "Allow backspacing over everything in insert mode
 
 set noeb vb t_vb= "Disable Visual bell and error bell
@@ -35,13 +35,13 @@ set showmode
 set history=100	
 
 set laststatus=1
-set statusline+=%<\                       " cut at start
-set statusline+=%2*[%n%H%M%R%W]%*\        " buffer number, and flags
-set statusline+=%-40f\                    " relative path
-set statusline+=%=                        " seperate between right- and left-aligned
-set statusline+=%1*%y%*%*\                " file type
-set statusline+=%10(L(%l/%L)%)\           " line
-set statusline+=%P                        " percentage of file
+"set statusline+=%<\                       " cut at start
+"set statusline+=%2*[%n%H%M%R%W]%*\        " buffer number, and flags
+"set statusline+=%-40f\                    " relative path
+"set statusline+=%=                        " seperate between right- and left-aligned
+"set statusline+=%1*%y%*%*\                " file type
+"set statusline+=%10(L(%l/%L)%)\           " line
+"set statusline+=%P                        " percentage of file
 
 set wildmenu 
 set wildignore=*.dll,*.o,*.obj,*.bak,*.exe,*.pyc
@@ -75,18 +75,6 @@ let g:indent_guides_guide_size = 1
 let g:indent_guides_auto_colors = 0
 let g:indent_guides_color_change_percent = 0
 let g:indent_guides_enable_on_vim_startup = 1
-
-"Command T Configuration
-
-let g:CommandTMaxHeight = 10
-let g:CommandTMaxFiles = 100
-
-nmap <silent> <Leader>o :CommandT<CR>
-nmap <silent> <Leader>O :CommandTBuffer<CR>
-
-"Zen Coding Bindings
-
-let g:user_zen_expandabbr_key = '<c-e>'
 
 "Alphabetically sort CSS properties in file with :SortCSS 
 :command! SortCSS :g#\({\n\)\@<=#.,/}/sort   
@@ -125,6 +113,11 @@ function! g:ToggleNuMode()
 endfunc 
 
 nnoremap <C-L> :call g:ToggleNuMode()<cr> 
+
+" Source the vimrc file after saving it
+if has("autocmd")
+  autocmd! bufwritepost .vimrc source ~/.vimrc 
+endif
 
 augroup BgHighlight
   autocmd!

@@ -5,3 +5,5 @@ endif
 
 
 syn match WindowDIM "\_.*"		       
+
+let b:current_syntax = "dim"
