@@ -10,21 +10,17 @@ if exists("b:current_syntax")
   finish
 endif
 
-set iskeyword=@,@-@,-
+set iskeyword=@,48-57,@-@,-
 syn sync fromstart
 
 "=G L O B A L
 "----------------------------------------------------------------------------"
 
 syn region cssComment start="/\*" end="\*/" keepend 
-
-syn region cssSinQuo start=+'+ skip=+\\'+ end=+'+ contains=cssUnicodeEscVal
-"syn region cssSinQuo start=+'+ skip=+\\'+ end=+'+ contains=cssUnicodeEscVal
-"syn region cssDubQuo start=+"+ skip=+\\"+ end=+"+ contains=cssUnicodeEscVal
+syn region cssQuo start=+\'\|\"+ skip=+\\'\|\\"+ end=+\'\|\"+ keepend 
 
 "=B A S I C  S E L E C T O R S
 "----------------------------------------------------------------------------"
-
 
 syn keyword cssTagName a abbr acronym address applet area article
                      \ aside audio b base basefont bdo big blockquote
@@ -42,16 +38,15 @@ syn keyword cssTagName a abbr acronym address applet area article
                      \ textarea tfoot th thead time title tr tt ul 
                      \ u var variant video xmp 
 
+syn match cssSelectorOp "[=*+>.,~|$^-]"
 syn match cssIdName "#[A-Za-z_][A-Za-z0-9_-]*"
 syn match cssClassName "\.[A-Za-z][A-Za-z0-9_-]*"
-syn match cssSelectorOp "[*+>.,~|$^-]"
 
-syn region cssAttrSelector matchgroup=cssSelectorOp start="\[" end="]" 
-\ contains=cssUnicodeEscVal,cssSinQuo,cssDubQuo
+syn region cssAttrSelector matchgroup=cssAttrSelector start="\[" end="]" 
+\ contains=cssSelectorOp,cssQuo
 \ transparent 
 
-
-"=P S E U D O  C L A S S E S
+"=P S E U D O  C L A S S  S E L E C T O R S 
 "----------------------------------------------------------------------------"
 
 syn match cssPseudoClassSelector "\(:[a-z\-]\+\|::[a-z\-]\+\)" 
@@ -84,11 +79,11 @@ syn keyword cssPseudoClass contained active
 
 syn region cssPseudoClassExpression contained matchgroup=cssPseudoClass 
 \ start="\(:lang\|:nth-child\|:nth-of-type\|:nth-last-of-type\|
-\:nth-last-child\|:not\)(" end=")" 
+         \:nth-last-child\|:not\)(" end=")" 
 \ contains=cssNumVal,cssUnitVal,cssSelectorOp
 \ keepend oneline
 
-"=A T  R U L E S 
+"=A T  R U L E  S E L E C T O R 
 "----------------------------------------------------------------------------"
 
 syn keyword cssAtRule @charset 
@@ -99,7 +94,7 @@ syn keyword cssAtRule @charset
                     \ @page 
 
 syn region cssAtRuleUrl start="url(" end=")"
-\ contains=cssSinQuo,cssDubQuo
+\ contains=cssQuo
 \ keepend oneline
 
 syn keyword cssMediaType all
@@ -113,46 +108,52 @@ syn keyword cssMediaType all
                        \ tty
                        \ tv
 
-
 "=D E C L A R A T I O N  B L O C K
 "----------------------------------------------------------------------------"
 
 syn region cssDecBlock transparent matchgroup=cssBraces start='{' end='}' 
-\ contains=cssProp,cssVal
+\ contains=cssProp,cssVal,css.*Error
+\ keepend
 
-syn match cssNumVal contained "[-]\=\d\+\(\.\d*\)\="
-syn match cssUnitVal contained "\(\d\)\@<=\(%\|cm\|deg\|em\|ex\|grad\|kHz\|
-                                \Hz\|in\|mm\|ms\|n\|pc\|pt\|px\|rad\|rem\|s\)"
-
-syn region cssFuncVal contained matchgroup=cssFuncVal
-\ start="\<\(annotation\|attr\|clip\|character-variant\|counter\|format\|
-         \local\|ornaments\|rgb\|rgba\|rect\|stylistic\|styleset\|swash\|
-         \uri\|url\)(" end=")"
-\ contains=cssSinQuo,cssDubQuo,cssUnicodeVal
-\ oneline keepend
-
-syn region cssProp start="^" end="\w\(\:\)\@="
+syn region cssProp start="\(^\|\(\;\s*\)\@<=\w\|\({\s*\)\@<=\w\)" 
+\ end="\w\(\:\)\@="
 \ contains=@cssPropGroup
-\ keepend oneline
+\ contained keepend oneline
 
 syn region cssVal matchgroup=cssValPunc start="\:" end="\;" 
 \ contains=@cssValGroup
-\ keepend oneline 
-
-syn match cssBraceError "{\@<!\(}\)"
-syn match cssBraceError "{\@<=\({\)"
-
-syn match cssImportantVal contained "!\s*important\>"
-syn match cssCommonVal contained "\<\(auto\|none\|inherit\)\>"
-
-syn match cssUnicodeVal contained "U+[0-9A-Fa-f?]\+"
-syn match cssUnicodeVal contained "U+\x\+-\x\+"
-syn match cssUnicodeEscVal "\\\x\{1,6}\s\?"
+\ contained keepend 
 
 syn cluster cssValGroup contains=css.*Val,css.*Quo
 syn cluster cssPropGroup contains=css.*Prop
 
-"=A U R A L  P R O P E R T I E S
+syn match cssBraceError contained "{"
+syn match cssBraceError "}"
+
+"=G L O B A L  P R O P S + V A L U E S
+"----------------------------------------------------------------------------"
+
+syn region cssFuncVal transparent contained matchgroup=cssFuncValName
+\ start="\<\(annotation\|attr\|clip\|character-variant\|counter\|format\|
+         \local\|ornaments\|rgb\|rgba\|rect\|stylistic\|styleset\|swash\|
+         \uri\|url\)(" end=")"
+\ contains=cssQuo,cssSelectorOp,cssNumVal
+\ oneline keepend
+
+syn match cssImportantVal contained "!\s*important\>"
+
+syn match cssCommonVal contained "\<\(auto\|none\|inherit\)\>"
+
+syn match cssUnicodeVal contained "\(U+[0-9A-Fa-f?]\+[+-][0-9A-Fa-f?]\+
+                                   \\|U+[0-9A-Fa-f?]\+\|\\\x\{1,6\}\(\w\|
+                                   \\s\w\)\@!\)"
+
+syn match cssNumVal contained "[-]\=\d\+\(\.\d*\)\="
+
+syn match cssUnitVal contained "\(\d\)\@<=\(%\|cm\|deg\|em\|ex\|grad\|kHz\|
+                                \Hz\|in\|mm\|ms\|n\|pc\|pt\|px\|rad\|rem\|s\)"
+
+"=A U R A L  P R O P S + V A L U E S
 "----------------------------------------------------------------------------"
 
 syn keyword cssAuralProp contained azimuth
@@ -222,6 +223,7 @@ syn keyword cssBoxProp contained clear
                                \ visibility
                                \ width
                                \ z-index
+                               \ zoom
 
 syn match cssBoxVal contained "\<\(collapse\|dashed\|dotted\|double\|groove\|
                                \hidden\|inset\|invert\|\outset\|ridge\|
@@ -230,7 +232,7 @@ syn match cssBoxVal contained "\<\(collapse\|dashed\|dotted\|double\|groove\|
 "=C O L O R  P R O P S + V A L U E S 
 "----------------------------------------------------------------------------"
 
-syn keyword cssColorProp contained color
+syn keyword cssColorProp contained color opacity
 
 syn keyword cssColorVal contained aliceblue antiquewhite aqua aquamarine azure
                                 \ beige bisque black blanchedalmond blue blueviolet 
@@ -425,6 +427,7 @@ hi def link cssFontProp StorageClass
 hi def link cssColorProp StorageClass
 hi def link cssTextProp StorageClass
 hi def link cssBoxProp StorageClass
+hi def link cssBgProp StorageClass
 hi def link cssRenderProp StorageClass
 hi def link cssAuralProp StorageClass
 hi def link cssRenderProp StorageClass
@@ -439,32 +442,23 @@ hi def link cssBoxVal Type
 hi def link cssRenderVal Type
 hi def link cssAuralVal Type
 hi def link cssGenContentVal Type
-hi def link cssPagingVal Type
+hi def link cssPageVal Type
 hi def link cssTableVal Type
 hi def link cssUIVal Type
 hi def link cssCommonVal Type
 hi def link cssPseudoClassId PreProc
 hi def link cssPseudoClassLang Constant
 hi def link cssUnitVal Number
-hi def link cssValueInteger Number
 hi def link cssNumVal Number
-hi def link cssValueAngle Number
-hi def link cssValueTime Number
-hi def link cssValueFrequency Number
-hi def link cssFunction Constant
-hi def link cssFunctionName Function
-hi def link cssColor Constant
+hi def link cssFuncVal Constant
+hi def link cssFuncValName Function 
 hi def link cssIdName Function
-hi def link cssInclude Include
 hi def link cssImportantVal Special
 hi def link cssBraces Function
 hi def link cssBraceError Error
 hi def link cssError Error
-hi def link cssInclude Include
-hi def link cssUnicodeEscVal Special
-hi def link cssDubQuo String
-hi def link cssSinQuo String
-hi def link cssUnicodeRange Constant
+hi def link cssQuo String
+hi def link cssUnicodeVal Constant
 hi def link cssClassName Function
 
 let b:current_syntax = "css"
