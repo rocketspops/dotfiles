@@ -13,6 +13,19 @@ endif
 set iskeyword=@,@-@,-
 syn sync fromstart
 
+"=G L O B A L
+"----------------------------------------------------------------------------"
+
+syn region cssComment start="/\*" end="\*/" keepend 
+
+syn region cssSinQuo start=+'+ skip=+\\'+ end=+'+ contains=cssUnicodeEscVal
+"syn region cssSinQuo start=+'+ skip=+\\'+ end=+'+ contains=cssUnicodeEscVal
+"syn region cssDubQuo start=+"+ skip=+\\"+ end=+"+ contains=cssUnicodeEscVal
+
+"=B A S I C  S E L E C T O R S
+"----------------------------------------------------------------------------"
+
+
 syn keyword cssTagName a abbr acronym address applet area article
                      \ aside audio b base basefont bdo big blockquote
                      \ body br button canvas caption center cite code
@@ -29,42 +42,14 @@ syn keyword cssTagName a abbr acronym address applet area article
                      \ textarea tfoot th thead time title tr tt ul 
                      \ u var variant video xmp 
 
-syn region cssAttrSelector matchgroup=cssSelectorOp start="\[" end="]" 
-\ contains=cssUnicodeEscape,cssSinQuo,cssDubQuo
-\ transparent 
-
-syn region cssVal matchgroup=cssValPunc start=":" end=";" 
-\ contains=cssNumVal,cssUnitVal,cssFunction,cssImportant,css.*Val,cssUnicodeRange
-\ keepend oneline 
-
-syn region cssFunction contained matchgroup=cssFunctionName
-\ start="\<\(annotation\|attr\|clip\|character-variant\|counter\|format\|
-\local\|ornaments\|rgb\|rgba\|rect\|stylistic\|styleset\|swash\|uri\|
-\url\)(" end=")"
-\ contains=cssString,cssDubQuo
-\ oneline keepend
-
 syn match cssIdName "#[A-Za-z_][A-Za-z0-9_-]*"
 syn match cssClassName "\.[A-Za-z][A-Za-z0-9_-]*"
 syn match cssSelectorOp "[*+>.,~|$^-]"
 
-syn match cssNumVal contained "[-]\=\d\+\(\.\d*\)\="
-syn match cssUnitVal contained "\(\d\)\@<=\(%\|cm\|deg\|em\|ex\|grad\|kHz\|
-                                \Hz\|in\|mm\|ms\|n\|pc\|pt\|px\|rad\|rem\|s\)"
+syn region cssAttrSelector matchgroup=cssSelectorOp start="\[" end="]" 
+\ contains=cssUnicodeEscVal,cssSinQuo,cssDubQuo
+\ transparent 
 
-syn match cssUnicodeRange contained "U+[0-9A-Fa-f?]\+"
-syn match cssUnicodeRange contained "U+\x\+-\x\+"
-syn match cssUnicodeEscape "\\\x\{1,6}\s\?"
-
-syn region cssComment start="/\*" end="\*/" keepend 
-syn region cssSinQuo start=+'+ skip=+\\'+ end=+'+ contains=cssUnicodeEscape
-syn region cssDubQuo start=+"+ skip=+\\"+ end=+"+ contains=cssUnicodeEscape
-
-syn region cssDecBlock transparent matchgroup=cssBraces start='{' end='}' 
-          \ contains=
-
-syn match cssBraceError "{\@<!\(}\)"
-syn match cssBraceError "{\@<=\({\)"
 
 "=P S E U D O  C L A S S E S
 "----------------------------------------------------------------------------"
@@ -103,7 +88,7 @@ syn region cssPseudoClassExpression contained matchgroup=cssPseudoClass
 \ contains=cssNumVal,cssUnitVal,cssSelectorOp
 \ keepend oneline
 
-"=A T  R U L E  P R O P E R T I E S
+"=A T  R U L E S 
 "----------------------------------------------------------------------------"
 
 syn keyword cssAtRule @charset 
@@ -128,13 +113,121 @@ syn keyword cssMediaType all
                        \ tty
                        \ tv
 
-"=G L O B A L  V A L U E S
+
+"=D E C L A R A T I O N  B L O C K
 "----------------------------------------------------------------------------"
 
-syn match cssImportant contained "!\s*important\>"
+syn region cssDecBlock transparent matchgroup=cssBraces start='{' end='}' 
+\ contains=cssProp,cssVal
+
+syn match cssNumVal contained "[-]\=\d\+\(\.\d*\)\="
+syn match cssUnitVal contained "\(\d\)\@<=\(%\|cm\|deg\|em\|ex\|grad\|kHz\|
+                                \Hz\|in\|mm\|ms\|n\|pc\|pt\|px\|rad\|rem\|s\)"
+
+syn region cssFuncVal contained matchgroup=cssFuncVal
+\ start="\<\(annotation\|attr\|clip\|character-variant\|counter\|format\|
+         \local\|ornaments\|rgb\|rgba\|rect\|stylistic\|styleset\|swash\|
+         \uri\|url\)(" end=")"
+\ contains=cssSinQuo,cssDubQuo,cssUnicodeVal
+\ oneline keepend
+
+syn region cssProp start="^" end="\w\(\:\)\@="
+\ contains=@cssPropGroup
+\ keepend oneline
+
+syn region cssVal matchgroup=cssValPunc start="\:" end="\;" 
+\ contains=@cssValGroup
+\ keepend oneline 
+
+syn match cssBraceError "{\@<!\(}\)"
+syn match cssBraceError "{\@<=\({\)"
+
+syn match cssImportantVal contained "!\s*important\>"
 syn match cssCommonVal contained "\<\(auto\|none\|inherit\)\>"
 
-"=C O L O R  P R O P E R T I E S
+syn match cssUnicodeVal contained "U+[0-9A-Fa-f?]\+"
+syn match cssUnicodeVal contained "U+\x\+-\x\+"
+syn match cssUnicodeEscVal "\\\x\{1,6}\s\?"
+
+syn cluster cssValGroup contains=css.*Val,css.*Quo
+syn cluster cssPropGroup contains=css.*Prop
+
+"=A U R A L  P R O P E R T I E S
+"----------------------------------------------------------------------------"
+
+syn keyword cssAuralProp contained azimuth
+                                 \ cue
+                                 \ cue-after
+                                 \ cue-before
+                                 \ elevation
+                                 \ pause 
+                                 \ pause-after
+                                 \ pause-before
+                                 \ pitch
+                                 \ pitch-range
+                                 \ play-during
+                                 \ richness
+                                 \ speak
+                                 \ speak-header
+                                 \ speak-numeral
+                                 \ speak-punctuation
+                                 \ speech-rate
+                                 \ stress
+                                 \ voice-family
+                                 \ volume
+
+syn match cssAuralVal contained "\<\(above\|always\|angle\|behind\|below\|
+                                 \center\|center-left\|center-right\|code\|
+                                 \continuous\|digits\|far-left\|far-right\|
+                                 \fast\|faster\|high\|higher\|left\|left-side\|
+                                 \leftwards\|level\|loud\|low\|lower\|medium\|
+                                 \mix\|normal\|once\|repeat\|right\|right-side\|
+                                 \rightwards\|silent\|slow\|slower\|soft\|
+                                 \spell-out\|\(x-\)\=\(fast\|high\|loud\|low\|
+                                 \slow\|soft\)\)\>"
+
+"=B A C K G R O U N D  P R O P S + V A L U E S
+"----------------------------------------------------------------------------"
+
+syn keyword cssBgProp contained background
+                              \ background-attachment
+                              \ background-color
+                              \ background-image
+                              \ background-position
+
+syn match cssBgVal contained "\<\(center\|fixed\|no-repeat\|scroll\|
+                              \repeat-x\|repeat-y\)\>"
+
+"=B O X  P R O P S + V A L U E S
+"----------------------------------------------------------------------------"
+
+syn match cssBoxProp contained "\<\(border\(-\(top\|right\|bottom\|left\)\)\
+                                \=\(-\(color\|style\|width\)\)\=\|outline\
+                                \(-\(color\|style\|width\)\)\=\)\>"
+
+syn match cssBoxProp contained "\<\(\(margin\|padding\)\(-\(top\|right\|
+                                \bottom\|left\)\)\=\)\>" 
+
+syn keyword cssBoxProp contained clear 
+                               \ clip
+                               \ float 
+                               \ height 
+                               \ max-height
+                               \ max-width
+                               \ min-height
+                               \ min-width
+                               \ overflow
+                               \ overflow-x
+                               \ overflow-y
+                               \ visibility
+                               \ width
+                               \ z-index
+
+syn match cssBoxVal contained "\<\(collapse\|dashed\|dotted\|double\|groove\|
+                               \hidden\|inset\|invert\|\outset\|ridge\|
+                               \scroll\|solid\|thick\|thin\|visible\)\>"
+
+"=C O L O R  P R O P S + V A L U E S 
 "----------------------------------------------------------------------------"
 
 syn keyword cssColorProp contained color
@@ -175,104 +268,7 @@ syn match cssColorVal contained "\<transparent\>"
 syn match cssColorVal contained "#[0-9A-Fa-f]\{3}"
 syn match cssColorVal contained "#[0-9A-Fa-f]\{6}"
 
-"=B A C K G R O U N D  P R O P E R T I E S
-"----------------------------------------------------------------------------"
-
-syn keyword cssBgProp contained background
-                              \ background-attachment
-                              \ background-color
-                              \ background-image
-                              \ background-position
-
-syn match cssBgVal contained "\<\(center\|fixed\|no-repeat\|scroll\|
-                               \repeat-x\|repeat-y\)\>"
-
-"=G E N E R A T E D  C O N T E N T  P R O P E R T I E S
-"----------------------------------------------------------------------------"
-
-syn match cssGenContentProp contained "\<quotes\>" 
-
-syn keyword cssGenContentProp contained content 
-                                      \ counter-reset
-                                      \ counter-increment
-                                      \ list-style
-                                      \ list-style-type
-                                      \ list-style-position
-                                      \ list-style-image
-                                       
-syn match cssGenContentVal contained "\<\(armenian\|circle\|decimal\(-leading-zero\)
-                                       \\|cjk-ideographic\|disc\|georgian\|hebrew\|
-                                       \inside\|\(lower\|upper\)-\(roman\|alpha\|
-                                       \greek\|latin\)\|outside\|\(no-\)\=\(open\|
-                                       \close\)-quote\|square\|\(hiragana\|
-                                       \katakana\)\(-iroha\)\=\)\>"
-
-"=T E X T  P R O P E R T I E S
-"----------------------------------------------------------------------------"
-
-syn keyword cssTextProp contained letter-spacing
-                                \ line-height
-                                \ text-align 
-                                \ text-decoration 
-                                \ text-indent
-                                \ text-rendering
-                                \ text-shadow
-                                \ text-transform 
-                                \ unicode-bidi
-                                \ vertical-align
-                                \ word-spacing
-
-syn match cssTextVal contained "\<\(baseline\|blink\|capitalize\|center\|
-                                 \justify\|line-through\|lowercase\|middle\|
-                                 \optimizeLegibility\|overline\|sub\|super\|
-                                 \text-bottom\|text-top\|underline\|
-                                 \uppercase\)\>" 
-
-"=B O X  P R O P E R T I E S
-"----------------------------------------------------------------------------"
-
-syn match cssBoxProp contained "\<\(border\(-\(top\|right\|bottom\|left\)\)\
-                                \=\(-\(color\|style\|width\)\)\=\|outline\
-                                \(-\(color\|style\|width\)\)\=\)\>"
-
-syn match cssBoxProp contained "\<\(\(margin\|padding\)\(-\(top\|right\|
-                                \bottom\|left\)\)\=\)\>" 
-
-syn keyword cssBoxProp contained clear 
-                               \ clip
-                               \ float 
-                               \ height 
-                               \ max-height
-                               \ max-width
-                               \ min-height
-                               \ min-width
-                               \ overflow
-                               \ overflow-x
-                               \ overflow-y
-                               \ visibility
-                               \ width
-                               \ z-index
-
-syn match cssBoxVal contained "\<\(collapse\|dashed\|dotted\|double\|groove\|
-                                \hidden\|inset\|invert\|\outset\|ridge\|
-                                \scroll\|solid\|thick\|thin\|visible\)\>"
-
-"=P A G I N G  P R O P E R T I E S
-"----------------------------------------------------------------------------"
-
-syn keyword cssPageProp contained inside
-                                \ marks
-                                \ orphans
-                                \ page-break-before
-                                \ page-break-after
-                                \ page-break-inside
-                                \ size
-                                \ widows
-
-syn match cssPageVal contained "\<\(landscape\|portrait\|crop\|cross\|
-                                   \always\|avoid\)\>"
-
-"=F O N T  P R O P E R T I E S
+"=F O N T  P R O P S + V A L U E S
 "----------------------------------------------------------------------------"
 
 syn keyword cssFontProp contained font-family
@@ -295,41 +291,68 @@ syn keyword cssFontProp contained font-family
                                 \ vertical-position
 
 syn match cssFontVal contained "\<\(Arial\|Calibri\|Candara\|Cambria\|
-                                 \Consolas\|Corbel\|Constantia\|Courier\|
-                                 \Georgia\|Helvetica\|Lucida\|\Tahoma\|
-                                 \Times\|Verdana\)\>" 
+                                \Consolas\|Corbel\|Constantia\|Courier\|
+                                \Georgia\|Helvetica\|Lucida\|\Tahoma\|
+                                \Times\|Verdana\)\>" 
 
 syn match cssFontVal contained "\<\(additional-ligatures\|all-petite-caps\|
-                                 \all-small-caps\|bold\|bolder\|caption\|
-                                 \contextual\|common-ligatures\|cursive\|
-                                 \diagonal-fractions\|fantasy\|full-width\|
-                                 \historical-forms\|historical-ligatures\|
-                                 \hojo-kanji\|icon\|italic\|jis78\|jis83\|
-                                 \jis90\|jis04\|large\|larger\|lighter\|
-                                 \lining-nums\|medium\|menu\|message-box\|
-                                 \monospace\|nlckanji\|no-additional-ligatures\|
-                                 \no-contextual\|no-common-ligatures\|
-                                 \no-historical-ligatures\|normal\|oblique\|
-                                 \oldstyle-nums\|ordinal\|petite-caps\|
-                                 \proportional-nums\|proportional-width\|
-                                 \ruby\|sans-serif\|serif\|simplified\|
-                                 \slashed-zero\|small\|small-caps\|
-                                 \small-caption\|smaller\|stacked-fractions\|
-                                 \status-bar\|subscript\|superscript\|
-                                 \tabular-nums\|titling-caps\|traditional\|
-                                 \unicase\|\(\(ultra\|extra\|semi\)
-                                 \-\)\=\(condensed\|expanded\)\|x-large\|
-                                 \x-small\|xx-large\|xx-small\)\>"
+                                \all-small-caps\|bold\|bolder\|caption\|
+                                \contextual\|common-ligatures\|cursive\|
+                                \diagonal-fractions\|fantasy\|full-width\|
+                                \historical-forms\|historical-ligatures\|
+                                \hojo-kanji\|icon\|italic\|jis78\|jis83\|
+                                \jis90\|jis04\|large\|larger\|lighter\|
+                                \lining-nums\|medium\|menu\|message-box\|
+                                \monospace\|nlckanji\|no-additional-ligatures\|
+                                \no-contextual\|no-common-ligatures\|
+                                \no-historical-ligatures\|normal\|oblique\|
+                                \oldstyle-nums\|ordinal\|petite-caps\|
+                                \proportional-nums\|proportional-width\|
+                                \ruby\|sans-serif\|serif\|simplified\|
+                                \slashed-zero\|small\|small-caps\|
+                                \small-caption\|smaller\|stacked-fractions\|
+                                \status-bar\|subscript\|superscript\|
+                                \tabular-nums\|titling-caps\|traditional\|
+                                \unicase\|\(\(ultra\|extra\|semi\)
+                                \-\)\=\(condensed\|expanded\)\|x-large\|
+                                \x-small\|xx-large\|xx-small\)\>"
 
-"=U S E R  I N T E R F A C E  P R O P E R T I E S
+"=G E N E R A T E D  C O N T E N T  P R O P S + V A L U E S
 "----------------------------------------------------------------------------"
 
-syn keyword cssUIProp contained cursor
+syn match cssGenContentProp contained "\<quotes\>" 
 
-syn match cssUIVal contained "\<\(default\|crosshair\|progress\|pointer\|
-                               \move\|wait\|help\|\([ns]\=[ew]\=-resize\)\)\>"
+syn keyword cssGenContentProp contained content 
+                                      \ counter-reset
+                                      \ counter-increment
+                                      \ list-style
+                                      \ list-style-type
+                                      \ list-style-position
+                                      \ list-style-image
+                                       
+syn match cssGenContentVal contained "\<\(armenian\|circle\|decimal\(-leading-zero\)
+                                      \\|cjk-ideographic\|disc\|georgian\|hebrew\|
+                                      \inside\|\(lower\|upper\)-\(roman\|alpha\|
+                                      \greek\|latin\)\|outside\|\(no-\)\=\(open\|
+                                      \close\)-quote\|square\|\(hiragana\|
+                                      \katakana\)\(-iroha\)\=\)\>"
 
-"=R E N D E R  P R O P E R T I E S
+"=P A G E  P R O P S + V A L U E S
+"----------------------------------------------------------------------------"
+
+syn keyword cssPageProp contained inside
+                                \ marks
+                                \ orphans
+                                \ page-break-before
+                                \ page-break-after
+                                \ page-break-inside
+                                \ size
+                                \ widows
+
+syn match cssPageVal contained "\<\(landscape\|portrait\|crop\|cross\|
+                                   \always\|avoid\)\>"
+
+"=R E N D E R  P R O P S + V A L U E S
 "----------------------------------------------------------------------------"
 
 syn keyword cssRenderProp contained bottom 
@@ -350,41 +373,7 @@ syn match cssRenderVal contained "\<\(absolute\|block\|bidi-override\|bottom\|
                                    \footer\)-group\|row\|column\(-group\)\=\|
                                    \cell\|caption\)\)\=\|top\)\>" 
 
-"=A U R A L  P R O P E R T I E S
-"----------------------------------------------------------------------------"
-
-syn keyword cssAuralProp contained azimuth
-                                 \ cue
-                                 \ cue-after
-                                 \ cue-before
-                                 \ elevation
-                                 \ pause 
-                                 \ pause-after
-                                 \ pause-before
-                                 \ pitch
-                                 \ pitch-range
-                                 \ play-during
-                                 \ richness
-                                 \ speak
-                                 \ speak-header
-                                 \ speak-numeral
-                                 \ speak-punctuation
-                                 \ speech-rate
-                                 \ stress
-                                 \ voice-family
-                                 \ volume
-
-syn match cssAuralVal contained "\<\(above\|always\|angle\|behind\|below\|
-                                  \center\|center-left\|center-right\|code\|
-                                  \continuous\|digits\|far-left\|far-right\|
-                                  \fast\|faster\|high\|higher\|left\|left-side\|
-                                  \leftwards\|level\|loud\|low\|lower\|medium\|
-                                  \mix\|normal\|once\|repeat\|right\|right-side\|
-                                  \rightwards\|silent\|slow\|slower\|soft\|
-                                  \spell-out\|\(x-\)\=\(fast\|high\|loud\|low\|
-                                  \slow\|soft\)\)\>"
-
-"=T A B L E  P R O P E R T I E S
+"=T A B L E  P R O P S + V A L U E S
 "----------------------------------------------------------------------------"
 
 syn keyword cssTableProp contained border-collapse 
@@ -396,6 +385,38 @@ syn keyword cssTableProp contained border-collapse
 
 syn match cssTableVal contained "\<\(fixed\|collapse\|separate\|show\|hide\|
                                   \once\|always\)\>"
+
+"=T E X T  P R O P S + V A L U E S
+"----------------------------------------------------------------------------"
+
+syn keyword cssTextProp contained letter-spacing
+                                \ line-height
+                                \ text-align 
+                                \ text-decoration 
+                                \ text-indent
+                                \ text-rendering
+                                \ text-shadow
+                                \ text-transform 
+                                \ unicode-bidi
+                                \ vertical-align
+                                \ word-spacing
+
+syn match cssTextVal contained "\<\(baseline\|blink\|capitalize\|center\|
+                                 \justify\|line-through\|lowercase\|middle\|
+                                 \optimizeLegibility\|overline\|sub\|super\|
+                                 \text-bottom\|text-top\|underline\|
+                                 \uppercase\)\>" 
+
+"=U S E R  I N T E R F A C E  P R O P S + V A L U E S
+"----------------------------------------------------------------------------"
+
+syn keyword cssUIProp contained cursor
+
+syn match cssUIVal contained "\<\(default\|crosshair\|progress\|pointer\|
+                               \move\|wait\|help\|\([ns]\=[ew]\=-resize\)\)\>"
+
+"=D E F A U L T  H I G H L I G H T  G R O U P S`
+"----------------------------------------------------------------------------"
 
 hi def link cssComment Comment
 hi def link cssTagName Statement
@@ -435,12 +456,12 @@ hi def link cssFunctionName Function
 hi def link cssColor Constant
 hi def link cssIdName Function
 hi def link cssInclude Include
-hi def link cssImportant Special
+hi def link cssImportantVal Special
 hi def link cssBraces Function
 hi def link cssBraceError Error
 hi def link cssError Error
 hi def link cssInclude Include
-hi def link cssUnicodeEscape Special
+hi def link cssUnicodeEscVal Special
 hi def link cssDubQuo String
 hi def link cssSinQuo String
 hi def link cssUnicodeRange Constant
