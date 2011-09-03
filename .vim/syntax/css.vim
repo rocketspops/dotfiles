@@ -30,24 +30,23 @@ syn keyword cssTagName a abbr acronym address applet area article
                      \ u var variant video xmp 
 
 syn region cssAttrSelector matchgroup=cssSelectorOp start="\[" end="]" 
-\ contains=cssUnicodeEscape,cssStringQ,cssStringQQ
+\ contains=cssUnicodeEscape,cssSinQuo,cssDubQuo
 \ transparent 
 
 syn region cssVal matchgroup=cssValPunc start=":" end=";" 
-\ contains=cssValueNumber,cssValueLength,cssFunction,cssImportant,css.*Val,cssUnicodeRange
+\ contains=cssNumVal,cssUnitVal,cssFunction,cssImportant,css.*Val,cssUnicodeRange
 \ keepend oneline 
 
 syn region cssFunction contained matchgroup=cssFunctionName
 \ start="\<\(annotation\|attr\|clip\|character-variant\|counter\|format\|
 \local\|ornaments\|rgb\|rgba\|rect\|stylistic\|styleset\|swash\|uri\|
 \url\)(" end=")"
-\ contains=cssString,cssStringQQ
+\ contains=cssString,cssDubQuo
 \ oneline keepend
 
 syn match cssIdName "#[A-Za-z_][A-Za-z0-9_-]*"
 syn match cssClassName "\.[A-Za-z][A-Za-z0-9_-]*"
 syn match cssSelectorOp "[*+>.,~|$^-]"
-
 
 syn match cssNumVal contained "[-]\=\d\+\(\.\d*\)\="
 syn match cssUnitVal contained "\(\d\)\@<=\(%\|cm\|deg\|em\|ex\|grad\|kHz\|
@@ -61,10 +60,11 @@ syn region cssComment start="/\*" end="\*/" keepend
 syn region cssSinQuo start=+'+ skip=+\\'+ end=+'+ contains=cssUnicodeEscape
 syn region cssDubQuo start=+"+ skip=+\\"+ end=+"+ contains=cssUnicodeEscape
 
-syn region cssDecBlock transparent matchgroup=cssBraces start='{' end='}' contains=css.*Val,css.*Prop,cssComment,cssValue.*,cssColor,cssURL,cssImportant,cssBraceError,cssStringQ,cssStringQQ,cssFunction,cssUnicodeEscape
+syn region cssDecBlock transparent matchgroup=cssBraces start='{' end='}' 
+          \ contains=
+
 syn match cssBraceError "{\@<!\(}\)"
 syn match cssBraceError "{\@<=\({\)"
-
 
 "=P S E U D O  C L A S S E S
 "----------------------------------------------------------------------------"
@@ -128,6 +128,11 @@ syn keyword cssMediaType all
                        \ tty
                        \ tv
 
+"=G L O B A L  V A L U E S
+"----------------------------------------------------------------------------"
+
+syn match cssImportant contained "!\s*important\>"
+syn match cssCommonVal contained "\<\(auto\|none\|inherit\)\>"
 
 "=C O L O R  P R O P E R T I E S
 "----------------------------------------------------------------------------"
@@ -169,12 +174,6 @@ syn keyword cssColorVal contained aliceblue antiquewhite aqua aquamarine azure
 syn match cssColorVal contained "\<transparent\>"
 syn match cssColorVal contained "#[0-9A-Fa-f]\{3}"
 syn match cssColorVal contained "#[0-9A-Fa-f]\{6}"
-
-"=C O M M O N  P R O P E R T I E S
-"----------------------------------------------------------------------------"
-
-syn match cssImportant contained "!\s*important\>"
-syn match cssCommonVal contained "\<\(auto\|none\|inherit\)\>"
 
 "=B A C K G R O U N D  P R O P E R T I E S
 "----------------------------------------------------------------------------"
@@ -398,12 +397,9 @@ syn keyword cssTableProp contained border-collapse
 syn match cssTableVal contained "\<\(fixed\|collapse\|separate\|show\|hide\|
                                   \once\|always\)\>"
 
-
-
 hi def link cssComment Comment
 hi def link cssTagName Statement
 hi def link cssSelectorOp Special
-hi def link cssSelectorOp2 Special
 hi def link cssFontProp StorageClass
 hi def link cssColorProp StorageClass
 hi def link cssTextProp StorageClass
@@ -428,14 +424,13 @@ hi def link cssUIVal Type
 hi def link cssCommonVal Type
 hi def link cssPseudoClassId PreProc
 hi def link cssPseudoClassLang Constant
-hi def link cssValueLength Number
+hi def link cssUnitVal Number
 hi def link cssValueInteger Number
-hi def link cssValueNumber Number
+hi def link cssNumVal Number
 hi def link cssValueAngle Number
 hi def link cssValueTime Number
 hi def link cssValueFrequency Number
 hi def link cssFunction Constant
-hi def link cssURL String
 hi def link cssFunctionName Function
 hi def link cssColor Constant
 hi def link cssIdName Function
@@ -446,15 +441,8 @@ hi def link cssBraceError Error
 hi def link cssError Error
 hi def link cssInclude Include
 hi def link cssUnicodeEscape Special
-hi def link cssStringQQ String
-hi def link cssStringQ String
-hi def link cssMedia Special
-hi def link cssMediaType Special
-hi def link cssMediaComma Normal
-hi def link cssFontDescriptor Special
-hi def link cssFontDescriptorFunction Constant
-hi def link cssFontDescriptorProp StorageClass
-hi def link cssFontDescriptorVal Type
+hi def link cssDubQuo String
+hi def link cssSinQuo String
 hi def link cssUnicodeRange Constant
 hi def link cssClassName Function
 
