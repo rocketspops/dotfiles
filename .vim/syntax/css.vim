@@ -13,36 +13,95 @@ endif
 set iskeyword=@,@-@,-
 syn sync fromstart
 
-syn keyword cssTagName abbr acronym address applet area a b base
-                     \ basefont bdo big blockquote body br button
-                     \ caption center cite code col colgroup dd del
-                     \ dfn dir div dl dt em fieldset font form frame
-                     \ frameset h1 h2 h3 h4 h5 h6 head hr html img i
-                     \ iframe img input ins isindex kbd label legend li
-                     \ link map menu meta noframes noscript ol optgroup
-                     \ option p param pre q s samp script select small
-                     \ span strike strong style sub sup table tbody td
-                     \ textarea tfoot th thead title tr tt ul u var
+syn keyword cssTagName a abbr acronym address applet area article
+                     \ aside audio b base basefont bdo big blockquote
+                     \ body br button canvas caption center cite code
+                     \ col colgroup command datalist dd del details
+                     \ dfn dir div dl dt em embed fieldset font form
+                     \ figcaption figure footer frame frameset h1 h2 
+                     \ h3 h4 h5 h6 head header hgroup hr html img i
+                     \ iframe img input ins isindex kbd keygen label
+                     \ legend li link map mark menu meta meter nav
+                     \ noframes noscript object ol optgroup option 
+                     \ output p param pre progress q rp rt ruby s
+                     \ samp script section select small span strike
+                     \ strong style sub summary sup table tbody td 
+                     \ textarea tfoot th thead time title tr tt ul 
+                     \ u var variant video xmp 
 
 syn region cssAttrSelector matchgroup=cssSelectorOp start="\[" end="]" 
 \ contains=cssUnicodeEscape,cssStringQ,cssStringQQ
 \ transparent 
 
 syn region cssVal matchgroup=cssValPunc start=":" end=";" 
-\ contains=cssValueNumber,cssValueLength,cssFunction,cssImportant,
-\css.*Val,cssUnicodeRange
+\ contains=cssValueNumber,cssValueLength,cssFunction,cssImportant,css.*Val,cssUnicodeRange
 \ keepend oneline 
 
 syn region cssFunction contained matchgroup=cssFunctionName
 \ start="\<\(annotation\|attr\|clip\|character-variant\|counter\|format\|
 \local\|ornaments\|rgb\|rgba\|rect\|stylistic\|styleset\|swash\|uri\|
-\url\)\s*(" end=")"
+\url\)(" end=")"
 \ contains=cssString,cssStringQQ
 \ oneline keepend
 
 syn match cssIdName "#[A-Za-z_][A-Za-z0-9_-]*"
 syn match cssClassName "\.[A-Za-z][A-Za-z0-9_-]*"
-syn match cssSelectorOp "[*+>.,~|$^]"
+syn match cssSelectorOp "[*+>.,~|$^-]"
+
+
+syn match cssNumVal contained "[-]\=\d\+\(\.\d*\)\="
+syn match cssUnitVal contained "\(\d\)\@<=\(%\|cm\|deg\|em\|ex\|grad\|kHz\|
+                                \Hz\|in\|mm\|ms\|n\|pc\|pt\|px\|rad\|rem\|s\)"
+
+syn match cssUnicodeRange contained "U+[0-9A-Fa-f?]\+"
+syn match cssUnicodeRange contained "U+\x\+-\x\+"
+syn match cssUnicodeEscape "\\\x\{1,6}\s\?"
+
+syn region cssComment start="/\*" end="\*/" keepend 
+syn region cssSinQuo start=+'+ skip=+\\'+ end=+'+ contains=cssUnicodeEscape
+syn region cssDubQuo start=+"+ skip=+\\"+ end=+"+ contains=cssUnicodeEscape
+
+syn region cssDecBlock transparent matchgroup=cssBraces start='{' end='}' contains=css.*Val,css.*Prop,cssComment,cssValue.*,cssColor,cssURL,cssImportant,cssBraceError,cssStringQ,cssStringQQ,cssFunction,cssUnicodeEscape
+syn match cssBraceError "{\@<!\(}\)"
+syn match cssBraceError "{\@<=\({\)"
+
+
+"=P S E U D O  C L A S S E S
+"----------------------------------------------------------------------------"
+
+syn match cssPseudoClassSelector "\(:[a-z\-]\+\|::[a-z\-]\+\)" 
+\ contains=cssPseudoClass,cssPseudoClassExpression
+
+syn keyword cssPseudoClass contained active
+                                   \ after 
+                                   \ before 
+                                   \ checked
+                                   \ disabled
+                                   \ empty
+                                   \ enabled
+                                   \ first-child
+                                   \ first-letter
+                                   \ first-line
+                                   \ first-of-type
+                                   \ focus 
+                                   \ hover 
+                                   \ indeterminate
+                                   \ invalid
+                                   \ last-child
+                                   \ last-of-type
+                                   \ link 
+                                   \ only-of-type
+                                   \ root
+                                   \ selection
+                                   \ target
+                                   \ valid
+                                   \ visited 
+
+syn region cssPseudoClassExpression contained matchgroup=cssPseudoClass 
+\ start="\(:lang\|:nth-child\|:nth-of-type\|:nth-last-of-type\|
+\:nth-last-child\|:not\)(" end=")" 
+\ contains=cssNumVal,cssUnitVal,cssSelectorOp
+\ keepend oneline
 
 "=A T  R U L E  P R O P E R T I E S
 "----------------------------------------------------------------------------"
@@ -55,7 +114,7 @@ syn keyword cssAtRule @charset
                     \ @page 
 
 syn region cssAtRuleUrl start="url(" end=")"
-\ contains=cssString,cssStringQQ
+\ contains=cssSinQuo,cssDubQuo
 \ keepend oneline
 
 syn keyword cssMediaType all
@@ -69,17 +128,6 @@ syn keyword cssMediaType all
                        \ tty
                        \ tv
 
-syn match cssNumVal contained "[-]\=\d\+\(\.\d*\)\="
-syn match cssUnitVal contained "\(\d\)\@<=\(%\|cm\|deg\|em\|ex\|grad\|kHz\|
-                                \Hz\|in\|mm\|ms\|pc\|pt\|px\|rad\|rem\|s\)"
-
-syn match cssUnicodeRange contained "U+[0-9A-Fa-f?]\+"
-syn match cssUnicodeRange contained "U+\x\+-\x\+"
-syn match cssUnicodeEscape "\\\x\{1,6}\s\?"
-
-syn region cssComment start="/\*" end="\*/" keepend 
-syn region cssSinQuo start=+'+ skip=+\\'+ end=+'+ contains=cssUnicodeEscape
-syn region cssDubQuo start=+"+ skip=+\\"+ end=+"+ contains=cssUnicodeEscape
 
 "=C O L O R  P R O P E R T I E S
 "----------------------------------------------------------------------------"
@@ -119,8 +167,8 @@ syn keyword cssColorVal contained aliceblue antiquewhite aqua aquamarine azure
                                 \ white whitesmoke yellow yellowgreen
 
 syn match cssColorVal contained "\<transparent\>"
-syn match cssColorVal contained "#[0-9A-Fa-f]\{-3}"
-syn match cssColorVal contained "#[0-9A-Fa-f]\{-6}"
+syn match cssColorVal contained "#[0-9A-Fa-f]\{3}"
+syn match cssColorVal contained "#[0-9A-Fa-f]\{6}"
 
 "=C O M M O N  P R O P E R T I E S
 "----------------------------------------------------------------------------"
@@ -214,13 +262,13 @@ syn match cssBoxVal contained "\<\(collapse\|dashed\|dotted\|double\|groove\|
 "----------------------------------------------------------------------------"
 
 syn keyword cssPageProp contained inside
-                                  \ marks
-                                  \ orphans
-                                  \ page-break-before
-                                  \ page-break-after
-                                  \ page-break-inside
-                                  \ size
-                                  \ widows
+                                \ marks
+                                \ orphans
+                                \ page-break-before
+                                \ page-break-after
+                                \ page-break-inside
+                                \ size
+                                \ widows
 
 syn match cssPageVal contained "\<\(landscape\|portrait\|crop\|cross\|
                                    \always\|avoid\)\>"
@@ -350,14 +398,7 @@ syn keyword cssTableProp contained border-collapse
 syn match cssTableVal contained "\<\(fixed\|collapse\|separate\|show\|hide\|
                                   \once\|always\)\>"
 
-syn match cssError contained "{@<>"
-syn region cssDefinition transparent matchgroup=cssBraces start='{' end='}' contains=css.*Val,css.*Prop,cssComment,cssValue.*,cssColor,cssURL,cssImportant,cssError,cssStringQ,cssStringQQ,cssFunction,cssUnicodeEscape
-syn match cssBraceError "}"
 
-syn match cssPseudoClass ":\S*" contains=cssPseudoClassId
-syn keyword cssPseudoClassId contained link visited active hover focus before after left right
-syn match cssPseudoClassId contained "\<first\(-\(line\|letter\|child\)\)\=\>"
-syn region cssPseudoClassLang matchgroup=cssPseudoClassId start=":lang(" end=")" oneline
 
 hi def link cssComment Comment
 hi def link cssTagName Statement
