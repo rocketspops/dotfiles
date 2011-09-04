@@ -195,6 +195,7 @@ syn keyword cssBgProp contained background
                               \ backgroun-clip
                               \ background-color
                               \ background-image
+                              \ background-origin
                               \ background-position
                               \ background-repeat
                               \ background-size
@@ -209,10 +210,17 @@ syn match cssBoxProp contained "\<\(border\(-\(top\|right\|bottom\|left\)\)\
                                 \=\(-\(color\|style\|width\)\)\=\|outline\
                                 \(-\(color\|style\|width\)\)\=\)\>"
 
+
+syn match cssBoxProp contained "\<\(border-radius\(-\(bottom\|top\)\(-\(left\|
+                                \right\)\)\)\=\)\|\(border-image\(-\(outset\|
+                                \repeat\|slice\|source\|width\)\)\=\)\>"
+
 syn match cssBoxProp contained "\<\(\(margin\|padding\)\(-\(top\|right\|
                                 \bottom\|left\)\)\=\)\>" 
 
 syn keyword cssBoxProp contained box-sizing
+                               \ box-decoration-break
+                               \ box-shadow
                                \ clear 
                                \ clip
                                \ float 
@@ -229,10 +237,10 @@ syn keyword cssBoxProp contained box-sizing
                                \ z-index
                                \ zoom
 
-syn match cssBoxVal contained "\<\(border-box\|collapse\|content-box\|dashed\|
-                               \ dotted\|double\|groove\|hidden\|inset\|invert\|
-                               \outset\|padding-box\|ridge\|scroll\|solid\|
-                               \thick\|thin\|visible\)\>"
+syn match cssBoxVal contained "\<\(border-box\|clone\|collapse\|content-box\|dashed\|
+                               \dotted\|double\|fill\|groove\|hidden\|inset\|invert\|
+                               \outset\|outset\|padding-box\|ridge\|scroll\|solid\|
+                               \slice\|stretch\|thick\|thin\|visible\)\>"
 
 "=C O L O R  P R O P S + V A L U E S 
 "----------------------------------------------------------------------------"
