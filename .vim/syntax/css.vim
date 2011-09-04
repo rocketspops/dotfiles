@@ -151,16 +151,17 @@ syn match cssBraceError "}"
 
 syn region cssFuncVal transparent contained matchgroup=cssFuncValName
 \ start="\<\(annotation\|attr\|clip\|character-variant\|counter\|format\|
-         \hsl\|hsla\|local\|ornaments\|rgb\|rgba\|rect\|stylistic\|styleset\|swash\|
-         \uri\|url\)(" end=")"
+         \hsl\|hsla\|local\|ornaments\|rgb\|rgba\|rect\|stylistic\|
+         \styleset\|swash\|uri\|url\)(" end=")"
 \ contains=cssQuo,cssSelectorOp,cssNumVal
 \ oneline keepend
 
 syn match cssImportantVal contained "!\s*important\>"
 
-syn match cssSharedVal contained "\<\(absolute\|always\|auto\|border-box\|center\|
-                                  \content-box\|fast\|left\|inherit\|none\|normal\|
-                                  \medium\|padding-box\|right\|scroll\|slow\)\>"
+syn match cssSharedVal contained "\<\(absolute\|always\|auto\|avoid\|border-box\|
+                                  \center\|content-box\|fast\|left\|inherit\|
+                                  \none\|normal\|medium\|padding-box\|right\|
+                                  \scroll\|slow\)\>"
 
 syn match cssUnicodeVal contained "\(U+[0-9A-Fa-f?]\+[+-][0-9A-Fa-f?]\+
                                    \\|U+[0-9A-Fa-f?]\+\|\\\x\{1,6\}\(\w\|
@@ -328,12 +329,12 @@ syn keyword cssGenConProp contained content
                                   \ list-style-image
                                   \ list-style-position
                                        
-syn match cssGenConVal contained "\<\(armenian\|circle\|decimal\(-leading-zero\)
-                                      \\|cjk-ideographic\|disc\|georgian\|hebrew\|
-                                      \inside\|\(lower\|upper\)-\(roman\|alpha\|
-                                      \greek\|latin\)\|outside\|\(no-\)\=\(open\|
-                                      \close\)-quote\|square\|\(hiragana\|
-                                      \katakana\)\(-iroha\)\=\)\>"
+syn match cssGenConVal contained "\<\(armenian\|circle\|decimal\(-leading-zero\)\|
+                                  \cjk-ideographic\|disc\|georgian\|hebrew\|
+                                  \inside\|\(lower\|upper\)-\(roman\|alpha\|
+                                  \greek\|latin\)\|outside\|\(no-\)\=\(open\|
+                                  \close\)-quote\|square\|\(hiragana\|
+                                  \katakana\)\(-iroha\)\=\)\>"
 
 "C S S 3  =M A R Q U E E  M O D U L E                        W3C CR 12/5/2008
 "----------------------------------------------------------------------------"
@@ -346,6 +347,25 @@ syn keyword cssMarqProp contained marquee-direction
 
 syn match cssMarqValue contained "\<\(alternate\|forward\|marquee-block\|marquee-line\|slide\|reverse\)\>"
 
+"C S S 3  =MU L T I - C O L U M N  L A Y O U T  M O D U L E  W3C CR 3/12/2011
+"----------------------------------------------------------------------------"
+
+syn keyword cssMultiColProp contained break-after
+                                    \ break-after
+                                    \ break-inside
+                                    \ columns
+                                    \ column-count
+                                    \ column-fill
+                                    \ column-gap
+                                    \ column-width
+                                    \ column-rule
+                                    \ column-rule-color
+                                    \ column-rule-style
+                                    \ column-rule-width
+                                    \ column-span
+
+syn match cssMultiColVal contained "\<\(all\|avoid-page\|avoid-column\|
+                                    \balance\|column\|page\)\>"
 
 "C S S 2.1  =P A G E D  M E D I A                              W3C R 6/7/2011
 "----------------------------------------------------------------------------"
@@ -359,7 +379,7 @@ syn keyword cssPageProp contained inside
                                 \ size
                                 \ widows
 
-syn match cssPageVal contained "\<\(avoid\|landscape\|portrait\|crop\|cross\)\>"
+syn match cssPageVal contained "\<\(landscape\|portrait\|crop\|cross\)\>"
 
 "=R E N D E R  P R O P S + V A L U E S
 "----------------------------------------------------------------------------"
