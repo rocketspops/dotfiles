@@ -38,7 +38,7 @@ syn keyword cssTagName a abbr acronym address applet area article
                      \ textarea tfoot th thead time title tr tt ul 
                      \ u var variant video xmp 
 
-syn match cssSelectorOp "[*+>.,|~-_]"
+syn match cssSelectorOp "[*+>.,_|~-]"
 syn match cssAttrSelectorOp "[=*~|$^]"
 syn match cssIdName "#[A-Za-z_][A-Za-z0-9_-]*"
 syn match cssClassName "\.[A-Za-z][A-Za-z0-9_-]*"
@@ -62,6 +62,7 @@ syn keyword cssPseudoClass contained active
                                    \ disabled
                                    \ empty
                                    \ enabled
+                                   \ first
                                    \ first-child
                                    \ first-letter
                                    \ first-line
@@ -73,6 +74,7 @@ syn keyword cssPseudoClass contained active
                                    \ invalid
                                    \ last-child
                                    \ last-of-type
+                                   \ left
                                    \ link 
                                    \ optional
                                    \ only-of-type
@@ -82,6 +84,7 @@ syn keyword cssPseudoClass contained active
                                    \ repeat-index
                                    \ repeat-item
                                    \ required
+                                   \ right
                                    \ root
                                    \ selection
                                    \ target
@@ -148,14 +151,14 @@ syn match cssBraceError "}"
 
 syn region cssFuncVal transparent contained matchgroup=cssFuncValName
 \ start="\<\(annotation\|attr\|clip\|character-variant\|counter\|format\|
-         \local\|ornaments\|rgb\|rgba\|rect\|stylistic\|styleset\|swash\|
+         \hsl\|hsla\|local\|ornaments\|rgb\|rgba\|rect\|stylistic\|styleset\|swash\|
          \uri\|url\)(" end=")"
 \ contains=cssQuo,cssSelectorOp,cssNumVal
 \ oneline keepend
 
 syn match cssImportantVal contained "!\s*important\>"
 
-syn match cssSharedVal contained "\<\(absolute\|auto\|border-box\|center\|
+syn match cssSharedVal contained "\<\(absolute\|always\|auto\|border-box\|center\|
                                   \content-box\|fast\|left\|inherit\|none\|normal\|
                                   \medium\|padding-box\|right\|scroll\|slow\)\>"
 
@@ -221,10 +224,10 @@ syn match cssBoxVal contained "\<\(collapse\|dashed\|dotted\|double\|fill\|
                                \outset\|outset\|ridge\|scroll\|solid\|
                                \stretch\|thick\|thin\|visible\)\>"
 
-"=C O L O R  P R O P S + V A L U E S 
+"C S S 3  =C O L O R  M O D U L E                              W3C R 6/7/2011 
 "----------------------------------------------------------------------------"
 
-syn keyword cssColorProp contained color opacity
+syn keyword cssColorProp contained color currentColor opacity
 
 syn keyword cssColorVal contained aliceblue antiquewhite aqua aquamarine azure
                                 \ beige bisque black blanchedalmond blue blueviolet 
@@ -312,27 +315,27 @@ syn match cssFontVal contained "\<\(additional-ligatures\|all-petite-caps\|
                                 \-\)\=\(condensed\|expanded\)\|x-large\|
                                 \x-small\|xx-large\|xx-small\)\>"
 
-"=G E N E R A T E D  C O N T E N T  P R O P S + V A L U E S
+"C S S 2.1  =G E N E R A T E D  C O N T E N T                  W3C R 6/7/2011
 "----------------------------------------------------------------------------"
 
-syn match cssGenContentProp contained "\<quotes\>" 
+syn match cssGenConProp contained "\<\quotes\>"
 
-syn keyword cssGenContentProp contained content 
-                                      \ counter-reset
-                                      \ counter-increment
-                                      \ list-style
-                                      \ list-style-type
-                                      \ list-style-position
-                                      \ list-style-image
+syn keyword cssGenConProp contained content 
+                                  \ counter-reset
+                                  \ counter-increment
+                                  \ list-style
+                                  \ list-style-type
+                                  \ list-style-image
+                                  \ list-style-position
                                        
-syn match cssGenContentVal contained "\<\(armenian\|circle\|decimal\(-leading-zero\)
+syn match cssGenConVal contained "\<\(armenian\|circle\|decimal\(-leading-zero\)
                                       \\|cjk-ideographic\|disc\|georgian\|hebrew\|
                                       \inside\|\(lower\|upper\)-\(roman\|alpha\|
                                       \greek\|latin\)\|outside\|\(no-\)\=\(open\|
                                       \close\)-quote\|square\|\(hiragana\|
                                       \katakana\)\(-iroha\)\=\)\>"
 
-"=M A R Q U E E  M O D U L E                                 W3C CR 12/5/2008
+"C S S 3  =M A R Q U E E  M O D U L E                        W3C CR 12/5/2008
 "----------------------------------------------------------------------------"
 
 syn keyword cssMarqProp contained marquee-direction
@@ -344,7 +347,7 @@ syn keyword cssMarqProp contained marquee-direction
 syn match cssMarqValue contained "\<\(alternate\|forward\|marquee-block\|marquee-line\|slide\|reverse\)\>"
 
 
-"=P A G E  P R O P S + V A L U E S
+"C S S 2.1  =P A G E D  M E D I A                              W3C R 6/7/2011
 "----------------------------------------------------------------------------"
 
 syn keyword cssPageProp contained inside
@@ -356,8 +359,7 @@ syn keyword cssPageProp contained inside
                                 \ size
                                 \ widows
 
-syn match cssPageVal contained "\<\(landscape\|portrait\|crop\|cross\|
-                                   \always\|avoid\)\>"
+syn match cssPageVal contained "\<\(avoid\|landscape\|portrait\|crop\|cross\)\>"
 
 "=R E N D E R  P R O P S + V A L U E S
 "----------------------------------------------------------------------------"
@@ -380,7 +382,7 @@ syn match cssRenderVal contained "\<\(block\|bidi-override\|bottom\|
                                    \footer\)-group\|row\|column\(-group\)\=\|
                                    \cell\|caption\)\)\=\|top\)\>" 
 
-"=S P E E C H  M O D U L E                                   W3C WD 8/18/2011
+"C S S 3  =S P E E C H  M O D U L E                          W3C WD 8/18/2011
 "----------------------------------------------------------------------------"
 
 syn keyword cssSpeechProp contained cue
@@ -425,7 +427,7 @@ syn keyword cssTableProp contained border-collapse
                                  \ table-layout 
 
 syn match cssTableVal contained "\<\(fixed\|collapse\|separate\|show\|hide\|
-                                  \once\|always\)\>"
+                                  \once\)\>"
 
 "=T E X T  P R O P S + V A L U E S
 "----------------------------------------------------------------------------"
@@ -507,7 +509,7 @@ hi def link cssBgProp StorageClass
 hi def link cssRenderProp StorageClass
 hi def link cssSpeechProp StorageClass
 hi def link cssRenderProp StorageClass
-hi def link cssGenContentProp StorageClass
+hi def link cssGenConProp StorageClass
 hi def link cssPagingProp StorageClass
 hi def link cssTableProp StorageClass
 hi def link cssUIProp StorageClass
@@ -517,7 +519,7 @@ hi def link cssTextVal Type
 hi def link cssBoxVal Type
 hi def link cssRenderVal Type
 hi def link cssSpeechVal Type
-hi def link cssGenContentVal Type
+hi def link cssGenConVal Type
 hi def link cssPageVal Type
 hi def link cssTableVal Type
 hi def link cssUIVal Type
