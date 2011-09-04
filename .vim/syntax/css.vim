@@ -192,12 +192,15 @@ syn match cssAuralVal contained "\<\(above\|always\|angle\|behind\|below\|
 
 syn keyword cssBgProp contained background
                               \ background-attachment
+                              \ backgroun-clip
                               \ background-color
                               \ background-image
                               \ background-position
+                              \ background-repeat
+                              \ background-size
 
-syn match cssBgVal contained "\<\(center\|fixed\|no-repeat\|scroll\|
-                              \repeat-x\|repeat-y\)\>"
+syn match cssBgVal contained "\<\(center\|contain\|cover\|fixed\|no-repeat\|
+                              \scroll\|repeat-x\|repeat-y\|round\|space\)\>"
 
 "=B O X  P R O P S + V A L U E S
 "----------------------------------------------------------------------------"
