@@ -142,7 +142,8 @@ syn region cssFuncVal transparent contained matchgroup=cssFuncValName
 
 syn match cssImportantVal contained "!\s*important\>"
 
-syn match cssSharedVal contained "\<\(auto\|border-box\|content-box\|inherit\|none\|padding-box\)\>"
+syn match cssSharedVal contained "\<\(auto\|border-box\|content-box\|
+                                  \inherit\|none\|padding-box\)\>"
 
 syn match cssUnicodeVal contained "\(U+[0-9A-Fa-f?]\+[+-][0-9A-Fa-f?]\+
                                    \\|U+[0-9A-Fa-f?]\+\|\\\x\{1,6\}\(\w\|
@@ -284,7 +285,8 @@ syn match cssColorVal contained "#[0-9A-Fa-f]\{6}"
 "=F O N T  P R O P S + V A L U E S
 "----------------------------------------------------------------------------"
 
-syn keyword cssFontProp contained font-family
+syn keyword cssFontProp contained font
+                                \ font-family
                                 \ font-feature-settings
                                 \ font-kerning
                                 \ font-language-override
@@ -433,9 +435,31 @@ syn keyword cssUIProp contained appearance
                               \ outline-width
                               \ resize
 
-syn match cssUIVal contained "\<\(both\|crosshair\|crosshair\|help\|horizontal\|
-                              \move\|pointer\|progress\|text\|vertica\|
-                              \wait\|\([ns]\=[ew]\=-resize\)\)\>"
+syn match cssUIVal contained "\<\(alias\|all-scroll\|both\|cell\|
+                              \context-menu\|col-resize\|copy\|crosshair\|
+                              \help\|horizontal\|move\|no-drop\|not-allowed\|
+                              \pointer\|progress\|row-resize\|text\|vertical\|
+                              \vertical-text\|wait\|\([ns]\=[ew]\=-resize\)\|
+                              \ew-resize\|ns-resize\|newsw-resize\|
+                              \nwse-resize\)\>"
+
+"The following values are for the appearance property and represent only
+"those values listed in the W3C Candidate Recommendation or that are
+"supported by both Webkit and Gecko browsers. 
+
+syn match cssUIVal contained "\<\(button\|checkbox\|check-box-group\|
+                              \combo-box\|desktop\|dialog\|document\|
+                              \field\|hyperlink\|icon\|list-menu\|
+                              \listbox\|menu\|menu-item\|menubar\|
+                              \menulist\|menulist-button\|menulist-textfield\|
+                              \outline-tree\|password\|pop-up-menu\|
+                              \pull-down-menu\|push-button\|radio\|
+                              \radio-button\|radio-group\|range\|
+                              \scrollbarbutton-down\|scrollbarbutton-left\|
+                              \scrollbarbutton-right\|scrollbarbutton-up\|
+                              \scrollbartrack-horizontal\|scrollbartrack-vertical\|
+                              \signature\|tab\|textfield\|tooltip\|window\|
+                              \workspace\)\>"
 
 "=D E F A U L T  H I G H L I G H T  G R O U P S`
 "----------------------------------------------------------------------------"
@@ -465,7 +489,7 @@ hi def link cssGenContentVal Type
 hi def link cssPageVal Type
 hi def link cssTableVal Type
 hi def link cssUIVal Type
-hi def link cssCommonVal Type
+hi def link cssSharedVal Type
 hi def link cssPseudoClassId PreProc
 hi def link cssPseudoClassLang Constant
 hi def link cssUnitVal Number
