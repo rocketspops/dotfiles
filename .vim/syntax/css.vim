@@ -209,7 +209,8 @@ syn match cssBoxProp contained "\<\(border\(-\(top\|right\|bottom\|left\)\)\
 syn match cssBoxProp contained "\<\(\(margin\|padding\)\(-\(top\|right\|
                                 \bottom\|left\)\)\=\)\>" 
 
-syn keyword cssBoxProp contained clear 
+syn keyword cssBoxProp contained box-sizing
+                               \ clear 
                                \ clip
                                \ float 
                                \ height 
@@ -225,9 +226,10 @@ syn keyword cssBoxProp contained clear
                                \ z-index
                                \ zoom
 
-syn match cssBoxVal contained "\<\(collapse\|dashed\|dotted\|double\|groove\|
-                               \hidden\|inset\|invert\|\outset\|ridge\|
-                               \scroll\|solid\|thick\|thin\|visible\)\>"
+syn match cssBoxVal contained "\<\(border-box\|collapse\|content-box\|dashed\|
+                               \ dotted\|double\|groove\|hidden\|inset\|invert\|
+                               \outset\|padding-box\|ridge\|scroll\|solid\|
+                               \thick\|thin\|visible\)\>"
 
 "=C O L O R  P R O P S + V A L U E S 
 "----------------------------------------------------------------------------"
