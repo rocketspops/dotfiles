@@ -38,12 +38,13 @@ syn keyword cssTagName a abbr acronym address applet area article
                      \ textarea tfoot th thead time title tr tt ul 
                      \ u var variant video xmp 
 
-syn match cssSelectorOp "[=*+>.,~|$^-]"
+syn match cssSelectorOp "[*+>.,|~-_]"
+syn match cssAttrSelectorOp "[=*~|$^]"
 syn match cssIdName "#[A-Za-z_][A-Za-z0-9_-]*"
 syn match cssClassName "\.[A-Za-z][A-Za-z0-9_-]*"
 
 syn region cssAttrSelector matchgroup=cssAttrSelector start="\[" end="]" 
-\ contains=cssSelectorOp,cssQuo
+\ contains=cssAttrSelectorOp,cssQuo
 \ transparent 
 
 "=P S E U D O  C L A S S  S E L E C T O R S 
@@ -56,6 +57,8 @@ syn keyword cssPseudoClass contained active
                                    \ after 
                                    \ before 
                                    \ checked
+                                   \ choices
+                                   \ default
                                    \ disabled
                                    \ empty
                                    \ enabled
@@ -65,15 +68,24 @@ syn keyword cssPseudoClass contained active
                                    \ first-of-type
                                    \ focus 
                                    \ hover 
+                                   \ in-range
                                    \ indeterminate
                                    \ invalid
                                    \ last-child
                                    \ last-of-type
                                    \ link 
+                                   \ optional
                                    \ only-of-type
+                                   \ out-of-range
+                                   \ read-only
+                                   \ read-write
+                                   \ repeat-index
+                                   \ repeat-item
+                                   \ required
                                    \ root
                                    \ selection
                                    \ target
+                                   \ value
                                    \ valid
                                    \ visited 
 
@@ -87,6 +99,7 @@ syn region cssPseudoClassExpression contained matchgroup=cssPseudoClass
 "----------------------------------------------------------------------------"
 
 syn keyword cssAtRule @charset 
+                    \ @color-profile
                     \ @font-face 
                     \ @import
                     \ @media
@@ -142,8 +155,9 @@ syn region cssFuncVal transparent contained matchgroup=cssFuncValName
 
 syn match cssImportantVal contained "!\s*important\>"
 
-syn match cssSharedVal contained "\<\(auto\|border-box\|content-box\|
-                                  \inherit\|none\|padding-box\)\>"
+syn match cssSharedVal contained "\<\(absolute\|auto\|border-box\|center\|
+                                  \content-box\|fast\|left\|inherit\|none\|normal\|
+                                  \medium\|padding-box\|right\|scroll\|slow\)\>"
 
 syn match cssUnicodeVal contained "\(U+[0-9A-Fa-f?]\+[+-][0-9A-Fa-f?]\+
                                    \\|U+[0-9A-Fa-f?]\+\|\\\x\{1,6\}\(\w\|
@@ -153,40 +167,6 @@ syn match cssNumVal contained "[-]\=\d\+\(\.\d*\)\="
 
 syn match cssUnitVal contained "\(\d\)\@<=\(%\|cm\|deg\|em\|ex\|grad\|kHz\|
                                 \Hz\|in\|mm\|ms\|n\|pc\|pt\|px\|rad\|rem\|s\)"
-
-"=A U R A L  P R O P S + V A L U E S
-"----------------------------------------------------------------------------"
-
-syn keyword cssAuralProp contained azimuth
-                                 \ cue
-                                 \ cue-after
-                                 \ cue-before
-                                 \ elevation
-                                 \ pause 
-                                 \ pause-after
-                                 \ pause-before
-                                 \ pitch
-                                 \ pitch-range
-                                 \ play-during
-                                 \ richness
-                                 \ speak
-                                 \ speak-header
-                                 \ speak-numeral
-                                 \ speak-punctuation
-                                 \ speech-rate
-                                 \ stress
-                                 \ voice-family
-                                 \ volume
-
-syn match cssAuralVal contained "\<\(above\|always\|angle\|behind\|below\|
-                                 \center\|center-left\|center-right\|code\|
-                                 \continuous\|digits\|far-left\|far-right\|
-                                 \fast\|faster\|high\|higher\|left\|left-side\|
-                                 \leftwards\|level\|loud\|low\|lower\|medium\|
-                                 \mix\|normal\|once\|repeat\|right\|right-side\|
-                                 \rightwards\|silent\|slow\|slower\|soft\|
-                                 \spell-out\|\(x-\)\=\(fast\|high\|loud\|low\|
-                                 \slow\|soft\)\)\>"
 
 "=B A C K G R O U N D  and  B O R D E R S  M O D U L E       W3C CR 2/15/2011
 "----------------------------------------------------------------------------"
@@ -211,7 +191,7 @@ syn keyword cssBgProp contained background
                               \ box-shadow
 
 syn match cssBgVal contained "\<\(center\|contain\|cover\|clone\|fixed\|no-repeat\|
-                              \scroll\|repeat-x\|repeat-y\|round\|slice\|space\)\>"
+                              \repeat-x\|repeat-y\|round\|slice\|space\)\>"
 
 "=BO X  P R O P S + V A L U E S
 "----------------------------------------------------------------------------"
@@ -317,7 +297,7 @@ syn match cssFontVal contained "\<\(additional-ligatures\|all-petite-caps\|
                                 \historical-forms\|historical-ligatures\|
                                 \hojo-kanji\|icon\|italic\|jis78\|jis83\|
                                 \jis90\|jis04\|large\|larger\|lighter\|
-                                \lining-nums\|medium\|menu\|message-box\|
+                                \lining-nums\|menu\|message-box\|
                                 \monospace\|nlckanji\|no-additional-ligatures\|
                                 \no-contextual\|no-common-ligatures\|
                                 \no-historical-ligatures\|normal\|oblique\|
@@ -352,6 +332,18 @@ syn match cssGenContentVal contained "\<\(armenian\|circle\|decimal\(-leading-ze
                                       \close\)-quote\|square\|\(hiragana\|
                                       \katakana\)\(-iroha\)\=\)\>"
 
+"=M A R Q U E E  M O D U L E                                 W3C CR 12/5/2008
+"----------------------------------------------------------------------------"
+
+syn keyword cssMarqProp contained marquee-direction
+                                \ marquee-play-count
+                                \ marquee-speed
+                                \ marquee-style
+                                \ overflow-style
+
+syn match cssMarqValue contained "\<\(alternate\|forward\|marquee-block\|marquee-line\|slide\|reverse\)\>"
+
+
 "=P A G E  P R O P S + V A L U E S
 "----------------------------------------------------------------------------"
 
@@ -380,13 +372,47 @@ syn keyword cssRenderProp contained bottom
                                   \ top 
                                   \ white-space 
 
-syn match cssRenderVal contained "\<\(absolute\|block\|bidi-override\|bottom\|
+syn match cssRenderVal contained "\<\(block\|bidi-override\|bottom\|
                                    \compact\|embed\|fixed\|inline\|inline-block\|
                                    \inline-table\|left\|list-item\|ltr\|marker\|
                                    \nowrap\|pre\|relative\|right\|rtl\|run-in\|
                                    \static\|table\(-\(row-group\|\(header\|
                                    \footer\)-group\|row\|column\(-group\)\=\|
                                    \cell\|caption\)\)\=\|top\)\>" 
+
+"=S P E E C H  M O D U L E                                   W3C WD 8/18/2011
+"----------------------------------------------------------------------------"
+
+syn keyword cssSpeechProp contained cue
+                                  \ cue-after
+                                  \ cue-before
+                                  \ pause 
+                                  \ pause-after
+                                  \ pause-before
+                                  \ play-during
+                                  \ richness
+                                  \ rest
+                                  \ rest-after
+                                  \ rest-before
+                                  \ speak
+                                  \ speak-as
+                                  \ voice-balance
+                                  \ voice-duration
+                                  \ voice-family
+                                  \ voice-rate
+                                  \ voice-pitch
+                                  \ voice-range
+                                  \ voice-stress
+                                  \ voice-volume
+
+syn match cssSpeechVal contained "\<\(child\|code\|continuous\|digits\|
+                                 \faster\|female\|high\|literal-punctuation\|
+                                 \leftwards\|loud\|low\|lower\|male\|mix\|
+                                 \moderate\|neutral\|no-punctuation\|normal\|
+                                 \old\|preserve\|rightwards\|silent\|slower\|
+                                 \soft\|spell-out\|\(x-\)\=\(fast\|high\|
+                                 \loud\|low\|reduced\|soft\|strong\|young\|
+                                 \weak\)\)\>"
 
 "=T A B L E  P R O P S + V A L U E S
 "----------------------------------------------------------------------------"
@@ -429,6 +455,11 @@ syn keyword cssUIProp contained appearance
                               \ box-sizing
                               \ cursor
                               \ icon
+                              \ nav-index
+                              \ nav-up
+                              \ nav-right
+                              \ nav-down
+                              \ nav-left
                               \ outline-color
                               \ outline-offset
                               \ outline-style
@@ -466,6 +497,7 @@ syn match cssUIVal contained "\<\(button\|checkbox\|check-box-group\|
 
 hi def link cssComment Comment
 hi def link cssTagName Statement
+hi def link cssAttrSelectorOp Special
 hi def link cssSelectorOp Special
 hi def link cssFontProp StorageClass
 hi def link cssColorProp StorageClass
@@ -473,7 +505,7 @@ hi def link cssTextProp StorageClass
 hi def link cssBoxProp StorageClass
 hi def link cssBgProp StorageClass
 hi def link cssRenderProp StorageClass
-hi def link cssAuralProp StorageClass
+hi def link cssSpeechProp StorageClass
 hi def link cssRenderProp StorageClass
 hi def link cssGenContentProp StorageClass
 hi def link cssPagingProp StorageClass
@@ -484,7 +516,7 @@ hi def link cssColorVal Type
 hi def link cssTextVal Type
 hi def link cssBoxVal Type
 hi def link cssRenderVal Type
-hi def link cssAuralVal Type
+hi def link cssSpeechVal Type
 hi def link cssGenContentVal Type
 hi def link cssPageVal Type
 hi def link cssTableVal Type
