@@ -112,7 +112,7 @@ syn keyword cssMediaType all
 "----------------------------------------------------------------------------"
 
 syn region cssDecBlock transparent matchgroup=cssBraces start='{' end='}' 
-\ contains=cssProp,cssVal,css.*Error
+\ contains=cssProp,cssVal,cssBraceError
 \ keepend
 
 syn region cssProp start="\(^\|\(\;\s*\)\@<=\w\|\({\s*\)\@<=\w\)" 
@@ -142,7 +142,7 @@ syn region cssFuncVal transparent contained matchgroup=cssFuncValName
 
 syn match cssImportantVal contained "!\s*important\>"
 
-syn match cssCommonVal contained "\<\(auto\|none\|inherit\)\>"
+syn match cssSharedVal contained "\<\(auto\|border-box\|content-box\|inherit\|none\|padding-box\)\>"
 
 syn match cssUnicodeVal contained "\(U+[0-9A-Fa-f?]\+[+-][0-9A-Fa-f?]\+
                                    \\|U+[0-9A-Fa-f?]\+\|\\\x\{1,6\}\(\w\|
@@ -187,41 +187,39 @@ syn match cssAuralVal contained "\<\(above\|always\|angle\|behind\|below\|
                                  \spell-out\|\(x-\)\=\(fast\|high\|loud\|low\|
                                  \slow\|soft\)\)\>"
 
-"=B A C K G R O U N D  P R O P S + V A L U E S
+"=B A C K G R O U N D  and  B O R D E R S  M O D U L E       W3C CR 2/15/2011
 "----------------------------------------------------------------------------"
+
+syn match cssBgProp contained "\<\(border\(-\(top\|right\|bottom\|left\)\)
+                               \\=\(-\(color\|style\|width\)\)\=\)\>"
+
+syn match cssBgProp contained "\<\(border-radius\(-\(bottom\|top\)\(-\(left\|
+                               \right\)\)\)\=\)\|\(border-image\(-\(outset\|
+                               \repeat\|slice\|source\|width\)\)\=\)\>"
 
 syn keyword cssBgProp contained background
                               \ background-attachment
-                              \ backgroun-clip
+                              \ background-clip
                               \ background-color
                               \ background-image
                               \ background-origin
                               \ background-position
                               \ background-repeat
                               \ background-size
+                              \ box-decoration-break
+                              \ box-shadow
 
-syn match cssBgVal contained "\<\(center\|contain\|cover\|fixed\|no-repeat\|
-                              \scroll\|repeat-x\|repeat-y\|round\|space\)\>"
+syn match cssBgVal contained "\<\(center\|contain\|cover\|clone\|fixed\|no-repeat\|
+                              \scroll\|repeat-x\|repeat-y\|round\|slice\|space\)\>"
 
-"=B O X  P R O P S + V A L U E S
+"=BO X  P R O P S + V A L U E S
 "----------------------------------------------------------------------------"
 
-syn match cssBoxProp contained "\<\(border\(-\(top\|right\|bottom\|left\)\)\
-                                \=\(-\(color\|style\|width\)\)\=\|outline\
-                                \(-\(color\|style\|width\)\)\=\)\>"
-
-
-syn match cssBoxProp contained "\<\(border-radius\(-\(bottom\|top\)\(-\(left\|
-                                \right\)\)\)\=\)\|\(border-image\(-\(outset\|
-                                \repeat\|slice\|source\|width\)\)\=\)\>"
 
 syn match cssBoxProp contained "\<\(\(margin\|padding\)\(-\(top\|right\|
                                 \bottom\|left\)\)\=\)\>" 
 
-syn keyword cssBoxProp contained box-sizing
-                               \ box-decoration-break
-                               \ box-shadow
-                               \ clear 
+syn keyword cssBoxProp contained clear 
                                \ clip
                                \ float 
                                \ height 
@@ -237,10 +235,10 @@ syn keyword cssBoxProp contained box-sizing
                                \ z-index
                                \ zoom
 
-syn match cssBoxVal contained "\<\(border-box\|clone\|collapse\|content-box\|dashed\|
-                               \dotted\|double\|fill\|groove\|hidden\|inset\|invert\|
-                               \outset\|outset\|padding-box\|ridge\|scroll\|solid\|
-                               \slice\|stretch\|thick\|thin\|visible\)\>"
+syn match cssBoxVal contained "\<\(collapse\|dashed\|dotted\|double\|fill\|
+                               \groove\|hidden\|inset\|invert\|
+                               \outset\|outset\|ridge\|scroll\|solid\|
+                               \stretch\|thick\|thin\|visible\)\>"
 
 "=C O L O R  P R O P S + V A L U E S 
 "----------------------------------------------------------------------------"
@@ -422,13 +420,22 @@ syn match cssTextVal contained "\<\(baseline\|blink\|capitalize\|center\|
                                  \text-bottom\|text-top\|underline\|
                                  \uppercase\)\>" 
 
-"=U S E R  I N T E R F A C E  P R O P S + V A L U E S
+"=BA S I C  U S E R  I N T E R F A C E  M O D U L E          W3C CR 5/11/2004
 "----------------------------------------------------------------------------"
 
-syn keyword cssUIProp contained cursor
+syn keyword cssUIProp contained appearance
+                              \ box-sizing
+                              \ cursor
+                              \ icon
+                              \ outline-color
+                              \ outline-offset
+                              \ outline-style
+                              \ outline-width
+                              \ resize
 
-syn match cssUIVal contained "\<\(default\|crosshair\|progress\|pointer\|
-                               \move\|wait\|help\|\([ns]\=[ew]\=-resize\)\)\>"
+syn match cssUIVal contained "\<\(both\|crosshair\|crosshair\|help\|horizontal\|
+                              \move\|pointer\|progress\|text\|vertica\|
+                              \wait\|\([ns]\=[ew]\=-resize\)\)\>"
 
 "=D E F A U L T  H I G H L I G H T  G R O U P S`
 "----------------------------------------------------------------------------"
@@ -469,7 +476,6 @@ hi def link cssIdName Function
 hi def link cssImportantVal Special
 hi def link cssBraces Function
 hi def link cssBraceError Error
-hi def link cssError Error
 hi def link cssQuo String
 hi def link cssUnicodeVal Constant
 hi def link cssClassName Function
