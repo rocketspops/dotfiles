@@ -28,8 +28,8 @@ syn region cssQuo           keepend
 "=B A S I C  S E L E C T O R S
 "----------------------------------------------------------------------------"
 
-syn match cssSelectorOp     "[*+>.,_|~-]"
-syn match cssAttrSelectorOp "[=*~|$^]"
+syn match cssSelectOp       "[*+>.,_|~-]"
+syn match cssAttrSelectOp   "[=*~|$^]"
 syn match cssIdName         "#[A-Za-z_][A-Za-z0-9_-]*"
 syn match cssClassName      "\.[A-Za-z][A-Za-z0-9_-]*"
 
@@ -49,8 +49,8 @@ syn keyword cssTagName      a abbr acronym address applet area article
                           \ textarea tfoot th thead time title tr tt ul 
                           \ u var variant video xmp 
 
-syn region cssAttrSelector  contains=cssAttrSelectorOp,cssQuo
-                          \ matchgroup=cssAttrSelector 
+syn region cssAttrSelect    contains=cssAttrSelectOp,cssQuo
+                          \ matchgroup=cssAttrSelect 
                           \ start="\[" 
                           \ end="]" 
                           \ transparent 
@@ -97,7 +97,7 @@ syn match cssPseudoClass    "\(\S\)\@<=\(:active\|
                             \:valid\|
                             \:visited\)"
 
-syn region cssPseudoClass   contains=cssNumVal,cssUnitVal,cssSelectorOp
+syn region cssPseudoClass   contains=cssNumVal,cssUnitVal,cssSelectOp
                           \ keepend
                           \ matchgroup=cssPseudoClassExpr 
                           \ oneline
@@ -184,7 +184,7 @@ syn region cssFuncVal transparent contained matchgroup=cssFuncValName
 \ start="\<\(annotation\|attr\|clip\|character-variant\|counter\|format\|
          \hsl\|hsla\|local\|ornaments\|rgb\|rgba\|rect\|stylistic\|
          \styleset\|swash\|uri\|url\)(" end=")"
-\ contains=cssQuo,cssSelectorOp,cssNumVal
+\ contains=cssQuo,cssSelectOp,cssNumVal
 \ oneline keepend
 
 syn match cssImportantVal contained "!\s*important\>"
@@ -571,8 +571,8 @@ syn match cssUIVal contained "\<\(button\|checkbox\|check-box-group\|
 
 hi def link cssComment Comment
 hi def link cssTagName Statement
-hi def link cssAttrSelectorOp Special
-hi def link cssSelectorOp Special
+hi def link cssAttrSelectOp Special
+hi def link cssSelectOp Special
 hi def link cssFontProp StorageClass
 hi def link cssColorProp StorageClass
 hi def link cssTextProp StorageClass
