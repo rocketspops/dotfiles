@@ -16,135 +16,166 @@ syn sync fromstart
 "=G L O B A L
 "----------------------------------------------------------------------------"
 
-syn region cssComment start="/\*" end="\*/" keepend 
-syn region cssQuo start=+\'\|\"+ skip=+\\'\|\\"+ end=+\'\|\"+ keepend 
+syn region cssComment       keepend 
+                          \ start="/\*" 
+                          \ end="\*/" 
+
+syn region cssQuo           keepend 
+                          \ start=+\'\|\"+ 
+                          \ skip=+\\'\|\\"+ 
+                          \ end=+\'\|\"+ 
 
 "=B A S I C  S E L E C T O R S
 "----------------------------------------------------------------------------"
 
-syn keyword cssTagName a abbr acronym address applet area article
-                     \ aside audio b base basefont bdo big blockquote
-                     \ body br button canvas caption center cite code
-                     \ col colgroup command datalist dd del details
-                     \ dfn dir div dl dt em embed fieldset font form
-                     \ figcaption figure footer frame frameset h1 h2 
-                     \ h3 h4 h5 h6 head header hgroup hr html img i
-                     \ iframe img input ins isindex kbd keygen label
-                     \ legend li link map mark menu meta meter nav
-                     \ noframes noscript object ol optgroup option 
-                     \ output p param pre progress q rp rt ruby s
-                     \ samp script section select small span strike
-                     \ strong style sub summary sup table tbody td 
-                     \ textarea tfoot th thead time title tr tt ul 
-                     \ u var variant video xmp 
-
-syn match cssSelectorOp "[*+>.,_|~-]"
+syn match cssSelectorOp     "[*+>.,_|~-]"
 syn match cssAttrSelectorOp "[=*~|$^]"
-syn match cssIdName "#[A-Za-z_][A-Za-z0-9_-]*"
-syn match cssClassName "\.[A-Za-z][A-Za-z0-9_-]*"
+syn match cssIdName         "#[A-Za-z_][A-Za-z0-9_-]*"
+syn match cssClassName      "\.[A-Za-z][A-Za-z0-9_-]*"
 
-syn region cssAttrSelector matchgroup=cssAttrSelector start="\[" end="]" 
-\ contains=cssAttrSelectorOp,cssQuo
-\ transparent 
+syn keyword cssTagName      a abbr acronym address applet area article
+                          \ aside audio b base basefont bdo big blockquote
+                          \ body br button canvas caption center cite code
+                          \ col colgroup command datalist dd del details
+                          \ dfn dir div dl dt em embed fieldset font form
+                          \ figcaption figure footer frame frameset h1 h2 
+                          \ h3 h4 h5 h6 head header hgroup hr html img i
+                          \ iframe img input ins isindex kbd keygen label
+                          \ legend li link map mark menu meta meter nav
+                          \ noframes noscript object ol optgroup option 
+                          \ output p param pre progress q rp rt ruby s
+                          \ samp script section select small span strike
+                          \ strong style sub summary sup table tbody td 
+                          \ textarea tfoot th thead time title tr tt ul 
+                          \ u var variant video xmp 
+
+syn region cssAttrSelector  contains=cssAttrSelectorOp,cssQuo
+                          \ matchgroup=cssAttrSelector 
+                          \ start="\[" 
+                          \ end="]" 
+                          \ transparent 
 
 "=P S E U D O  C L A S S  S E L E C T O R S 
 "----------------------------------------------------------------------------"
 
-syn match cssPseudoClassSelector "\(:[a-z\-]\+\|::[a-z\-]\+\)" 
-\ contains=cssPseudoClass,cssPseudoClassExpression
+syn match cssPseudoClass    "\(\S\)\@<=\(:active\| 
+                            \:after\| 
+                            \:before\|
+                            \:checked\|
+                            \:choices\|
+                            \:default\|
+                            \:disabled\|
+                            \:empty\|
+                            \:enabled\|
+                            \:first\|
+                            \:first-child\|
+                            \:first-letter\|
+                            \:first-line\|
+                            \:first-of-type\|
+                            \:focus\|
+                            \:hover\|
+                            \:in-range\|
+                            \:indeterminate\|
+                            \:invalid\|
+                            \:last-child\|
+                            \:last-of-type\|
+                            \:left\|
+                            \:link\|
+                            \:optional\|
+                            \:only-of-type\|
+                            \:out-of-range\|
+                            \:read-only\|
+                            \:read-write\|
+                            \:repeat-index\|
+                            \:repeat-item\|
+                            \:required\|
+                            \:right\|
+                            \:root\|
+                            \::selection\|
+                            \:target\|
+                            \:value\|
+                            \:valid\|
+                            \:visited\)"
 
-syn keyword cssPseudoClass contained active
-                                   \ after 
-                                   \ before 
-                                   \ checked
-                                   \ choices
-                                   \ default
-                                   \ disabled
-                                   \ empty
-                                   \ enabled
-                                   \ first
-                                   \ first-child
-                                   \ first-letter
-                                   \ first-line
-                                   \ first-of-type
-                                   \ focus 
-                                   \ hover 
-                                   \ in-range
-                                   \ indeterminate
-                                   \ invalid
-                                   \ last-child
-                                   \ last-of-type
-                                   \ left
-                                   \ link 
-                                   \ optional
-                                   \ only-of-type
-                                   \ out-of-range
-                                   \ read-only
-                                   \ read-write
-                                   \ repeat-index
-                                   \ repeat-item
-                                   \ required
-                                   \ right
-                                   \ root
-                                   \ selection
-                                   \ target
-                                   \ value
-                                   \ valid
-                                   \ visited 
-
-syn region cssPseudoClassExpression contained matchgroup=cssPseudoClass 
-\ start="\(:lang\|:nth-child\|:nth-of-type\|:nth-last-of-type\|
-         \:nth-last-child\|:not\)(" end=")" 
-\ contains=cssNumVal,cssUnitVal,cssSelectorOp
-\ keepend oneline
+syn region cssPseudoClass   contains=cssNumVal,cssUnitVal,cssSelectorOp
+                          \ keepend
+                          \ matchgroup=cssPseudoClassExpr 
+                          \ oneline
+                          \ start="\(:lang\|
+                                   \:nth-child\|
+                                   \:nth-of-type\|
+                                   \:nth-last-of-type\|
+                                   \:nth-last-child\|
+                                   \:not\)(" 
+                          \ end=")" 
 
 "=A T  R U L E  S E L E C T O R 
 "----------------------------------------------------------------------------"
 
-syn keyword cssAtRule @charset 
-                    \ @color-profile
-                    \ @font-face 
-                    \ @import
-                    \ @media
-                    \ @namespace
-                    \ @page 
+syn region cssAtRuleUrl     contains=cssQuo
+                          \ keepend 
+                          \ oneline
+                          \ start="url(" 
+                          \ end=")"
 
-syn region cssAtRuleUrl start="url(" end=")"
-\ contains=cssQuo
-\ keepend oneline
+syn keyword cssAtRule       @bottom-center
+                          \ @bottom-left
+                          \ @bottom-left-corner
+                          \ @bottom-right
+                          \ @bottom-right-corner
+                          \ @charset 
+                          \ @color-profile
+                          \ @font-face 
+                          \ @import
+                          \ @media
+                          \ @namespace
+                          \ @page 
+                          \ @top-center
+                          \ @top-left
+                          \ @top-left-corner
+                          \ @top-right
+                          \ @top-right-corner
 
-syn keyword cssMediaType all
-                       \ braille
-                       \ embossed
-                       \ handheld
-                       \ print
-                       \ projection
-                       \ screen
-                       \ speech
-                       \ tty
-                       \ tv
+syn keyword cssMediaType    all
+                          \ braille
+                          \ embossed
+                          \ handheld
+                          \ print
+                          \ projection
+                          \ screen
+                          \ speech
+                          \ tty
+                          \ tv
 
 "=D E C L A R A T I O N  B L O C K
 "----------------------------------------------------------------------------"
 
-syn region cssDecBlock transparent matchgroup=cssBraces start='{' end='}' 
-\ contains=cssProp,cssVal,cssBraceError
-\ keepend
+syn region cssDecBlock      contains=cssProp,cssVal,cssBraceError
+                          \ keepend
+                          \ matchgroup=cssBraces 
+                          \ start='{' 
+                          \ end='}'
+                          \ transparent
 
-syn region cssProp start="\(^\|\(\;\s*\)\@<=\w\|\({\s*\)\@<=\w\)" 
-\ end="\w\(\:\)\@="
-\ contains=@cssPropGroup
-\ contained keepend oneline
+syn region cssProp          contained
+                          \ contains=@cssPropGroup
+                          \ keepend
+                          \ start="\(^\|\(\;\s*\)\@<=\w\|\({\s*\)\@<=\w\)" 
+                          \ end="\w\(\:\)\@="
+                          \ oneline
 
-syn region cssVal matchgroup=cssValPunc start="\:" end="\;" 
-\ contains=@cssValGroup
-\ contained keepend 
+syn region cssVal           contained
+                          \ contains=@cssValGroup
+                          \ keepend
+                          \ matchgroup=cssValPunc 
+                          \ start="\:" 
+                          \ end="\;" 
 
-syn cluster cssValGroup contains=css.*Val,css.*Quo
-syn cluster cssPropGroup contains=css.*Prop
+syn cluster cssValGroup     contains=css.*Val,css.*Quo
+syn cluster cssPropGroup    contains=css.*Prop
 
-syn match cssBraceError contained "{"
-syn match cssBraceError "}"
+syn match cssBraceError     contained "{"
+syn match cssBraceError     "}"
 
 "=G L O B A L  P R O P S + V A L U E S
 "----------------------------------------------------------------------------"
@@ -172,15 +203,12 @@ syn match cssNumVal contained "[-]\=\d\+\(\.\d*\)\="
 syn match cssUnitVal contained "\(\d\)\@<=\(%\|cm\|deg\|em\|ex\|grad\|kHz\|
                                 \Hz\|in\|mm\|ms\|n\|pc\|pt\|px\|rad\|rem\|s\)"
 
+
 "=B A C K G R O U N D  and  B O R D E R S  M O D U L E       W3C CR 2/15/2011
 "----------------------------------------------------------------------------"
 
 syn match cssBgProp contained "\<\(border\(-\(top\|right\|bottom\|left\)\)
                                \\=\(-\(color\|style\|width\)\)\=\)\>"
-
-syn match cssBgProp contained "\<\(border-radius\(-\(bottom\|top\)\(-\(left\|
-                               \right\)\)\)\=\)\|\(border-image\(-\(outset\|
-                               \repeat\|slice\|source\|width\)\)\=\)\>"
 
 syn keyword cssBgProp contained background
                               \ background-attachment
@@ -191,23 +219,36 @@ syn keyword cssBgProp contained background
                               \ background-position
                               \ background-repeat
                               \ background-size
+                              \ border-image
+                              \ border-image-outset
+                              \ border-image-repeat
+                              \ border-image-slice
+                              \ border-image-source
+                              \ border-image-width
+                              \ border-radius
+                              \ border-radius-bottom-left
+                              \ border-radius-bottom-right
+                              \ border-radius-top-left
+                              \ border-radius-top-right
                               \ box-decoration-break
                               \ box-shadow
 
 syn match cssBgVal contained "\<\(center\|contain\|cover\|clone\|fixed\|no-repeat\|
                               \repeat-x\|repeat-y\|round\|slice\|space\)\>"
 
+
 "=BO X  P R O P S + V A L U E S
 "----------------------------------------------------------------------------"
-
-
-syn match cssBoxProp contained "\<\(\(margin\|padding\)\(-\(top\|right\|
-                                \bottom\|left\)\)\=\)\>" 
 
 syn keyword cssBoxProp contained clear 
                                \ clip
                                \ float 
                                \ height 
+                               \ margin
+                               \ margin-bottom
+                               \ margin-left
+                               \ margin-right
+                               \ margin-top
                                \ max-height
                                \ max-width
                                \ min-height
@@ -215,6 +256,11 @@ syn keyword cssBoxProp contained clear
                                \ overflow
                                \ overflow-x
                                \ overflow-y
+                               \ padding
+                               \ padding-bottom
+                               \ padding-left
+                               \ padding-right
+                               \ padding-top
                                \ visibility
                                \ width
                                \ z-index
@@ -224,6 +270,7 @@ syn match cssBoxVal contained "\<\(collapse\|dashed\|dotted\|double\|fill\|
                                \groove\|hidden\|inset\|invert\|
                                \outset\|outset\|ridge\|scroll\|solid\|
                                \stretch\|thick\|thin\|visible\)\>"
+
 
 "C S S 3  =C O L O R  M O D U L E                              W3C R 6/7/2011 
 "----------------------------------------------------------------------------"
@@ -265,6 +312,7 @@ syn keyword cssColorVal contained aliceblue antiquewhite aqua aquamarine azure
 syn match cssColorVal contained "\<transparent\>"
 syn match cssColorVal contained "#[0-9A-Fa-f]\{3}"
 syn match cssColorVal contained "#[0-9A-Fa-f]\{6}"
+
 
 "=F O N T  P R O P S + V A L U E S
 "----------------------------------------------------------------------------"
@@ -316,6 +364,7 @@ syn match cssFontVal contained "\<\(additional-ligatures\|all-petite-caps\|
                                 \-\)\=\(condensed\|expanded\)\|x-large\|
                                 \x-small\|xx-large\|xx-small\)\>"
 
+
 "C S S 2.1  =G E N E R A T E D  C O N T E N T                  W3C R 6/7/2011
 "----------------------------------------------------------------------------"
 
@@ -336,6 +385,7 @@ syn match cssGenConVal contained "\<\(armenian\|circle\|decimal\(-leading-zero\)
                                   \close\)-quote\|square\|\(hiragana\|
                                   \katakana\)\(-iroha\)\=\)\>"
 
+
 "C S S 3  =M A R Q U E E  M O D U L E                        W3C CR 12/5/2008
 "----------------------------------------------------------------------------"
 
@@ -345,7 +395,9 @@ syn keyword cssMarqProp contained marquee-direction
                                 \ marquee-style
                                 \ overflow-style
 
-syn match cssMarqValue contained "\<\(alternate\|forward\|marquee-block\|marquee-line\|slide\|reverse\)\>"
+syn match cssMarqValue contained "\<\(alternate\|forward\|marquee-block\|
+                                  \marquee-line\|slide\|reverse\)\>"
+
 
 "C S S 3  =MU L T I - C O L U M N  L A Y O U T  M O D U L E  W3C CR 3/12/2011
 "----------------------------------------------------------------------------"
