@@ -255,6 +255,7 @@ syn keyword cssAtRule       @bottom-center
                           \ @bottom-right-corner
                           \ @charset 
                           \ @color-profile
+                          \ @document
                           \ @font-face 
                           \ @import
                           \ @left-top
@@ -266,6 +267,7 @@ syn keyword cssAtRule       @bottom-center
                           \ @right-top
                           \ @right-middle
                           \ @right-bottom
+                          \ @supports
                           \ @top-center
                           \ @top-left
                           \ @top-left-corner
@@ -330,13 +332,20 @@ syn region cssFuncVal       contained
                                      \clip\|
                                      \character-variant\|
                                      \counter\|format\|
+                                     \cross-fade\|
+                                     \element\|
                                      \hsl\|
                                      \hsla\|
+                                     \image\|
+                                     \linear-gradient\|
                                      \local\|
                                      \ornaments\|
+                                     \radial-gradient\|
+                                     \repeating-linear-gradient\|
+                                     \repeating-radial-gradient\|
+                                     \rect\|
                                      \rgb\|
                                      \rgba\|
-                                     \rect\|
                                      \stylistic\|
                                      \styleset\|
                                      \swash\|
@@ -350,9 +359,11 @@ syn match cssImportantVal   contained "!\s*important\>"
 syn match cssSharedVal      contained 
                           \ "\<\(above\|
                             \absolute\|
+                            \after\|
                             \always\|
                             \auto\|
                             \avoid\|
+                            \before\|
                             \border-box\|
                             \bottom\|
                             \center\|
@@ -361,10 +372,13 @@ syn match cssSharedVal      contained
                             \column\|
                             \content-box\|
                             \digits\|
+                            \end\|
                             \fast\|
                             \fill-available\|
                             \fit-content\|
                             \hidden\|
+                            \inline\|
+                            \intial\|
                             \left\|
                             \inherit\|
                             \none\|
@@ -379,6 +393,7 @@ syn match cssSharedVal      contained
                             \scroll\|
                             \slice\|
                             \slow\
+                            \start\|
                             \top\)\>"
 
 syn match cssUnicodeVal     contained 
@@ -394,6 +409,9 @@ syn match cssUnitVal        contained
                             \ch\|
                             \cm\|
                             \deg\|
+                            \dpi\|
+                            \dpcm\|
+                            \dppx\|
                             \em\|
                             \ex\|
                             \grad\|
@@ -787,6 +805,24 @@ syn match cssFontVal        contained
                             \x-large\|x-small\|xx-large\|xx-small\)\>"
 
 
+"C S S 3  =I M A G E S  M O D U L E                          W3C WD 7/12/2011
+"----------------------------------------------------------------------------"
+
+syn keyword cssImgProp      contained
+                          \ image-orientation
+                          \ image-rendering
+                          \ image-resolution
+                          \ object-fit
+                          \ object-position
+
+syn match cssImgVal         contained
+                          \ "\<\(contain\|
+                            \cover\|
+                            \crisp-rendering\|
+                            \fill\|
+                            \from-image\|
+                            \scale-down\)\>"
+
 "C S S 2.1  =G E N E R A T E D  C O N T E N T                  W3C R 6/7/2011
 "----------------------------------------------------------------------------"
 
@@ -908,7 +944,6 @@ syn match cssRenderVal      contained
                             \compact\|
                             \embed\|
                             \fixed\|
-                            \inline\|
                             \inline-block\|
                             \inline-table\|
                             \list-item\|
@@ -920,6 +955,21 @@ syn match cssRenderVal      contained
                             \table\(-\(row-group\|\(header\|footer\)
                             \-group\|row\|column\(-group\)\=\|
                             \cell\|caption\)\)\=\)\>" 
+
+"C S S 3  =R U B Y  M O D U L E                              W3C WD 6/30/2011
+"----------------------------------------------------------------------------"
+
+syn keyword cssRubyProp     contained
+                          \ ruby-align
+                          \ ruby-overhang
+                          \ ruby-position
+                          \ ruby-span
+
+syn match cssRubyVal        contained
+                          \ "\<\(distribute-letter\|
+                            \distribute-space\|
+                            \line-edge\)\>"
+
 
 "C S S 3  =S P E E C H  M O D U L E                          W3C WD 8/18/2011
 "----------------------------------------------------------------------------"
@@ -1053,7 +1103,6 @@ syn match cssTextVal        contained
                             \dot\|
                             \each-line\|
                             \edges\|
-                            \end\|
                             \filled\|
                             \first\|
                             \force-end\|
@@ -1101,7 +1150,6 @@ syn match cssTextVal        contained
                             \space-start\|
                             \space-end\|
                             \spread\|
-                            \start\|
                             \strict\|
                             \sub\|
                             \super\|
@@ -1221,13 +1269,10 @@ syn keyword cssWritingProp  contained
                           \ unicode-bidi
                           \ writing-mode
 
-
 syn match cssWritingVal     contained
-                          \ "\<\(after\|
-                            \alpha\|
+                          \ "\<\(alpha\|
                             \alphanumeric\|
                             \ascii-digits\|
-                            \before\|
                             \bidi-override\|
                             \compress\|
                             \embed\|
