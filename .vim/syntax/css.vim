@@ -253,13 +253,17 @@ syn region cssFuncVal       contained
 syn match cssImportantVal   contained "!\s*important\>"
 
 syn match cssSharedVal      contained 
-                          \ "\<\(absolute\|
+                          \ "\<\(above\|
+                            \absolute\|
                             \always\|
                             \auto\|
                             \avoid\|
                             \border-box\|
                             \bottom\|
                             \center\|
+                            \circle\|
+                            \collapse\|
+                            \column\|
                             \content-box\|
                             \fast\|
                             \hidden\|
@@ -269,6 +273,8 @@ syn match cssSharedVal      contained
                             \normal\|
                             \medium\|
                             \padding-box\|
+                            \page\|
+                            \preserve\|
                             \right\|
                             \scroll\|
                             \slice\|
@@ -381,8 +387,7 @@ syn keyword cssBoxProp      contained
                           \ z-index
 
 syn match cssBoxVal         contained 
-                          \ "\<\(collapse\|
-                            \dashed\|
+                          \ "\<\(dashed\|
                             \dotted\|
                             \double\|
                             \fill\|
@@ -592,7 +597,6 @@ syn keyword cssGenConProp   contained
                                        
 syn match cssGenConVal      contained 
                           \ "\<\(armenian\|
-                            \circle\|
                             \cjk-ideographic\|
                             \decimal\(-leading-zero\)\|
                             \disc\|
@@ -646,9 +650,7 @@ syn match cssMultiColVal    contained
                           \ "\<\(all\|
                             \avoid-page\|
                             \avoid-column\|
-                            \balance\|
-                            \column\|
-                            \page\)\>"
+                            \balance\)\>"
 
 "C S S 3  =P A G E D  M E D I A  M O D U L E                   W3C WD 6/7/2011
 "----------------------------------------------------------------------------"
@@ -694,7 +696,6 @@ syn keyword cssRenderProp   contained
                           \ position 
                           \ right 
                           \ top 
-                          \ white-space 
 
 syn match cssRenderVal      contained 
                           \ "\<\(block\|
@@ -708,8 +709,6 @@ syn match cssRenderVal      contained
                             \list-item\|
                             \ltr\|
                             \marker\|
-                            \nowrap\|
-                            \pre\|
                             \relative\|
                             \rtl\|
                             \run-in\|
@@ -765,7 +764,6 @@ syn match cssSpeechVal      contained
                             \no-punctuation\|
                             \normal\|
                             \old\|
-                            \preserve\|
                             \rightwards\|
                             \silent\|
                             \slower\|
@@ -788,45 +786,135 @@ syn keyword cssTableProp    contained
 
 syn match cssTableVal       contained 
                           \ "\<\(fixed\|
-                            \collapse\|
                             \separate\|
                             \show\|
                             \hide\|
                             \once\)\>"
 
-"=T E X T  P R O P S + V A L U E S
+"C S S 3  =TE X T  M O D U L E                               W3C WD 9/01/2011 
 "----------------------------------------------------------------------------"
 
 syn keyword cssTextProp     contained 
+                          \ hanging-punctuation
+                          \ hyphens
+                          \ hyphenate-character
+                          \ hyphenate-limit-chars
+                          \ hyphenate-limit-lines
+                          \ hyphentate-limit-last
+                          \ hyphenate-limit-zone
+                          \ line-break
                           \ letter-spacing
                           \ line-height
+                          \ overflow-wrap
+                          \ tab-size
                           \ text-align 
+                          \ text-align-last
                           \ text-decoration 
+                          \ text-decoration-color
+                          \ text-decoration-skip
+                          \ text-decoration-style
+                          \ text-emphasis
+                          \ text-emphasis-color
+                          \ text-emphasis-position
+                          \ text-emphasis-skip
+                          \ text-emphasis-style
                           \ text-indent
+                          \ text-justify
                           \ text-rendering
                           \ text-shadow
+                          \ text-spacing
+                          \ text-space-collapse 
                           \ text-transform 
+                          \ text-underline-position
+                          \ text-wrap
                           \ unicode-bidi
                           \ vertical-align
+                          \ white-space 
+                          \ word-break
                           \ word-spacing
 
 syn match cssTextVal        contained 
-                          \ "\<\(baseline\|
+                          \ "\<\(allow-end\|
+                            \alphabetic\|
+                            \baseline\|
+                            \below-left\|
+                            \below-right\|
                             \blink\|
+                            \break-all\|
+                            \break-word\|
                             \capitalize\|
                             \center\|
+                            \consume-after\|
+                            \consume-before\|
+                            \discard\|
+                            \distribute\|
+                            \double-circle\|
+                            \dot\|
+                            \each-line\|
+                            \edges\|
+                            \end\|
+                            \filled\|
+                            \first\|
+                            \force-end\|
+                            \full-width\|
+                            \full-size-kana\|
+                            \hanging\|
+                            \hyphenate\|
+                            \ideograph-alpha\|
+                            \ideograph-numeric\|
+                            \ink\|
+                            \inter-cluster\|
+                            \inter-ideograph\|
+                            \inter-word\|
                             \justify\|
+                            \kashida\|
+                            \keep-all\|
                             \line-through\|
                             \lowercase\|
+                            \loose\|
+                            \manual\|
+                            \match-parent\|
                             \middle\|
+                            \narrow\|
+                            \no-compress\|
+                            \no-line-through\|
+                            \no-overline\|
+                            \no-underline\|
+                            \nowrap\|
+                            \objects\|
+                            \open\|
                             \optimizeLegibility\|
                             \overline\|
+                            \pre\|
+                            \pre-wrap\|
+                            \pre-line\|
+                            \preserve-breaks\|
+                            \punctuation\|
+                            \remove-all\|
+                            \replace-line-through\|
+                            \replace-overline\|
+                            \replace-underline\|
+                            \sesame\|
+                            \spaces\|
+                            \space-adjacent\|
+                            \space-start\|
+                            \space-end\|
+                            \spread\|
+                            \start\|
+                            \strict\|
                             \sub\|
                             \super\|
+                            \symbols\|
                             \text-bottom\|
                             \text-top\|
+                            \triangle\|
+                            \trim-adjacent\|
+                            \trim-start\|
+                            \trim-end\|
+                            \trim-inner\|
                             \underline\|
-                            \uppercase\)\>" 
+                            \uppercase\|
+                            \wavy\)\>" 
 
 "=BA S I C  U S E R  I N T E R F A C E  M O D U L E          W3C CR 5/11/2004
 "----------------------------------------------------------------------------"
