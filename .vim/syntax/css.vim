@@ -339,6 +339,8 @@ syn region cssFuncVal       contained
                                      \image\|
                                      \linear-gradient\|
                                      \local\|
+                                     \max\|
+                                     \min\|
                                      \ornaments\|
                                      \radial-gradient\|
                                      \repeating-linear-gradient\|
@@ -414,6 +416,8 @@ syn match cssUnitVal        contained
                             \dppx\|
                             \em\|
                             \ex\|
+                            \fr\|
+                            \gr\|
                             \grad\|
                             \kHz\|
                             \Hz\|
