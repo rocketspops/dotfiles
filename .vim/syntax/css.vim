@@ -92,7 +92,7 @@ syn region cssAttrSelect    contains=cssAttrSelectOp,cssQuo
 "=P S E U D O  C L A S S  S E L E C T O R S 
 "----------------------------------------------------------------------------"
 
-syn match cssPseudoClass    "\(\S\)\@<=\(:active\| 
+syn match cssPseudoClass    "\(:active\| 
                             \:after\| 
                             \:before\|
                             \:checked\|
@@ -116,6 +116,7 @@ syn match cssPseudoClass    "\(\S\)\@<=\(:active\|
                             \:left\|
                             \:link\|
                             \:optional\|
+                            \:only-child\|
                             \:only-of-type\|
                             \:out-of-range\|
                             \:read-only\|
@@ -161,9 +162,15 @@ syn keyword cssAtRule       @bottom-center
                           \ @color-profile
                           \ @font-face 
                           \ @import
+                          \ @left-top
+                          \ @left-middle
+                          \ @left-bottom
                           \ @media
                           \ @namespace
                           \ @page 
+                          \ @right-top
+                          \ @right-middle
+                          \ @right-bottom
                           \ @top-center
                           \ @top-left
                           \ @top-left-corner
@@ -251,9 +258,11 @@ syn match cssSharedVal      contained
                             \auto\|
                             \avoid\|
                             \border-box\|
+                            \bottom\|
                             \center\|
                             \content-box\|
                             \fast\|
+                            \hidden\|
                             \left\|
                             \inherit\|
                             \none\|
@@ -262,7 +271,9 @@ syn match cssSharedVal      contained
                             \padding-box\|
                             \right\|
                             \scroll\|
-                            \slow\)\>"
+                            \slice\|
+                            \slow\
+                            \top\)\>"
 
 syn match cssUnicodeVal     contained 
                           \ "\(U+[0-9A-Fa-f?]\+[+-][0-9A-Fa-f?]\+\|
@@ -338,7 +349,6 @@ syn match cssBgVal          contained
                             \repeat-x\|
                             \repeat-y\|
                             \round\|
-                            \slice\|
                             \space\)\>"
 
 "=BO X  P R O P S + V A L U E S
@@ -377,7 +387,6 @@ syn match cssBoxVal         contained
                             \double\|
                             \fill\|
                             \groove\|
-                            \hidden\|
                             \inset\|
                             \invert\|
                             \outset\|
@@ -505,43 +514,62 @@ syn match cssFontVal        contained
                             \Verdana\)\>" 
 
 syn match cssFontVal        contained 
-                          \ "\<\(additional-ligatures\|all-petite-caps\|
+                          \ "\<\(additional-ligatures\|
+                            \all-petite-caps\|
                             \all-small-caps\|
-                            \
-                            \bold\|bolder\|
-                            \
-                            \caption\|contextual\|common-ligatures\|cursive\|
-                            \
+                            \bold\|
+                            \bolder\|
+                            \caption\|
+                            \contextual\|
+                            \common-ligatures\|
+                            \cursive\|
                             \diagonal-fractions\|
-                            \
-                            \fantasy\|full-width\|
-                            \
-                            \historical-forms\|historical-ligatures\|hojo-kanji\|
-                            \
-                            \icon\|italic\|
-                            \
-                            \jis78\|jis83\|jis90\|jis04\|
-                            \
-                            \large\|larger\|lighter\|lining-nums\|
-                            \
-                            \menu\|message-box\|monospace\|
-                            \
-                            \nlckanji\|no-additional-ligatures\|
-                            \no-contextual\|no-common-ligatures\|
-                            \no-historical-ligatures\|normal\|
-                            \
-                            \oblique\|oldstyle-nums\|ordinal\|
-                            \
-                            \petite-caps\|proportional-nums\|proportional-width\| 
-                            \
+                            \fantasy\|
+                            \full-width\|
+                            \historical-forms\|
+                            \historical-ligatures\|
+                            \hojo-kanji\|
+                            \icon\|
+                            \italic\|
+                            \jis78\|
+                            \jis83\|
+                            \jis90\|
+                            \jis04\|
+                            \large\|
+                            \larger\|
+                            \lighter\|
+                            \lining-nums\|
+                            \menu\|
+                            \message-box\|
+                            \monospace\|
+                            \nlckanji\|
+                            \no-additional-ligatures\|
+                            \no-contextual\|
+                            \no-common-ligatures\|
+                            \no-historical-ligatures\|
+                            \normal\|
+                            \oblique\|
+                            \oldstyle-nums\|
+                            \ordinal\|
+                            \petite-caps\|
+                            \proportional-nums\|
+                            \proportional-width\| 
                             \ruby\|
-                            \
-                            \sans-serif\|serif\|simplified\|
-                            \slashed-zero\|small\|small-caps\|
-                            \small-caption\|smaller\|stacked-fractions\|
-                            \status-bar\|subscript\|superscript\|
-                            \
-                            \tabular-nums\|titling-caps\|traditional\|
+                            \sans-serif\|
+                            \serif\|
+                            \simplified\|
+                            \slashed-zero\|
+                            \small\|
+                            \small-caps\|
+                            \small-caption\|
+                            \smaller\|
+                            \stacked-fractions\|
+                            \status-bar\|
+                            \subscript\|
+                            \superscript\|
+                            \tabular-nums\|
+                            \titling-caps\|
+                            \traditional\|
                             \
                             \unicase\|\(\(ultra\|extra\|semi\)-\)\=
                             \\(condensed\|expanded\)\|
@@ -570,10 +598,10 @@ syn match cssGenConVal      contained
                             \disc\|
                             \georgian\|
                             \hebrew\|
-                            \(hiragana\|katakana\)\(-iroha\)\=\|
+                            \\(hiragana\|katakana\)\(-iroha\)\=\|
                             \inside\|
-                            \(lower\|upper\)-\(roman\|alpha\|greek\|latin\)\|
-                            \(no-\)\=\(open\|close\)-quote\|
+                            \\(lower\|upper\)-\(roman\|alpha\|greek\|latin\)\|
+                            \\(no-\)\=\(open\|close\)-quote\|
                             \outside\|
                             \square\)\>"
 
@@ -622,12 +650,16 @@ syn match cssMultiColVal    contained
                             \column\|
                             \page\)\>"
 
-"C S S 2.1  =P A G E D  M E D I A                              W3C R 6/7/2011
+"C S S 3  =P A G E D  M E D I A  M O D U L E                   W3C WD 6/7/2011
 "----------------------------------------------------------------------------"
 
-syn keyword cssPageProp     contained inside
+syn keyword cssPageProp     contained 
+                          \ fit
+                          \ fit-position
+                          \ inside
                           \ marks
                           \ orphans
+                          \ page
                           \ page-break-before
                           \ page-break-after
                           \ page-break-inside
@@ -635,10 +667,20 @@ syn keyword cssPageProp     contained inside
                           \ widows
 
 syn match cssPageVal        contained 
-                          \ "\<\(landscape\|
-                            \portrait\|
+                          \ "\<\(A5\|
+                            \A4\|
+                            \A3\|
+                            \B5\|
+                            \B4\|
                             \crop\|
-                            \cross\)\>"
+                            \cross\|
+                            \fill\|
+                            \landscape\|
+                            \ledger\|
+                            \legal\|
+                            \letter\|
+                            \meet\|
+                            \portrait\)\>"
 
 "=R E N D E R  P R O P S + V A L U E S
 "----------------------------------------------------------------------------"
@@ -657,7 +699,6 @@ syn keyword cssRenderProp   contained
 syn match cssRenderVal      contained 
                           \ "\<\(block\|
                             \bidi-override\|
-                            \bottom\|
                             \compact\|
                             \embed\|
                             \fixed\|
@@ -676,122 +717,208 @@ syn match cssRenderVal      contained
                             \
                             \table\(-\(row-group\|\(header\|footer\)
                             \-group\|row\|column\(-group\)\=\|
-                            \cell\|caption\)\)\=\|
-                            \
-                            \top\)\>" 
+                            \cell\|caption\)\)\=\)\>" 
 
 "C S S 3  =S P E E C H  M O D U L E                          W3C WD 8/18/2011
 "----------------------------------------------------------------------------"
 
-syn keyword cssSpeechProp contained cue
-                                  \ cue-after
-                                  \ cue-before
-                                  \ pause 
-                                  \ pause-after
-                                  \ pause-before
-                                  \ play-during
-                                  \ richness
-                                  \ rest
-                                  \ rest-after
-                                  \ rest-before
-                                  \ speak
-                                  \ speak-as
-                                  \ voice-balance
-                                  \ voice-duration
-                                  \ voice-family
-                                  \ voice-rate
-                                  \ voice-pitch
-                                  \ voice-range
-                                  \ voice-stress
-                                  \ voice-volume
+syn keyword cssSpeechProp   contained 
+                          \ cue
+                          \ cue-after
+                          \ cue-before
+                          \ pause 
+                          \ pause-after
+                          \ pause-before
+                          \ play-during
+                          \ richness
+                          \ rest
+                          \ rest-after
+                          \ rest-before
+                          \ speak
+                          \ speak-as
+                          \ voice-balance
+                          \ voice-duration
+                          \ voice-family
+                          \ voice-rate
+                          \ voice-pitch
+                          \ voice-range
+                          \ voice-stress
+                          \ voice-volume
 
-syn match cssSpeechVal contained "\<\(child\|code\|continuous\|digits\|
-                                 \faster\|female\|high\|literal-punctuation\|
-                                 \leftwards\|loud\|low\|lower\|male\|mix\|
-                                 \moderate\|neutral\|no-punctuation\|normal\|
-                                 \old\|preserve\|rightwards\|silent\|slower\|
-                                 \soft\|spell-out\|\(x-\)\=\(fast\|high\|
-                                 \loud\|low\|reduced\|soft\|strong\|young\|
-                                 \weak\)\)\>"
+syn match cssSpeechVal      contained 
+                          \ "\<\(child\|
+                            \code\|
+                            \continuous\|
+                            \digits\|
+                            \faster\|
+                            \female\|
+                            \high\|
+                            \literal-punctuation\|
+                            \leftwards\|
+                            \loud\|
+                            \low\|
+                            \lower\|
+                            \male\|
+                            \mix\|
+                            \moderate\|
+                            \neutral\|
+                            \no-punctuation\|
+                            \normal\|
+                            \old\|
+                            \preserve\|
+                            \rightwards\|
+                            \silent\|
+                            \slower\|
+                            \soft\|
+                            \spell-out\|
+                            \
+                            \\(x-\)\=\(fast\|high\|loud\|low\|reduced\|soft\|
+                            \strong\|young\|weak\)\)\>"
 
 "=T A B L E  P R O P S + V A L U E S
 "----------------------------------------------------------------------------"
 
-syn keyword cssTableProp contained border-collapse 
-                                 \ border-spacing 
-                                 \ caption-side 
-                                 \ empty-cells 
-                                 \ speak-header 
-                                 \ table-layout 
+syn keyword cssTableProp    contained 
+                          \ border-collapse 
+                          \ border-spacing 
+                          \ caption-side 
+                          \ empty-cells 
+                          \ speak-header 
+                          \ table-layout 
 
-syn match cssTableVal contained "\<\(fixed\|collapse\|separate\|show\|hide\|
-                                  \once\)\>"
+syn match cssTableVal       contained 
+                          \ "\<\(fixed\|
+                            \collapse\|
+                            \separate\|
+                            \show\|
+                            \hide\|
+                            \once\)\>"
 
 "=T E X T  P R O P S + V A L U E S
 "----------------------------------------------------------------------------"
 
-syn keyword cssTextProp contained letter-spacing
-                                \ line-height
-                                \ text-align 
-                                \ text-decoration 
-                                \ text-indent
-                                \ text-rendering
-                                \ text-shadow
-                                \ text-transform 
-                                \ unicode-bidi
-                                \ vertical-align
-                                \ word-spacing
+syn keyword cssTextProp     contained 
+                          \ letter-spacing
+                          \ line-height
+                          \ text-align 
+                          \ text-decoration 
+                          \ text-indent
+                          \ text-rendering
+                          \ text-shadow
+                          \ text-transform 
+                          \ unicode-bidi
+                          \ vertical-align
+                          \ word-spacing
 
-syn match cssTextVal contained "\<\(baseline\|blink\|capitalize\|center\|
-                                 \justify\|line-through\|lowercase\|middle\|
-                                 \optimizeLegibility\|overline\|sub\|super\|
-                                 \text-bottom\|text-top\|underline\|
-                                 \uppercase\)\>" 
+syn match cssTextVal        contained 
+                          \ "\<\(baseline\|
+                            \blink\|
+                            \capitalize\|
+                            \center\|
+                            \justify\|
+                            \line-through\|
+                            \lowercase\|
+                            \middle\|
+                            \optimizeLegibility\|
+                            \overline\|
+                            \sub\|
+                            \super\|
+                            \text-bottom\|
+                            \text-top\|
+                            \underline\|
+                            \uppercase\)\>" 
 
 "=BA S I C  U S E R  I N T E R F A C E  M O D U L E          W3C CR 5/11/2004
 "----------------------------------------------------------------------------"
 
-syn keyword cssUIProp contained appearance
-                              \ box-sizing
-                              \ cursor
-                              \ icon
-                              \ nav-index
-                              \ nav-up
-                              \ nav-right
-                              \ nav-down
-                              \ nav-left
-                              \ outline
-                              \ outline-color
-                              \ outline-offset
-                              \ outline-style
-                              \ outline-width
-                              \ resize
+syn keyword cssUIProp       contained 
+                          \ appearance
+                          \ box-sizing
+                          \ cursor
+                          \ icon
+                          \ nav-index
+                          \ nav-up
+                          \ nav-right
+                          \ nav-down
+                          \ nav-left
+                          \ outline
+                          \ outline-color
+                          \ outline-offset
+                          \ outline-style
+                          \ outline-width
+                          \ resize
 
-syn match cssUIVal contained "\<\(alias\|all-scroll\|both\|cell\|
-                              \context-menu\|col-resize\|copy\|crosshair\|
-                              \help\|horizontal\|move\|no-drop\|not-allowed\|
-                              \pointer\|progress\|row-resize\|text\|vertical\|
-                              \vertical-text\|wait\|\([ns]\=[ew]\=-resize\)\|
-                              \ew-resize\|ns-resize\|newsw-resize\|
-                              \nwse-resize\)\>"
+syn match cssUIVal          contained 
+                          \ "\<\(alias\|
+                            \all-scroll\|
+                            \both\|
+                            \cell\|
+                            \context-menu\|
+                            \col-resize\|
+                            \copy\|
+                            \crosshair\|
+                            \ew-resize\|
+                            \help\|
+                            \horizontal\|
+                            \move\|
+                            \nesw-resize\|
+                            \no-drop\|
+                            \not-allowed\|
+                            \\([ns]\=[ew]\=-resize\)\|
+                            \ns-resize\|
+                            \nwse-resize
+                            \pointer\|
+                            \progress\|
+                            \row-resize\|
+                            \text\|
+                            \vertical\|
+                            \vertical-text\|
+                            \wait\)\>"
 
 "The following values are for the appearance property and represent only
 "those values listed in the W3C Candidate Recommendation or that are
 "supported by both Webkit and Gecko browsers. 
 
-syn match cssUIVal contained "\<\(button\|checkbox\|check-box-group\|
-                              \combo-box\|desktop\|dialog\|document\|
-                              \field\|hyperlink\|icon\|list-menu\|
-                              \listbox\|menu\|menu-item\|menubar\|
-                              \menulist\|menulist-button\|menulist-textfield\|
-                              \outline-tree\|password\|pop-up-menu\|
-                              \pull-down-menu\|push-button\|radio\|
-                              \radio-button\|radio-group\|range\|
-                              \scrollbarbutton-down\|scrollbarbutton-left\|
-                              \scrollbarbutton-right\|scrollbarbutton-up\|
-                              \scrollbartrack-horizontal\|scrollbartrack-vertical\|
-                              \signature\|tab\|textfield\|tooltip\|window\|
-                              \workspace\)\>"
+syn match cssUIVal          contained 
+                          \ "\<\(button\|
+                            \checkbox\|
+                            \check-box-group\|
+                            \combo-box\|
+                            \desktop\|
+                            \dialog\|
+                            \document\|
+                            \field\|
+                            \hyperlink\|
+                            \icon\|
+                            \list-menu\|
+                            \listbox\|
+                            \menu\|
+                            \menu-item\|
+                            \menubar\|
+                            \menulist\|
+                            \menulist-button\|
+                            \menulist-textfield\|
+                            \outline-tree\|
+                            \password\|
+                            \pop-up-menu\|
+                            \pull-down-menu\|
+                            \push-button\|
+                            \radio\|
+                            \radio-button\|
+                            \radio-group\|
+                            \range\|
+                            \scrollbarbutton-down\|
+                            \scrollbarbutton-left\|
+                            \scrollbarbutton-right\|
+                            \scrollbarbutton-up\|
+                            \scrollbartrack-horizontal\|
+                            \scrollbartrack-vertical\|
+                            \signature\|
+                            \tab\|
+                            \textfield\|
+                            \tooltip\|
+                            \window\|
+                            \workspace\)\>"
 
 "=D E F A U L T  H I G H L I G H T  G R O U P S`
 "----------------------------------------------------------------------------"
@@ -823,8 +950,7 @@ hi def link cssPageVal Type
 hi def link cssTableVal Type
 hi def link cssUIVal Type
 hi def link cssSharedVal Type
-hi def link cssPseudoClassId PreProc
-hi def link cssPseudoClassLang Constant
+hi def link cssPseudoClass PreProc
 hi def link cssUnitVal Number
 hi def link cssNumVal Number
 hi def link cssFuncVal Constant
