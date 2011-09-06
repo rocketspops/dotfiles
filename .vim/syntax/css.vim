@@ -37,49 +37,143 @@ syn match cssCalcOp         contained
 syn match cssIdName         "#[A-Za-z_][A-Za-z0-9_-]*"
 syn match cssClassName      "\.[A-Za-z][A-Za-z0-9_-]*"
 
-syn keyword cssTagName      a abbr acronym address applet area article aside
+syn keyword cssTagName      a 
+                          \ abbr 
+                          \ acronym 
+                          \ address 
+                          \ applet 
+                          \ area 
+                          \ article 
+                          \ aside
                           \ audio
                           \
-                          \ b base basefont bdo big blockquote body br button 
+                          \ b 
+                          \ base 
+                          \ basefont 
+                          \ bdo 
+                          \ big 
+                          \ blockquote 
+                          \ body 
+                          \ br 
+                          \ button 
                           \
-                          \ canvas caption center cite code col colgroup command 
+                          \ canvas 
+                          \ caption 
+                          \ center 
+                          \ cite 
+                          \ code 
+                          \ col 
+                          \ colgroup
+                          \ command 
                           \
-                          \ datalist dd del details dfn dir div dl dt 
+                          \ datalist 
+                          \ dd 
+                          \ del 
+                          \ details 
+                          \ dfn 
+                          \ dir 
+                          \ div 
+                          \ dl 
+                          \ dt 
                           \
-                          \ em embed 
+                          \ em 
+                          \ embed 
                           \
-                          \ fieldset font form figcaption figure footer frame 
+                          \ fieldset 
+                          \ font 
+                          \ form 
+                          \ figcaption 
+                          \ figure 
+                          \ footer 
+                          \ frame 
                           \ frameset 
                           \
-                          \ h1 h2 h3 h4 h5 h6 head header hgroup hr html 
+                          \ h1 
+                          \ h2 
+                          \ h3 
+                          \ h4 
+                          \ h5 
+                          \ h6 
+                          \ head 
+                          \ header 
+                          \ hgroup 
+                          \ hr 
+                          \ html 
                           \
-                          \ img i iframe img input ins isindex 
+                          \ i 
+                          \ iframe 
+                          \ img 
+                          \ input
+                          \ ins 
+                          \ isindex 
                           \
-                          \ kbd keygen 
+                          \ kbd 
+                          \ keygen 
                           \
-                          \ label legend li link 
+                          \ label 
+                          \ legend 
+                          \ li 
+                          \ link 
                           \
-                          \ map mark menu meta meter 
+                          \ map 
+                          \ mark 
+                          \ menu 
+                          \ meta 
+                          \ meter 
                           \
-                          \ nav noframes noscript 
+                          \ nav 
+                          \ noframes 
+                          \ noscript 
                           \
-                          \ object ol optgroup option output 
+                          \ object 
+                          \ ol 
+                          \ optgroup 
+                          \ option 
+                          \ output 
                           \
-                          \ p param pre progress 
+                          \ p 
+                          \ param 
+                          \ pre 
+                          \ progress 
                           \
                           \ q 
                           \
-                          \ rp rt ruby 
+                          \ rp 
+                          \ rt 
+                          \ ruby 
                           \
-                          \ s samp script section select small span strike 
-                          \ strong style sub summary sup 
+                          \ s 
+                          \ samp 
+                          \ script 
+                          \ section 
+                          \ select 
+                          \ small 
+                          \ span 
+                          \ strike 
+                          \ strong 
+                          \ style 
+                          \ sub 
+                          \ summary 
+                          \ sup 
                           \
-                          \ table tbody td textarea tfoot th thead time 
-                          \ title tr tt 
+                          \ table 
+                          \ tbody 
+                          \ td 
+                          \ textarea
+                          \ tfoot
+                          \ th 
+                          \ thead 
+                          \ time 
+                          \ title 
+                          \ tr 
+                          \ tt 
                           \
-                          \ ul u 
+                          \ ul 
+                          \ u 
                           \ 
-                          \ var variant video 
+                          \ var 
+                          \ variant 
+                          \ video 
                           \
                           \ xmp 
 
@@ -115,6 +209,7 @@ syn match cssPseudoClass    "\(:active\|
                             \:last-of-type\|
                             \:left\|
                             \:link\|
+                            \:marker\|
                             \:optional\|
                             \:only-child\|
                             \:only-of-type\|
@@ -265,12 +360,17 @@ syn match cssSharedVal      contained
                             \collapse\|
                             \column\|
                             \content-box\|
+                            \digits\|
                             \fast\|
+                            \fill-available\|
+                            \fit-content\|
                             \hidden\|
                             \left\|
                             \inherit\|
                             \none\|
                             \normal\|
+                            \max-content\|
+                            \min-content\|
                             \medium\|
                             \padding-box\|
                             \page\|
@@ -413,66 +513,172 @@ syn keyword cssColorProp    contained
                           \ opacity
 
 syn keyword cssColorVal     contained 
-                          \ aliceblue antiquewhite aqua aquamarine azure
+                          \ aliceblue 
+                          \ antiquewhite 
+                          \ aqua 
+                          \ aquamarine 
+                          \ azure
                           \
-                          \ beige bisque black blanchedalmond blue blueviolet 
-                          \ brown burlywood 
+                          \ beige 
+                          \ bisque 
+                          \ black 
+                          \ blanchedalmond 
+                          \ blue 
+                          \ blueviolet 
+                          \ brown 
+                          \ burlywood 
                           \
-                          \ cadetblue chartreuse chocolate coral
-                          \ cornflowerblue cornsilk crimson cyan 
+                          \ cadetblue 
+                          \ chartreuse 
+                          \ chocolate 
+                          \ coral
+                          \ cornflowerblue 
+                          \ cornsilk 
+                          \ crimson 
+                          \ cyan 
                           \
-                          \ darkblue darkcyan darkgoldenrod darkgray darkgrey 
-                          \ darkgreen darkkhaki darkmagenta darkolivegreen 
-                          \ darkorange darkorchid darkred darksalmon 
-                          \ darkseagreen darkslateblue darkslategray 
-                          \ darkslategrey darkturquoise darkviolet deeppink 
-                          \ deepskyblue dimgray dimgrey dodgerblue 
+                          \ darkblue 
+                          \ darkcyan 
+                          \ darkgoldenrod 
+                          \ darkgray 
+                          \ darkgrey 
+                          \ darkgreen 
+                          \ darkkhaki 
+                          \ darkmagenta 
+                          \ darkolivegreen 
+                          \ darkorange 
+                          \ darkorchid 
+                          \ darkred 
+                          \ darksalmon 
+                          \ darkseagreen 
+                          \ darkslateblue 
+                          \ darkslategray 
+                          \ darkslategrey 
+                          \ darkturquoise 
+                          \ darkviolet 
+                          \ deeppink 
+                          \ deepskyblue 
+                          \ dimgray 
+                          \ dimgrey 
+                          \ dodgerblue 
                           \
-                          \ firebrick floralwhite forestgreen fuchsia 
+                          \ firebrick 
+                          \ floralwhite 
+                          \ forestgreen 
+                          \ fuchsia 
                           \
-                          \ gainsboro ghostwhite gold goldenrod gray grey 
-                          \ green greenyellow 
+                          \ gainsboro 
+                          \ ghostwhite 
+                          \ gold 
+                          \ goldenrod 
+                          \ gray 
+                          \ grey 
+                          \ green 
+                          \ greenyellow 
                           \
-                          \ honeydew hotpink 
+                          \ honeydew
+                          \ hotpink 
                           \
-                          \ indianred indigo ivory 
+                          \ indianred 
+                          \ indigo 
+                          \ ivory 
                           \
                           \ khaki 
                           \
-                          \ lavender lavenderblush lawngreen lemonchiffon 
-                          \ lightblue lightcoral lightcyan lightgoldenrodyellow 
-                          \ lightgray lightgrey lightgreen lightpink lightsalmon
-                          \ lightseagreen lightskyblue lightslategray
-                          \ lightslategrey lightsteelblue lightyellow lime
-                          \ limegreen linen 
+                          \ lavender 
+                          \ lavenderblush 
+                          \ lawngreen 
+                          \ lemonchiffon 
+                          \ lightblue 
+                          \ lightcoral 
+                          \ lightcyan 
+                          \ lightgoldenrodyellow 
+                          \ lightgray 
+                          \ lightgrey 
+                          \ lightgreen 
+                          \ lightpink 
+                          \ lightsalmon
+                          \ lightseagreen 
+                          \ lightskyblue 
+                          \ lightslategray
+                          \ lightslategrey 
+                          \ lightsteelblue 
+                          \ lightyellow 
+                          \ lime
+                          \ limegreen 
+                          \ linen 
                           \
-                          \ magenta maroon mediumaquamarine mediumblue 
-                          \ mediumorchid mediumpurple mediumseagreen
-                          \ mediumslateblue mediumspringgreen mediumturquoise
-                          \ mediumvioletred midnightblue mintcream mistyrose
+                          \ magenta 
+                          \ maroon 
+                          \ mediumaquamarine 
+                          \ mediumblue 
+                          \ mediumorchid 
+                          \ mediumpurple 
+                          \ mediumseagreen
+                          \ mediumslateblue 
+                          \ mediumspringgreen 
+                          \ mediumturquoise
+                          \ mediumvioletred 
+                          \ midnightblue 
+                          \ mintcream 
+                          \ mistyrose
                           \ moccasin 
                           \
-                          \ navajowhite navy 
+                          \ navajowhite 
+                          \ navy 
                           \
-                          \ oldlace olive olivedrab orange orangered orchid 
+                          \ oldlace 
+                          \ olive 
+                          \ olivedrab 
+                          \ orange 
+                          \ orangered 
+                          \ orchid 
                           \
-                          \ palegoldenrod palegreen paleturquoise 
-                          \ palevioletred papayawhip peachpuff peru pink plum 
-                          \ powderblue purple 
+                          \ palegoldenrod 
+                          \ palegreen 
+                          \ paleturquoise 
+                          \ palevioletred 
+                          \ papayawhip 
+                          \ peachpuff 
+                          \ peru 
+                          \ pink 
+                          \ plum 
+                          \ powderblue 
+                          \ purple 
                           \
-                          \ red rosybrown royalblue 
+                          \ red 
+                          \ rosybrown 
+                          \ royalblue 
                           \
-                          \ saddlebrown salmon sandybrown seagreen seashell 
-                          \ sienna silver skyblue slateblue slategray
-                          \ slategrey snow springgreen steelblue 
+                          \ saddlebrown 
+                          \ salmon 
+                          \ sandybrown 
+                          \ seagreen 
+                          \ seashell 
+                          \ sienna 
+                          \ silver 
+                          \ skyblue 
+                          \ slateblue 
+                          \ slategray
+                          \ slategrey 
+                          \ snow 
+                          \ springgreen 
+                          \ steelblue 
                           \
-                          \ tan teal thistle tomato turquoise 
+                          \ tan 
+                          \ teal 
+                          \ thistle 
+                          \ tomato 
+                          \ turquoise 
                           \
                           \ violet 
                           \
-                          \ wheat white whitesmoke 
+                          \ wheat 
+                          \ white 
+                          \ whitesmoke 
                           \
-                          \ yellow yellowgreen
+                          \ yellow 
+                          \ yellowgreen
 
 syn match cssColorVal       contained "\<transparent\>"
 syn match cssColorVal       contained "#[0-9A-Fa-f]\{3}"
@@ -689,7 +895,6 @@ syn match cssPageVal        contained
 
 syn keyword cssRenderProp   contained 
                           \ bottom 
-                          \ direction 
                           \ display 
                           \ left 
                           \ marker-offset 
@@ -707,10 +912,8 @@ syn match cssRenderVal      contained
                             \inline-block\|
                             \inline-table\|
                             \list-item\|
-                            \ltr\|
                             \marker\|
                             \relative\|
-                            \rtl\|
                             \run-in\|
                             \static\|
                             \
@@ -748,7 +951,6 @@ syn match cssSpeechVal      contained
                           \ "\<\(child\|
                             \code\|
                             \continuous\|
-                            \digits\|
                             \faster\|
                             \female\|
                             \high\|
@@ -827,7 +1029,6 @@ syn keyword cssTextProp     contained
                           \ text-transform 
                           \ text-underline-position
                           \ text-wrap
-                          \ unicode-bidi
                           \ vertical-align
                           \ white-space 
                           \ word-break
@@ -916,7 +1117,7 @@ syn match cssTextVal        contained
                             \uppercase\|
                             \wavy\)\>" 
 
-"=BA S I C  U S E R  I N T E R F A C E  M O D U L E          W3C CR 5/11/2004
+"C S S 3  =BA S I C  U I  M O D U L E                        W3C CR 5/11/2004
 "----------------------------------------------------------------------------"
 
 syn keyword cssUIProp       contained 
@@ -1007,6 +1208,44 @@ syn match cssUIVal          contained
                             \tooltip\|
                             \window\|
                             \workspace\)\>"
+
+"=C S S 3  =W R I T I N G  M O D E S  M O D U L E             W3C WD 9/1/2011
+"----------------------------------------------------------------------------"
+
+syn keyword cssWritingProp  contained  
+                          \ caption-side
+                          \ direction
+                          \ text-combine-horizontal
+                          \ text-combine-mode
+                          \ text-orientation
+                          \ unicode-bidi
+                          \ writing-mode
+
+
+syn match cssWritingVal     contained
+                          \ "\<\(after\|
+                            \alpha\|
+                            \alphanumeric\|
+                            \ascii-digits\|
+                            \before\|
+                            \bidi-override\|
+                            \compress\|
+                            \embed\|
+                            \horizontal-tb\|
+                            \vertical-lr\|
+                            \vertical-rl\|
+                            \latin\|
+                            \ltr\|
+                            \no-compress\|
+                            \plaintext\|
+                            \rtl\|
+                            \sideways\|
+                            \sideways-left\|
+                            \sideways-right\|
+                            \upright\|
+                            \upright-right\|
+                            \use-glyphs\|
+                            \use-glyph-orientation\)\>"
 
 "=D E F A U L T  H I G H L I G H T  G R O U P S`
 "----------------------------------------------------------------------------"
