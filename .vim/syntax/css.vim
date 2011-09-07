@@ -29,7 +29,7 @@ syn region cssQuo           contained
 "=B A S I C  S E L E C T O R S
 "----------------------------------------------------------------------------"
 
-syn match cssSelectOp       "[*+>.,_|~-]"
+syn match cssSelectOp       "[*+>:.,_|~-]"
 
 syn match cssAttrSelectOp   contained
                           \ "[=*~|$^]"
@@ -280,7 +280,10 @@ syn keyword cssAtRule       @bottom-center
                           \ @top-right
                           \ @top-right-corner
 
-syn match cssAtRuleOp   "\(\s\+and\s\+\)"
+"C S S 3  =ME D I A  Q U E R I E S                           W3C CR 7/27/2011
+"----------------------------------------------------------------------------"
+
+syn match cssMediaOp        "\(\sand\s\)"
 
 syn keyword cssMediaType    all
                           \ braille
@@ -292,6 +295,58 @@ syn keyword cssMediaType    all
                           \ speech
                           \ tty
                           \ tv
+
+syn region cssMediaExpr     contains=cssCalcOp,
+                                   \ cssMediaFeat,
+                                   \ cssMediaValue,
+                                   \ cssNumVal,
+                                   \ cssUnitVal
+                          \ keepend
+                          \ oneline
+                          \ start="("
+                          \ end=")"
+
+syn keyword cssMediaFeat    contained
+                          \ aspect-rati
+                          \ color
+                          \ color-index
+                          \ device-aspect-ratio
+                          \ device-height
+                          \ device-width
+                          \ grid
+                          \ height
+                          \ max-aspect-ratio
+                          \ max-color
+                          \ max-color-index
+                          \ max-device-aspect-ratio
+                          \ max-device-height
+                          \ max-device-width
+                          \ max-height
+                          \ max-monochrome
+                          \ max-resolution
+                          \ max-width
+                          \ min-aspect-ratio
+                          \ min-color
+                          \ min-color-index
+                          \ min-device-aspect-ratio
+                          \ min-device-height
+                          \ min-device-width
+                          \ min-height
+                          \ min-monochrome
+                          \ min-resolution
+                          \ min-width
+                          \ monochrome
+                          \ orientation
+                          \ resolution
+                          \ scan
+                          \ width
+
+syn match cssMediaValue     contained 
+                          \ "\<\(\:\s*\)\@<=\(
+                            \landscape\|
+                            \interlace\|
+                            \portrait\|
+                            \progressive\)\>"
 
 "=D E C L A R A T I O N  B L O C K
 "----------------------------------------------------------------------------"
