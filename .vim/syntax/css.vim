@@ -303,11 +303,11 @@ syn region cssMediaExpr     contains=cssCalcOp,
                                    \ cssUnitVal
                           \ keepend
                           \ oneline
-                          \ start="("
+                          \ start="\s\@<=("
                           \ end=")"
 
 syn keyword cssMediaFeat    contained
-                          \ aspect-rati
+                          \ aspect-ratio
                           \ color
                           \ color-index
                           \ device-aspect-ratio
