@@ -20,7 +20,8 @@ syn region cssComment       keepend
                           \ start="/\*" 
                           \ end="\*/" 
 
-syn region cssQuo           keepend 
+syn region cssQuo           contained
+                          \ keepend 
                           \ start=+\'\|\"+ 
                           \ skip=+\\'\|\\"+ 
                           \ end=+\'\|\"+ 
@@ -29,10 +30,15 @@ syn region cssQuo           keepend
 "----------------------------------------------------------------------------"
 
 syn match cssSelectOp       "[*+>.,_|~-]"
-syn match cssAttrSelectOp   "[=*~|$^]"
+
+syn match cssAttrSelectOp   contained
+                          \ "[=*~|$^]"
 
 syn match cssCalcOp         contained 
-                            \ "\([+-/*]\)\=\|\(mod\)"
+                          \ "\([\*+-\/]\)\|\(mod\)"
+
+syn match cssValOp          contained
+                          \ "[,]"
 
 syn match cssIdName         "#[A-Za-z_][A-Za-z0-9_-]*"
 syn match cssClassName      "\.[A-Za-z][A-Za-z0-9_-]*"
@@ -242,10 +248,10 @@ syn region cssPseudoClass   contains=cssNumVal,cssUnitVal,cssSelectOp
 "=A T  R U L E  S E L E C T O R 
 "----------------------------------------------------------------------------"
 
-syn region cssAtRuleUrl     contains=cssQuo
+syn region cssAtRuleExpr    contains=cssQuo
                           \ keepend 
                           \ oneline
-                          \ start="url(" 
+                          \ start="\(url\)(" 
                           \ end=")"
 
 syn keyword cssAtRule       @bottom-center
@@ -273,6 +279,8 @@ syn keyword cssAtRule       @bottom-center
                           \ @top-left-corner
                           \ @top-right
                           \ @top-right-corner
+
+syn match cssAtRuleOp   "\(\s\+and\s\+\)"
 
 syn keyword cssMediaType    all
                           \ braille
@@ -303,13 +311,13 @@ syn region cssProp          contained
                           \ oneline
 
 syn region cssVal           contained
-                          \ contains=@cssValGroup
+                          \ contains=@cssValGroup,cssValOp
                           \ keepend
-                          \ matchgroup=cssValPunc 
+                          \ matchgroup=cssValOp 
                           \ start="\:" 
                           \ end="\;" 
 
-syn cluster cssValGroup     contains=css.*Val,css.*Quo
+syn cluster cssValGroup     contains=css.*Val,cssQuo,cssExpr
 syn cluster cssPropGroup    contains=css.*Prop
 
 syn match cssBraceError     contained "{"
@@ -318,43 +326,43 @@ syn match cssBraceError     "}"
 "=G L O B A L  P R O P S + V A L U E S
 "----------------------------------------------------------------------------"
 
-syn region cssFuncVal       contained 
-                            \ contains=cssQuo,
-                                      \cssSelectOp,
-                                      \cssCalcOp,
-                                      \cssNumVal
-                            \ keepend 
-                            \ matchgroup=cssFuncValName
-                            \ oneline 
-                            \ start="\<\(annotation\|
-                                     \attr\|
-                                     \calc\|
-                                     \clip\|
-                                     \character-variant\|
-                                     \counter\|format\|
-                                     \cross-fade\|
-                                     \element\|
-                                     \hsl\|
-                                     \hsla\|
-                                     \image\|
-                                     \linear-gradient\|
-                                     \local\|
-                                     \max\|
-                                     \min\|
-                                     \ornaments\|
-                                     \radial-gradient\|
-                                     \repeating-linear-gradient\|
-                                     \repeating-radial-gradient\|
-                                     \rect\|
-                                     \rgb\|
-                                     \rgba\|
-                                     \stylistic\|
-                                     \styleset\|
-                                     \swash\|
-                                     \uri\|
-                                     \url\)(" 
-                            \ end=")"
-                            \ transparent 
+syn region cssExpr          contained 
+                          \ contains=cssQuo,
+                                    \cssSelectOp,
+                                    \cssCalcOp,
+                                    \cssNumVal
+                          \ keepend 
+                          \ matchgroup=cssExprType
+                          \ oneline 
+                          \ start="\<\(annotation\|
+                                   \attr\|
+                                   \calc\|
+                                   \clip\|
+                                   \character-variant\|
+                                   \counter\|format\|
+                                   \cross-fade\|
+                                   \element\|
+                                   \hsl\|
+                                   \hsla\|
+                                   \image\|
+                                   \linear-gradient\|
+                                   \local\|
+                                   \max\|
+                                   \min\|
+                                   \ornaments\|
+                                   \radial-gradient\|
+                                   \repeating-linear-gradient\|
+                                   \repeating-radial-gradient\|
+                                   \rect\|
+                                   \rgb\|
+                                   \rgba\|
+                                   \stylistic\|
+                                   \styleset\|
+                                   \swash\|
+                                   \uri\|
+                                   \url\)(" 
+                          \ end=")"
+                          \ transparent 
 
 syn match cssImportantVal   contained "!\s*important\>"
 
@@ -1329,8 +1337,8 @@ hi def link cssSharedVal Type
 hi def link cssPseudoClass PreProc
 hi def link cssUnitVal Number
 hi def link cssNumVal Number
-hi def link cssFuncVal Constant
-hi def link cssFuncValName Function 
+hi def link cssExpr Constant
+hi def link cssExprType Function 
 hi def link cssIdName Function
 hi def link cssImportantVal Special
 hi def link cssBraces Function
