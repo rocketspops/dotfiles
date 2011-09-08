@@ -201,11 +201,11 @@ syn match cssPseudoClass    "\(:active\|
                             \:disabled\|
                             \:empty\|
                             \:enabled\|
-                            \:first\|
                             \:first-child\|
                             \:first-letter\|
                             \:first-line\|
                             \:first-of-type\|
+                            \:first\|
                             \:focus\|
                             \:hover\|
                             \:in-range\|
@@ -233,7 +233,10 @@ syn match cssPseudoClass    "\(:active\|
                             \:valid\|
                             \:visited\)"
 
-syn region cssPseudoClass   contains=cssNumVal,cssUnitVal,cssSelectOp
+syn region cssPseudoClass   contains=cssAttrSelect,
+                                   \ cssNumVal,
+                                   \ cssSelectOp,
+                                   \ cssUnitVal
                           \ keepend
                           \ matchgroup=cssPseudoClassExpr 
                           \ oneline
@@ -244,6 +247,7 @@ syn region cssPseudoClass   contains=cssNumVal,cssUnitVal,cssSelectOp
                                    \:nth-last-child\|
                                    \:not\)(" 
                           \ end=")" 
+                          \ transparent
 
 "=A T  R U L E  S E L E C T O R 
 "----------------------------------------------------------------------------"
