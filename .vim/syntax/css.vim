@@ -769,7 +769,7 @@ syn match cssColorVal       contained "\<transparent\>"
 syn match cssColorVal       contained "#[0-9A-Fa-f]\{3}"
 syn match cssColorVal       contained "#[0-9A-Fa-f]\{6}"
 
-"=F O N T  P R O P S + V A L U E S
+"C S S 3  =F O N T S  M O D U L E                            W3C WD 3/24/2011
 "----------------------------------------------------------------------------"
 
 syn keyword cssFontProp     contained 
@@ -1016,6 +1016,11 @@ syn match cssRenderVal      contained
                             \list-item\|
                             \marker\|
                             \relative\|
+                            \ruby\|
+                            \ruby-base\|
+                            \ruby-base-group\|
+                            \ruby-text\|
+                            \ruby-text-group\|
                             \run-in\|
                             \static\|
                             \
