@@ -54,20 +54,20 @@ set formatprg=par "Use Par engine for text formatting.
 map <Leader>n :NERDTreeToggle<CR>
 map <Leader>nf :NERDTreeFind<CR>
 
-:let NERDTreeQuitOnOpen   = 0
-:let NERDChristmasTree    = 1
+:let NERDTreeQuitOnOpen          = 0
+:let NERDChristmasTree           = 1
 :let NERDTreeHighlightCursorline = 0
-:let NERDTreeWinSize      = 35
-:let NERDTreeDirArrows    = 1
-:let NERDTreeStatusline   = ' '
-:let NERDTreeShowHidden   = 1
-:let NERDTreeChDirMode    = 1
-:let NERDTreeShowLineNumbers = 0
-:let NERDTreeMouseMode       = 2
-:let NERDTreeAutoCenter = 1
+:let NERDTreeWinSize             = 35
+:let NERDTreeDirArrows           = 1
+:let NERDTreeStatusline          = ' '
+:let NERDTreeShowHidden          = 1
+:let NERDTreeChDirMode           = 1
+:let NERDTreeShowLineNumbers     = 0
+:let NERDTreeMouseMode           = 2
+:let NERDTreeAutoCenter          = 1
 :let NERDTreeAutoCenterThreshold = 10
-:let g:loaded_netrw       = 1
-:let g:loaded_netrwPlugin = 1
+:let g:loaded_netrw              = 1
+:let g:loaded_netrwPlugin        = 1
 
 "Indent Guides Configuration
 

@@ -189,11 +189,52 @@ syn region cssAttrSelect    contains=cssAttrSelectOp,cssQuo
                           \ end="]" 
                           \ transparent 
 
+"=A T  R U L E  S E L E C T O R 
+"----------------------------------------------------------------------------"
+
+syn region cssAtRuleBraces  contains=ALLBUT,cssBraceError 
+                          \ keepend 
+                          \ start="\(^@[A-Za-z].*\)\@<={" 
+                          \ end="\(}\|}\@<=}\)"
+                          \ transparent
+
+syn region cssAtRuleExpr    contains=cssQuo
+                          \ keepend 
+                          \ oneline
+                          \ start="\(url\)(" 
+                          \ end=")"
+
+syn keyword cssAtRule       @bottom-center
+                          \ @bottom-left
+                          \ @bottom-left-corner
+                          \ @bottom-right
+                          \ @bottom-right-corner
+                          \ @charset 
+                          \ @color-profile
+                          \ @document
+                          \ @font-face 
+                          \ @import
+                          \ @left-top
+                          \ @left-middle
+                          \ @left-bottom
+                          \ @media
+                          \ @namespace
+                          \ @page 
+                          \ @right-top
+                          \ @right-middle
+                          \ @right-bottom
+                          \ @supports
+                          \ @top-center
+                          \ @top-left
+                          \ @top-left-corner
+                          \ @top-right
+                          \ @top-right-corner
+
 "=P S E U D O  C L A S S  S E L E C T O R S 
 "----------------------------------------------------------------------------"
 
-syn match cssPseudoClass    "\(:active\| 
-                            \:after\| 
+syn match cssPseudoClass    ":active\|
+                            \:after\|
                             \:before\|
                             \:checked\|
                             \:choices\|
@@ -231,7 +272,7 @@ syn match cssPseudoClass    "\(:active\|
                             \:target\|
                             \:value\|
                             \:valid\|
-                            \:visited\)"
+                            \:visited"
 
 syn region cssPseudoClass   contains=cssAttrSelect,
                                    \ cssNumVal,
@@ -249,56 +290,23 @@ syn region cssPseudoClass   contains=cssAttrSelect,
                           \ end=")" 
                           \ transparent
 
-"=A T  R U L E  S E L E C T O R 
-"----------------------------------------------------------------------------"
-
-syn region cssAtRuleExpr    contains=cssQuo
-                          \ keepend 
-                          \ oneline
-                          \ start="\(url\)(" 
-                          \ end=")"
-
-syn keyword cssAtRule       @bottom-center
-                          \ @bottom-left
-                          \ @bottom-left-corner
-                          \ @bottom-right
-                          \ @bottom-right-corner
-                          \ @charset 
-                          \ @color-profile
-                          \ @document
-                          \ @font-face 
-                          \ @import
-                          \ @left-top
-                          \ @left-middle
-                          \ @left-bottom
-                          \ @media
-                          \ @namespace
-                          \ @page 
-                          \ @right-top
-                          \ @right-middle
-                          \ @right-bottom
-                          \ @supports
-                          \ @top-center
-                          \ @top-left
-                          \ @top-left-corner
-                          \ @top-right
-                          \ @top-right-corner
 
 "C S S 3  =ME D I A  Q U E R I E S                           W3C CR 7/27/2011
 "----------------------------------------------------------------------------"
 
-syn match cssMediaOp        "\(\sand\s\)"
+syn match cssMediaOp       "\(\sand\s\)"
 
-syn keyword cssMediaType    all
-                          \ braille
-                          \ embossed
-                          \ handheld
-                          \ print
-                          \ projection
-                          \ screen
-                          \ speech
-                          \ tty
-                          \ tv
+syn match cssMediaType     "\(@media\s\+\)\@<=   
+                            \all\|
+                            \braille\|
+                            \embossed\|
+                            \handheld\|
+                            \print\|
+                            \projection\|
+                            \screen\|
+                            \speech\|
+                            \tty\|
+                            \tv"
 
 syn region cssMediaExpr     contains=cssCalcOp,
                                    \ cssMediaFeat,
@@ -356,9 +364,11 @@ syn match cssMediaValue     contained
 "----------------------------------------------------------------------------"
 
 syn region cssDecBlock      contains=cssProp,cssVal,cssBraceError
+                          \ containedin=cssAtRuleBlock
+                          \ extend
                           \ keepend
                           \ matchgroup=cssBraces 
-                          \ start='{' 
+                          \ start='\(@.*\)\@<!{' 
                           \ end='}'
                           \ transparent
 
@@ -426,7 +436,7 @@ syn region cssExpr          contained
 syn match cssImportantVal   contained "!\s*important\>"
 
 syn match cssSharedVal      contained 
-                          \ "\<\(above\|
+                          \ "above\|
                             \absolute\|
                             \after\|
                             \always\|
@@ -463,7 +473,7 @@ syn match cssSharedVal      contained
                             \slice\|
                             \slow\
                             \start\|
-                            \top\)\>"
+                            \top"
 
 syn match cssUnicodeVal     contained 
                           \ "\(U+[0-9A-Fa-f?]\+[+-][0-9A-Fa-f?]\+\|
