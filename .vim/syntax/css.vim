@@ -4,7 +4,7 @@
 " Language:	CSS
 " Maintainer:	Billy Whited (rocketspops@gmail.com)
 " URL:		
-" Last Change:  September 2nd, 2011	
+" Last Change:  September 2nd, 2011
 
 if exists("b:current_syntax")
   finish
@@ -16,15 +16,15 @@ syn sync fromstart
 "=G L O B A L
 "----------------------------------------------------------------------------"
 
-syn region cssComment       keepend 
-                          \ start="/\*" 
-                          \ end="\*/" 
+syn region cssComment       keepend
+                          \ start="/\*"
+                          \ end="\*/"
 
 syn region cssQuo           contained
-                          \ keepend 
-                          \ start=+\'\|\"+ 
-                          \ skip=+\\'\|\\"+ 
-                          \ end=+\'\|\"+ 
+                          \ keepend
+                          \ start=+\'\|\"+
+                          \ skip=+\\'\|\\"+
+                          \ end=+\'\|\"+
 
 "=B A S I C  S E L E C T O R S
 "----------------------------------------------------------------------------"
@@ -34,7 +34,7 @@ syn match cssSelectOp       "[*+>:.,_|~-]"
 syn match cssAttrSelectOp   contained
                           \ "[=*~|$^]"
 
-syn match cssCalcOp         contained 
+syn match cssCalcOp         contained
                           \ "\([\*+-\/]\)\|\(mod\)"
 
 syn match cssValOp          contained
@@ -43,165 +43,165 @@ syn match cssValOp          contained
 syn match cssIdName         "#[A-Za-z_][A-Za-z0-9_-]*"
 syn match cssClassName      "\.[A-Za-z][A-Za-z0-9_-]*"
 
-syn keyword cssTagName      a 
-                          \ abbr 
-                          \ acronym 
-                          \ address 
-                          \ applet 
-                          \ area 
-                          \ article 
+syn keyword cssTagName      a
+                          \ abbr
+                          \ acronym
+                          \ address
+                          \ applet
+                          \ area
+                          \ article
                           \ aside
                           \ audio
                           \
-                          \ b 
-                          \ base 
-                          \ basefont 
-                          \ bdo 
-                          \ big 
-                          \ blockquote 
-                          \ body 
-                          \ br 
-                          \ button 
+                          \ b
+                          \ base
+                          \ basefont
+                          \ bdo
+                          \ big
+                          \ blockquote
+                          \ body
+                          \ br
+                          \ button
                           \
-                          \ canvas 
-                          \ caption 
-                          \ center 
-                          \ cite 
-                          \ code 
-                          \ col 
+                          \ canvas
+                          \ caption
+                          \ center
+                          \ cite
+                          \ code
+                          \ col
                           \ colgroup
-                          \ command 
+                          \ command
                           \
-                          \ datalist 
-                          \ dd 
-                          \ del 
-                          \ details 
-                          \ dfn 
-                          \ dir 
-                          \ div 
-                          \ dl 
-                          \ dt 
+                          \ datalist
+                          \ dd
+                          \ del
+                          \ details
+                          \ dfn
+                          \ dir
+                          \ div
+                          \ dl
+                          \ dt
                           \
-                          \ em 
-                          \ embed 
+                          \ em
+                          \ embed
                           \
-                          \ fieldset 
-                          \ font 
-                          \ form 
-                          \ figcaption 
-                          \ figure 
-                          \ footer 
-                          \ frame 
-                          \ frameset 
+                          \ fieldset
+                          \ font
+                          \ form
+                          \ figcaption
+                          \ figure
+                          \ footer
+                          \ frame
+                          \ frameset
                           \
-                          \ h1 
-                          \ h2 
-                          \ h3 
-                          \ h4 
-                          \ h5 
-                          \ h6 
-                          \ head 
-                          \ header 
-                          \ hgroup 
-                          \ hr 
-                          \ html 
+                          \ h1
+                          \ h2
+                          \ h3
+                          \ h4
+                          \ h5
+                          \ h6
+                          \ head
+                          \ header
+                          \ hgroup
+                          \ hr
+                          \ html
                           \
-                          \ i 
-                          \ iframe 
-                          \ img 
+                          \ i
+                          \ iframe
+                          \ img
                           \ input
-                          \ ins 
-                          \ isindex 
+                          \ ins
+                          \ isindex
                           \
-                          \ kbd 
-                          \ keygen 
+                          \ kbd
+                          \ keygen
                           \
-                          \ label 
-                          \ legend 
-                          \ li 
-                          \ link 
+                          \ label
+                          \ legend
+                          \ li
+                          \ link
                           \
-                          \ map 
-                          \ mark 
-                          \ menu 
-                          \ meta 
-                          \ meter 
+                          \ map
+                          \ mark
+                          \ menu
+                          \ meta
+                          \ meter
                           \
-                          \ nav 
-                          \ noframes 
-                          \ noscript 
+                          \ nav
+                          \ noframes
+                          \ noscript
                           \
-                          \ object 
-                          \ ol 
-                          \ optgroup 
-                          \ option 
-                          \ output 
+                          \ object
+                          \ ol
+                          \ optgroup
+                          \ option
+                          \ output
                           \
-                          \ p 
-                          \ param 
-                          \ pre 
-                          \ progress 
+                          \ p
+                          \ param
+                          \ pre
+                          \ progress
                           \
-                          \ q 
+                          \ q
                           \
-                          \ rp 
-                          \ rt 
-                          \ ruby 
+                          \ rp
+                          \ rt
+                          \ ruby
                           \
-                          \ s 
-                          \ samp 
-                          \ script 
-                          \ section 
-                          \ select 
-                          \ small 
-                          \ span 
-                          \ strike 
-                          \ strong 
-                          \ style 
-                          \ sub 
-                          \ summary 
-                          \ sup 
+                          \ s
+                          \ samp
+                          \ script
+                          \ section
+                          \ select
+                          \ small
+                          \ span
+                          \ strike
+                          \ strong
+                          \ style
+                          \ sub
+                          \ summary
+                          \ sup
                           \
-                          \ table 
-                          \ tbody 
-                          \ td 
+                          \ table
+                          \ tbody
+                          \ td
                           \ textarea
                           \ tfoot
-                          \ th 
-                          \ thead 
-                          \ time 
-                          \ title 
-                          \ tr 
-                          \ tt 
+                          \ th
+                          \ thead
+                          \ time
+                          \ title
+                          \ tr
+                          \ tt
                           \
-                          \ ul 
-                          \ u 
-                          \ 
-                          \ var 
-                          \ variant 
-                          \ video 
+                          \ ul
+                          \ u
                           \
-                          \ xmp 
+                          \ var
+                          \ variant
+                          \ video
+                          \
+                          \ xmp
 
 syn region cssAttrSelect    contains=cssAttrSelectOp,cssQuo
-                          \ matchgroup=cssAttrSelect 
-                          \ start="\[" 
-                          \ end="]" 
-                          \ transparent 
+                          \ matchgroup=cssAttrSelect
+                          \ start="\["
+                          \ end="]"
+                          \ transparent
 
-"=A T  R U L E  S E L E C T O R 
+"=A T  R U L E  S E L E C T O R
 "----------------------------------------------------------------------------"
 
-syn region cssAtRuleBraces  contains=ALLBUT,cssBraceError 
-                          \ keepend 
-                          \ start="\(^@[A-Za-z].*\)\@<={" 
+syn region cssAtRuleBraces  contains=ALLBUT,cssBraceError
+                          \ keepend
+                          \ start="\(^@[A-Za-z].*\)\@<={"
                           \ end="\(}\|}\@<=}\)"
                           \ transparent
 
 syn region cssAtRuleExpr    contains=cssQuo
-                          \ keepend 
+                          \ keepend
                           \ oneline
-                          \ start="\(url\)(" 
+                          \ start="\(url\)("
                           \ end=")"
 
 syn keyword cssAtRule       @bottom-center
@@ -209,17 +209,17 @@ syn keyword cssAtRule       @bottom-center
                           \ @bottom-left-corner
                           \ @bottom-right
                           \ @bottom-right-corner
-                          \ @charset 
+                          \ @charset
                           \ @color-profile
                           \ @document
-                          \ @font-face 
+                          \ @font-face
                           \ @import
                           \ @left-top
                           \ @left-middle
                           \ @left-bottom
                           \ @media
                           \ @namespace
-                          \ @page 
+                          \ @page
                           \ @right-top
                           \ @right-middle
                           \ @right-bottom
@@ -230,7 +230,7 @@ syn keyword cssAtRule       @bottom-center
                           \ @top-right
                           \ @top-right-corner
 
-"=P S E U D O  C L A S S  S E L E C T O R S 
+"=P S E U D O  C L A S S  S E L E C T O R S
 "----------------------------------------------------------------------------"
 
 syn match cssPseudoClass    ":active\|
@@ -279,15 +279,15 @@ syn region cssPseudoClass   contains=cssAttrSelect,
                                    \ cssSelectOp,
                                    \ cssUnitVal
                           \ keepend
-                          \ matchgroup=cssPseudoClassExpr 
+                          \ matchgroup=cssPseudoClassExpr
                           \ oneline
                           \ start="\(:lang\|
                                    \:nth-child\|
                                    \:nth-of-type\|
                                    \:nth-last-of-type\|
                                    \:nth-last-child\|
-                                   \:not\)(" 
-                          \ end=")" 
+                                   \:not\)("
+                          \ end=")"
                           \ transparent
 
 
@@ -296,7 +296,7 @@ syn region cssPseudoClass   contains=cssAttrSelect,
 
 syn match cssMediaOp       "\(\sand\s\)"
 
-syn match cssMediaType     "\(@media\s\+\)\@<=   
+syn match cssMediaType     "\(@media\s\+\)\@<=
                             \all\|
                             \braille\|
                             \embossed\|
@@ -353,7 +353,7 @@ syn keyword cssMediaFeat    contained
                           \ scan
                           \ width
 
-syn match cssMediaValue     contained 
+syn match cssMediaValue     contained
                           \ "\<\(\:\s*\)\@<=\(
                             \landscape\|
                             \interlace\|
@@ -367,24 +367,24 @@ syn region cssDecBlock      contains=cssProp,cssVal,cssBraceError
                           \ containedin=cssAtRuleBlock
                           \ extend
                           \ keepend
-                          \ matchgroup=cssBraces 
-                          \ start='\(@.*\)\@<!{' 
+                          \ matchgroup=cssBraces
+                          \ start='\(@.*\)\@<!{'
                           \ end='}'
                           \ transparent
 
 syn region cssProp          contained
                           \ contains=@cssPropGroup
                           \ keepend
-                          \ start="\(^\|\(\;\s*\)\@<=\w\|\({\s*\)\@<=\w\)" 
+                          \ start="\(^\|\(\;\s*\)\@<=\w\|\({\s*\)\@<=\w\)"
                           \ end="\w\(\:\)\@="
                           \ oneline
 
 syn region cssVal           contained
                           \ contains=@cssValGroup,cssValOp
                           \ keepend
-                          \ matchgroup=cssValOp 
-                          \ start="\:" 
-                          \ end="\;" 
+                          \ matchgroup=cssValOp
+                          \ start="\:"
+                          \ end="\;"
 
 syn cluster cssValGroup     contains=css.*Val,cssQuo,cssExpr
 syn cluster cssPropGroup    contains=css.*Prop
@@ -395,14 +395,14 @@ syn match cssBraceError     "}"
 "=G L O B A L  P R O P S + V A L U E S
 "----------------------------------------------------------------------------"
 
-syn region cssExpr          contained 
+syn region cssExpr          contained
                           \ contains=cssQuo,
                                     \cssSelectOp,
                                     \cssCalcOp,
                                     \cssNumVal
-                          \ keepend 
+                          \ keepend
                           \ matchgroup=cssExprType
-                          \ oneline 
+                          \ oneline
                           \ start="\<\(annotation\|
                                    \attr\|
                                    \calc\|
@@ -429,13 +429,13 @@ syn region cssExpr          contained
                                    \styleset\|
                                    \swash\|
                                    \uri\|
-                                   \url\)(" 
+                                   \url\)("
                           \ end=")"
-                          \ transparent 
+                          \ transparent
 
 syn match cssImportantVal   contained "!\s*important\>"
 
-syn match cssSharedVal      contained 
+syn match cssSharedVal      contained
                           \ "above\|
                             \absolute\|
                             \after\|
@@ -475,14 +475,14 @@ syn match cssSharedVal      contained
                             \start\|
                             \top"
 
-syn match cssUnicodeVal     contained 
+syn match cssUnicodeVal     contained
                           \ "\(U+[0-9A-Fa-f?]\+[+-][0-9A-Fa-f?]\+\|
                             \U+[0-9A-Fa-f?]\+\|\\\x\{1,6\}\(\w\|
                             \\s\w\)\@!\)"
 
 syn match cssNumVal         contained "[-]\=\d\+\(\.\d*\)\="
 
-syn match cssUnitVal        contained 
+syn match cssUnitVal        contained
                           \ "\(\d\)\@<=\(
                             \%\|
                             \ch\|
@@ -515,12 +515,12 @@ syn match cssUnitVal        contained
 "=B A C K G R O U N D  and  B O R D E R S  M O D U L E       W3C CR 2/15/2011
 "----------------------------------------------------------------------------"
 
-syn match cssBgProp         contained 
+syn match cssBgProp         contained
                           \ "\<\(border\
                             \(-\(top\|right\|bottom\|left\)\)\=
                             \\(-\(color\|style\|width\)\)\=\)\>"
 
-syn keyword cssBgProp       contained 
+syn keyword cssBgProp       contained
                           \ background
                           \ background-attachment
                           \ background-clip
@@ -544,7 +544,7 @@ syn keyword cssBgProp       contained
                           \ box-decoration-break
                           \ box-shadow
 
-syn match cssBgVal          contained 
+syn match cssBgVal          contained
                           \ "\<\(center\|
                             \contain\|
                             \cover\|
@@ -559,11 +559,11 @@ syn match cssBgVal          contained
 "=BO X  P R O P S + V A L U E S
 "----------------------------------------------------------------------------"
 
-syn keyword cssBoxProp      contained 
-                          \ clear 
+syn keyword cssBoxProp      contained
+                          \ clear
                           \ clip
-                          \ float 
-                          \ height 
+                          \ float
+                          \ height
                           \ margin
                           \ margin-bottom
                           \ margin-left
@@ -585,7 +585,7 @@ syn keyword cssBoxProp      contained
                           \ width
                           \ z-index
 
-syn match cssBoxVal         contained 
+syn match cssBoxVal         contained
                           \ "\<\(dashed\|
                             \dotted\|
                             \double\|
@@ -603,180 +603,180 @@ syn match cssBoxVal         contained
                             \thin\|
                             \visible\)\>"
 
-"C S S 3  =C O L O R  M O D U L E                              W3C R 6/7/2011 
+"C S S 3  =C O L O R  M O D U L E                              W3C R 6/7/2011
 "----------------------------------------------------------------------------"
 
-syn keyword cssColorProp    contained 
-                          \ color 
-                          \ currentColor 
+syn keyword cssColorProp    contained
+                          \ color
+                          \ currentColor
                           \ opacity
 
-syn keyword cssColorVal     contained 
-                          \ aliceblue 
-                          \ antiquewhite 
-                          \ aqua 
-                          \ aquamarine 
+syn keyword cssColorVal     contained
+                          \ aliceblue
+                          \ antiquewhite
+                          \ aqua
+                          \ aquamarine
                           \ azure
                           \
-                          \ beige 
-                          \ bisque 
-                          \ black 
-                          \ blanchedalmond 
-                          \ blue 
-                          \ blueviolet 
-                          \ brown 
-                          \ burlywood 
+                          \ beige
+                          \ bisque
+                          \ black
+                          \ blanchedalmond
+                          \ blue
+                          \ blueviolet
+                          \ brown
+                          \ burlywood
                           \
-                          \ cadetblue 
-                          \ chartreuse 
-                          \ chocolate 
+                          \ cadetblue
+                          \ chartreuse
+                          \ chocolate
                           \ coral
-                          \ cornflowerblue 
-                          \ cornsilk 
-                          \ crimson 
-                          \ cyan 
+                          \ cornflowerblue
+                          \ cornsilk
+                          \ crimson
+                          \ cyan
                           \
-                          \ darkblue 
-                          \ darkcyan 
-                          \ darkgoldenrod 
-                          \ darkgray 
-                          \ darkgrey 
-                          \ darkgreen 
-                          \ darkkhaki 
-                          \ darkmagenta 
-                          \ darkolivegreen 
-                          \ darkorange 
-                          \ darkorchid 
-                          \ darkred 
-                          \ darksalmon 
-                          \ darkseagreen 
-                          \ darkslateblue 
-                          \ darkslategray 
-                          \ darkslategrey 
-                          \ darkturquoise 
-                          \ darkviolet 
-                          \ deeppink 
-                          \ deepskyblue 
-                          \ dimgray 
-                          \ dimgrey 
-                          \ dodgerblue 
+                          \ darkblue
+                          \ darkcyan
+                          \ darkgoldenrod
+                          \ darkgray
+                          \ darkgrey
+                          \ darkgreen
+                          \ darkkhaki
+                          \ darkmagenta
+                          \ darkolivegreen
+                          \ darkorange
+                          \ darkorchid
+                          \ darkred
+                          \ darksalmon
+                          \ darkseagreen
+                          \ darkslateblue
+                          \ darkslategray
+                          \ darkslategrey
+                          \ darkturquoise
+                          \ darkviolet
+                          \ deeppink
+                          \ deepskyblue
+                          \ dimgray
+                          \ dimgrey
+                          \ dodgerblue
                           \
-                          \ firebrick 
-                          \ floralwhite 
-                          \ forestgreen 
-                          \ fuchsia 
+                          \ firebrick
+                          \ floralwhite
+                          \ forestgreen
+                          \ fuchsia
                           \
-                          \ gainsboro 
-                          \ ghostwhite 
-                          \ gold 
-                          \ goldenrod 
-                          \ gray 
-                          \ grey 
-                          \ green 
-                          \ greenyellow 
+                          \ gainsboro
+                          \ ghostwhite
+                          \ gold
+                          \ goldenrod
+                          \ gray
+                          \ grey
+                          \ green
+                          \ greenyellow
                           \
                           \ honeydew
-                          \ hotpink 
+                          \ hotpink
                           \
-                          \ indianred 
-                          \ indigo 
-                          \ ivory 
+                          \ indianred
+                          \ indigo
+                          \ ivory
                           \
-                          \ khaki 
+                          \ khaki
                           \
-                          \ lavender 
-                          \ lavenderblush 
-                          \ lawngreen 
-                          \ lemonchiffon 
-                          \ lightblue 
-                          \ lightcoral 
-                          \ lightcyan 
-                          \ lightgoldenrodyellow 
-                          \ lightgray 
-                          \ lightgrey 
-                          \ lightgreen 
-                          \ lightpink 
+                          \ lavender
+                          \ lavenderblush
+                          \ lawngreen
+                          \ lemonchiffon
+                          \ lightblue
+                          \ lightcoral
+                          \ lightcyan
+                          \ lightgoldenrodyellow
+                          \ lightgray
+                          \ lightgrey
+                          \ lightgreen
+                          \ lightpink
                           \ lightsalmon
-                          \ lightseagreen 
-                          \ lightskyblue 
+                          \ lightseagreen
+                          \ lightskyblue
                           \ lightslategray
-                          \ lightslategrey 
-                          \ lightsteelblue 
-                          \ lightyellow 
+                          \ lightslategrey
+                          \ lightsteelblue
+                          \ lightyellow
                           \ lime
-                          \ limegreen 
-                          \ linen 
+                          \ limegreen
+                          \ linen
                           \
-                          \ magenta 
-                          \ maroon 
-                          \ mediumaquamarine 
-                          \ mediumblue 
-                          \ mediumorchid 
-                          \ mediumpurple 
+                          \ magenta
+                          \ maroon
+                          \ mediumaquamarine
+                          \ mediumblue
+                          \ mediumorchid
+                          \ mediumpurple
                           \ mediumseagreen
-                          \ mediumslateblue 
-                          \ mediumspringgreen 
+                          \ mediumslateblue
+                          \ mediumspringgreen
                           \ mediumturquoise
-                          \ mediumvioletred 
-                          \ midnightblue 
-                          \ mintcream 
+                          \ mediumvioletred
+                          \ midnightblue
+                          \ mintcream
                           \ mistyrose
-                          \ moccasin 
+                          \ moccasin
                           \
-                          \ navajowhite 
-                          \ navy 
+                          \ navajowhite
+                          \ navy
                           \
-                          \ oldlace 
-                          \ olive 
-                          \ olivedrab 
-                          \ orange 
-                          \ orangered 
-                          \ orchid 
+                          \ oldlace
+                          \ olive
+                          \ olivedrab
+                          \ orange
+                          \ orangered
+                          \ orchid
                           \
-                          \ palegoldenrod 
-                          \ palegreen 
-                          \ paleturquoise 
-                          \ palevioletred 
-                          \ papayawhip 
-                          \ peachpuff 
-                          \ peru 
-                          \ pink 
-                          \ plum 
-                          \ powderblue 
-                          \ purple 
+                          \ palegoldenrod
+                          \ palegreen
+                          \ paleturquoise
+                          \ palevioletred
+                          \ papayawhip
+                          \ peachpuff
+                          \ peru
+                          \ pink
+                          \ plum
+                          \ powderblue
+                          \ purple
                           \
-                          \ red 
-                          \ rosybrown 
-                          \ royalblue 
+                          \ red
+                          \ rosybrown
+                          \ royalblue
                           \
-                          \ saddlebrown 
-                          \ salmon 
-                          \ sandybrown 
-                          \ seagreen 
-                          \ seashell 
-                          \ sienna 
-                          \ silver 
-                          \ skyblue 
-                          \ slateblue 
+                          \ saddlebrown
+                          \ salmon
+                          \ sandybrown
+                          \ seagreen
+                          \ seashell
+                          \ sienna
+                          \ silver
+                          \ skyblue
+                          \ slateblue
                           \ slategray
-                          \ slategrey 
-                          \ snow 
-                          \ springgreen 
-                          \ steelblue 
+                          \ slategrey
+                          \ snow
+                          \ springgreen
+                          \ steelblue
                           \
-                          \ tan 
-                          \ teal 
-                          \ thistle 
-                          \ tomato 
-                          \ turquoise 
+                          \ tan
+                          \ teal
+                          \ thistle
+                          \ tomato
+                          \ turquoise
                           \
-                          \ violet 
+                          \ violet
                           \
-                          \ wheat 
-                          \ white 
-                          \ whitesmoke 
+                          \ wheat
+                          \ white
+                          \ whitesmoke
                           \
-                          \ yellow 
+                          \ yellow
                           \ yellowgreen
 
 syn match cssColorVal       contained "\<transparent\>"
@@ -786,7 +786,7 @@ syn match cssColorVal       contained "#[0-9A-Fa-f]\{6}"
 "C S S 3  =F O N T S  M O D U L E                            W3C WD 3/24/2011
 "----------------------------------------------------------------------------"
 
-syn keyword cssFontProp     contained 
+syn keyword cssFontProp     contained
                           \ font
                           \ font-family
                           \ font-feature-settings
@@ -807,7 +807,7 @@ syn keyword cssFontProp     contained
                           \ unicode-range
                           \ vertical-position
 
-syn match cssFontVal        contained 
+syn match cssFontVal        contained
                           \ "\<\(Arial\|
                             \Calibri\|
                             \Candara\|
@@ -821,9 +821,9 @@ syn match cssFontVal        contained
                             \Lucida\|
                             \Tahoma\|
                             \Times\|
-                            \Verdana\)\>" 
+                            \Verdana\)\>"
 
-syn match cssFontVal        contained 
+syn match cssFontVal        contained
                           \ "\<\(additional-ligatures\|
                             \all-petite-caps\|
                             \all-small-caps\|
@@ -863,7 +863,7 @@ syn match cssFontVal        contained
                             \ordinal\|
                             \petite-caps\|
                             \proportional-nums\|
-                            \proportional-width\| 
+                            \proportional-width\|
                             \ruby\|
                             \sans-serif\|
                             \serif\|
@@ -909,16 +909,16 @@ syn match cssImgVal         contained
 
 syn match cssGenConProp     contained "\<\quotes\>"
 
-syn keyword cssGenConProp   contained 
-                          \ content 
+syn keyword cssGenConProp   contained
+                          \ content
                           \ counter-reset
                           \ counter-increment
                           \ list-style
                           \ list-style-type
                           \ list-style-image
                           \ list-style-position
-                                       
-syn match cssGenConVal      contained 
+
+syn match cssGenConVal      contained
                           \ "\<\(armenian\|
                             \cjk-ideographic\|
                             \decimal\(-leading-zero\)\|
@@ -936,14 +936,14 @@ syn match cssGenConVal      contained
 "C S S 3  =M A R Q U E E  M O D U L E                        W3C CR 12/5/2008
 "----------------------------------------------------------------------------"
 
-syn keyword cssMarqProp     contained 
+syn keyword cssMarqProp     contained
                           \ marquee-direction
                           \ marquee-play-count
                           \ marquee-speed
                           \ marquee-style
                           \ overflow-style
 
-syn match cssMarqValue      contained 
+syn match cssMarqValue      contained
                           \ "\<\(alternate\|
                             \forward\|
                             \marquee-block\|
@@ -954,7 +954,7 @@ syn match cssMarqValue      contained
 "C S S 3  =MU L T I - C O L U M N  L A Y O U T  M O D U L E  W3C CR 3/12/2011
 "----------------------------------------------------------------------------"
 
-syn keyword cssMultiColProp contained 
+syn keyword cssMultiColProp contained
                           \ break-after
                           \ break-after
                           \ break-inside
@@ -969,7 +969,7 @@ syn keyword cssMultiColProp contained
                           \ column-rule-width
                           \ column-span
 
-syn match cssMultiColVal    contained 
+syn match cssMultiColVal    contained
                           \ "\<\(all\|
                             \avoid-page\|
                             \avoid-column\|
@@ -978,7 +978,7 @@ syn match cssMultiColVal    contained
 "C S S 3  =P A G E D  M E D I A  M O D U L E                   W3C WD 6/7/2011
 "----------------------------------------------------------------------------"
 
-syn keyword cssPageProp     contained 
+syn keyword cssPageProp     contained
                           \ fit
                           \ fit-position
                           \ inside
@@ -991,7 +991,7 @@ syn keyword cssPageProp     contained
                           \ size
                           \ widows
 
-syn match cssPageVal        contained 
+syn match cssPageVal        contained
                           \ "\<\(A5\|
                             \A4\|
                             \A3\|
@@ -1010,16 +1010,16 @@ syn match cssPageVal        contained
 "=R E N D E R  P R O P S + V A L U E S
 "----------------------------------------------------------------------------"
 
-syn keyword cssRenderProp   contained 
-                          \ bottom 
-                          \ display 
-                          \ left 
-                          \ marker-offset 
-                          \ position 
-                          \ right 
-                          \ top 
+syn keyword cssRenderProp   contained
+                          \ bottom
+                          \ display
+                          \ left
+                          \ marker-offset
+                          \ position
+                          \ right
+                          \ top
 
-syn match cssRenderVal      contained 
+syn match cssRenderVal      contained
                           \ "\<\(block\|
                             \bidi-override\|
                             \compact\|
@@ -1040,7 +1040,7 @@ syn match cssRenderVal      contained
                             \
                             \table\(-\(row-group\|\(header\|footer\)
                             \-group\|row\|column\(-group\)\=\|
-                            \cell\|caption\)\)\=\)\>" 
+                            \cell\|caption\)\)\=\)\>"
 
 "C S S 3  =R U B Y  M O D U L E                              W3C WD 6/30/2011
 "----------------------------------------------------------------------------"
@@ -1060,11 +1060,11 @@ syn match cssRubyVal        contained
 "C S S 3  =S P E E C H  M O D U L E                          W3C WD 8/18/2011
 "----------------------------------------------------------------------------"
 
-syn keyword cssSpeechProp   contained 
+syn keyword cssSpeechProp   contained
                           \ cue
                           \ cue-after
                           \ cue-before
-                          \ pause 
+                          \ pause
                           \ pause-after
                           \ pause-before
                           \ play-during
@@ -1083,7 +1083,7 @@ syn keyword cssSpeechProp   contained
                           \ voice-stress
                           \ voice-volume
 
-syn match cssSpeechVal      contained 
+syn match cssSpeechVal      contained
                           \ "\<\(child\|
                             \code\|
                             \continuous\|
@@ -1114,25 +1114,25 @@ syn match cssSpeechVal      contained
 "=T A B L E  P R O P S + V A L U E S
 "----------------------------------------------------------------------------"
 
-syn keyword cssTableProp    contained 
-                          \ border-collapse 
-                          \ border-spacing 
-                          \ caption-side 
-                          \ empty-cells 
-                          \ speak-header 
-                          \ table-layout 
+syn keyword cssTableProp    contained
+                          \ border-collapse
+                          \ border-spacing
+                          \ caption-side
+                          \ empty-cells
+                          \ speak-header
+                          \ table-layout
 
-syn match cssTableVal       contained 
+syn match cssTableVal       contained
                           \ "\<\(fixed\|
                             \separate\|
                             \show\|
                             \hide\|
                             \once\)\>"
 
-"C S S 3  =TE X T  M O D U L E                               W3C WD 9/01/2011 
+"C S S 3  =TE X T  M O D U L E                               W3C WD 9/01/2011
 "----------------------------------------------------------------------------"
 
-syn keyword cssTextProp     contained 
+syn keyword cssTextProp     contained
                           \ hanging-punctuation
                           \ hyphens
                           \ hyphenate-character
@@ -1145,9 +1145,9 @@ syn keyword cssTextProp     contained
                           \ line-height
                           \ overflow-wrap
                           \ tab-size
-                          \ text-align 
+                          \ text-align
                           \ text-align-last
-                          \ text-decoration 
+                          \ text-decoration
                           \ text-decoration-color
                           \ text-decoration-skip
                           \ text-decoration-style
@@ -1161,16 +1161,16 @@ syn keyword cssTextProp     contained
                           \ text-rendering
                           \ text-shadow
                           \ text-spacing
-                          \ text-space-collapse 
-                          \ text-transform 
+                          \ text-space-collapse
+                          \ text-transform
                           \ text-underline-position
                           \ text-wrap
                           \ vertical-align
-                          \ white-space 
+                          \ white-space
                           \ word-break
                           \ word-spacing
 
-syn match cssTextVal        contained 
+syn match cssTextVal        contained
                           \ "\<\(allow-end\|
                             \alphabetic\|
                             \baseline\|
@@ -1249,12 +1249,12 @@ syn match cssTextVal        contained
                             \trim-inner\|
                             \underline\|
                             \uppercase\|
-                            \wavy\)\>" 
+                            \wavy\)\>"
 
 "C S S 3  =BA S I C  U I  M O D U L E                        W3C CR 5/11/2004
 "----------------------------------------------------------------------------"
 
-syn keyword cssUIProp       contained 
+syn keyword cssUIProp       contained
                           \ appearance
                           \ box-sizing
                           \ cursor
@@ -1271,7 +1271,7 @@ syn keyword cssUIProp       contained
                           \ outline-width
                           \ resize
 
-syn match cssUIVal          contained 
+syn match cssUIVal          contained
                           \ "\<\(alias\|
                             \all-scroll\|
                             \both\|
@@ -1300,9 +1300,9 @@ syn match cssUIVal          contained
 
 "The following values are for the appearance property and represent only
 "those values listed in the W3C Candidate Recommendation or that are
-"supported by both Webkit and Gecko browsers. 
+"supported by both Webkit and Gecko browsers.
 
-syn match cssUIVal          contained 
+syn match cssUIVal          contained
                           \ "\<\(button\|
                             \checkbox\|
                             \check-box-group\|
@@ -1346,7 +1346,7 @@ syn match cssUIVal          contained
 "=C S S 3  =W R I T I N G  M O D E S  M O D U L E             W3C WD 9/1/2011
 "----------------------------------------------------------------------------"
 
-syn keyword cssWritingProp  contained  
+syn keyword cssWritingProp  contained
                           \ caption-side
                           \ direction
                           \ text-combine-horizontal
@@ -1412,7 +1412,7 @@ hi def link cssPseudoClass PreProc
 hi def link cssUnitVal Number
 hi def link cssNumVal Number
 hi def link cssExpr Constant
-hi def link cssExprType Function 
+hi def link cssExprType Function
 hi def link cssIdName Function
 hi def link cssImportantVal Special
 hi def link cssBraces Function
