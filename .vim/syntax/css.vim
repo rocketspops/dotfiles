@@ -233,7 +233,7 @@ syn keyword cssAtRule       @bottom-center
 "=P S E U D O  C L A S S  S E L E C T O R S
 "----------------------------------------------------------------------------"
 
-syn match cssPseudoClass    ":active\|
+syn match cssPseudo         "\(:active\|
                             \:after\|
                             \:before\|
                             \:checked\|
@@ -272,14 +272,14 @@ syn match cssPseudoClass    ":active\|
                             \:target\|
                             \:value\|
                             \:valid\|
-                            \:visited"
+                            \:visited\)"
 
-syn region cssPseudoClass   contains=cssAttrSelect,
+syn region cssPseudo        contains=cssAttrSelect,
                                    \ cssNumVal,
                                    \ cssSelectOp,
                                    \ cssUnitVal
                           \ keepend
-                          \ matchgroup=cssPseudoClassExpr
+                          \ matchgroup=cssPseudoExpr
                           \ oneline
                           \ start="\(:lang\|
                                    \:nth-child\|
@@ -376,7 +376,7 @@ syn region cssProp          contained
                           \ contains=@cssPropGroup
                           \ keepend
                           \ start="\(^\|\(\;\s*\)\@<=\w\|\({\s*\)\@<=\w\)"
-                          \ end="\w\(\:\)\@="
+                          \ end="\w\(\s*\:\)\@="
                           \ oneline
 
 syn region cssVal           contained
@@ -436,7 +436,7 @@ syn region cssExpr          contained
 syn match cssImportantVal   contained "!\s*important\>"
 
 syn match cssSharedVal      contained
-                          \ "above\|
+                          \ "\<\(above\|
                             \absolute\|
                             \after\|
                             \always\|
@@ -473,7 +473,7 @@ syn match cssSharedVal      contained
                             \slice\|
                             \slow\
                             \start\|
-                            \top"
+                            \top\)\>"
 
 syn match cssUnicodeVal     contained
                           \ "\(U+[0-9A-Fa-f?]\+[+-][0-9A-Fa-f?]\+\|
@@ -510,7 +510,8 @@ syn match cssUnitVal        contained
                             \turn\|
                             \vh\|
                             \vm\|
-                            \vw\)"
+                            \vw\)
+                            \\(\;\|\s\+\)"
 
 "=B A C K G R O U N D  and  B O R D E R S  M O D U L E       W3C CR 2/15/2011
 "----------------------------------------------------------------------------"
@@ -1133,6 +1134,7 @@ syn match cssTableVal       contained
 "----------------------------------------------------------------------------"
 
 syn keyword cssTextProp     contained
+                          \ baseline-shift
                           \ hanging-punctuation
                           \ hyphens
                           \ hyphenate-character
@@ -1381,45 +1383,66 @@ syn match cssWritingVal     contained
 "=D E F A U L T  H I G H L I G H T  G R O U P S`
 "----------------------------------------------------------------------------"
 
-hi def link cssComment Comment
-hi def link cssTagName Statement
+hi def link cssUnicodeVal   Constant
+
+hi def link cssComment      Comment
+
+hi def link cssBraceError   Error
+
+hi def link cssBraces       Function
+hi def link cssClassName    Function
+hi def link cssExpr         Function
+hi def link cssExprType     Function
+hi def link cssIdName       Function
+hi def link cssPseudo       Function
+hi def link cssPseudoExpr   Function
+
+hi def link cssNumVal       Number
+hi def link cssUnitVal      Number
+
+hi def link cssBgProp       StorageClass
+hi def link cssBoxProp      StorageClass
+hi def link cssColorProp    StorageClass
+hi def link cssFontProp     StorageClass
+hi def link cssImgProp      StorageClass
+hi def link cssGenConProp   StorageClass
+hi def link cssMarqProp     StorageClass
+hi def link cssMultiColProp StorageClass
+hi def link cssPageProp     StorageClass
+hi def link cssRenderProp   StorageClass
+hi def link cssRubyProp     StorageClass
+hi def link cssSpeechProp   StorageClass
+hi def link cssTableProp    StorageClass
+hi def link cssTextProp     StorageClass
+hi def link cssUIProp       StorageClass
+hi def link cssWritingProp  StorageClass
+
+hi def link cssBgVal        Type
+hi def link cssBoxVal       Type
+hi def link cssColorVal     Type
+hi def link cssFontVal      Type
+hi def link cssImgVal       Type
+hi def link cssGenConVal    Type
+hi def link cssMarqVal      Type
+hi def link cssMultiColVal  Type
+hi def link cssPageVal      Type
+hi def link cssRenderVal    Type
+hi def link cssRubyVal      Type
+hi def link cssSharedVal    Type
+hi def link cssSpeechVal    Type
+hi def link cssTableVal     Type
+hi def link cssTextVal      Type
+hi def link cssUIVal        Type
+hi def link cssWritingVal   Type
+
 hi def link cssAttrSelectOp Special
-hi def link cssSelectOp Special
-hi def link cssFontProp StorageClass
-hi def link cssColorProp StorageClass
-hi def link cssTextProp StorageClass
-hi def link cssBoxProp StorageClass
-hi def link cssBgProp StorageClass
-hi def link cssRenderProp StorageClass
-hi def link cssSpeechProp StorageClass
-hi def link cssRenderProp StorageClass
-hi def link cssGenConProp StorageClass
-hi def link cssPagingProp StorageClass
-hi def link cssTableProp StorageClass
-hi def link cssUIProp StorageClass
-hi def link cssFontVal Type
-hi def link cssColorVal Type
-hi def link cssTextVal Type
-hi def link cssBoxVal Type
-hi def link cssRenderVal Type
-hi def link cssSpeechVal Type
-hi def link cssGenConVal Type
-hi def link cssPageVal Type
-hi def link cssTableVal Type
-hi def link cssUIVal Type
-hi def link cssSharedVal Type
-hi def link cssPseudoClass PreProc
-hi def link cssUnitVal Number
-hi def link cssNumVal Number
-hi def link cssExpr Constant
-hi def link cssExprType Function
-hi def link cssIdName Function
+hi def link cssCalcOp       Special
 hi def link cssImportantVal Special
-hi def link cssBraces Function
-hi def link cssBraceError Error
-hi def link cssQuo String
-hi def link cssUnicodeVal Constant
-hi def link cssClassName Function
+hi def link cssSelectOp     Special
+hi def link cssValOp        Special
+
+hi def link cssTagName      Statement
+
+hi def link cssQuo          String
 
 let b:current_syntax = "css"
-
