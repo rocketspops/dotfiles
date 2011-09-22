@@ -4,7 +4,7 @@
 " Language:	CSS
 " Maintainer:	Billy Whited (rocketspops@gmail.com)
 " URL:		
-" Last Change:  September 2nd, 2011
+" Last Change:  September 22nd, 2011
 
 if exists("b:current_syntax")
   finish
@@ -184,16 +184,18 @@ syn keyword cssTagName      a
                           \ xmp
 
 syn region cssAttrSelect    contains=cssAttrSelectOp,cssQuo
-                          \ matchgroup=cssAttrSelect
+                          \ keepend
+                          \ oneline
+                          \ matchgroup=cssAttrBraces
                           \ start="\["
-                          \ end="]"
-                          \ transparent
+                          \ end="\]"
 
 "=A T  R U L E  S E L E C T O R
 "----------------------------------------------------------------------------"
 
-syn region cssAtRuleBraces  contains=ALLBUT,cssBraceError
+syn region cssAtRuleBlock   contains=ALLBUT,cssBraceError
                           \ keepend
+                          \ matchgroup=cssAtRuleBraces
                           \ start="\(^@[A-Za-z].*\)\@<={"
                           \ end="\(}\|}\@<=}\)"
                           \ transparent
@@ -1383,66 +1385,78 @@ syn match cssWritingVal     contained
 "=D E F A U L T  H I G H L I G H T  G R O U P S`
 "----------------------------------------------------------------------------"
 
-hi def link cssUnicodeVal   Constant
-
 hi def link cssComment      Comment
+
+hi def link cssAtRule       Conditional
+
+hi def link cssBgVal        Constant
+hi def link cssBoxVal       Constant
+hi def link cssColorVal     Constant
+hi def link cssFontVal      Constant
+hi def link cssImgVal       Constant
+hi def link cssGenConVal    Constant
+hi def link cssMarqVal      Constant
+hi def link cssMediaValue   Constant
+hi def link cssMultiColVal  Constant
+hi def link cssPageVal      Constant
+hi def link cssRenderVal    Constant
+hi def link cssRubyVal      Constant
+hi def link cssSharedVal    Constant
+hi def link cssSpeechVal    Constant
+hi def link cssTableVal     Constant
+hi def link cssTextVal      Constant
+hi def link cssUIVal        Constant
+hi def link cssWritingVal   Constant
 
 hi def link cssBraceError   Error
 
+hi def link cssAtRuleBraces Function
+hi def link cssAtRuleExpr   Function
+hi def link cssAttrBraces   Function
 hi def link cssBraces       Function
-hi def link cssClassName    Function
 hi def link cssExpr         Function
 hi def link cssExprType     Function
-hi def link cssIdName       Function
+hi def link cssMediaExpr    Function
 hi def link cssPseudo       Function
 hi def link cssPseudoExpr   Function
 
+hi def link cssAttrSelect   Identifier
+hi def link cssClassName    Identifier
+hi def link cssIdName       Identifier
+hi def link cssMediaType    Identifier
+
 hi def link cssNumVal       Number
+hi def link cssUnicodeVal   Number
 hi def link cssUnitVal      Number
 
-hi def link cssBgProp       StorageClass
-hi def link cssBoxProp      StorageClass
-hi def link cssColorProp    StorageClass
-hi def link cssFontProp     StorageClass
-hi def link cssImgProp      StorageClass
-hi def link cssGenConProp   StorageClass
-hi def link cssMarqProp     StorageClass
-hi def link cssMultiColProp StorageClass
-hi def link cssPageProp     StorageClass
-hi def link cssRenderProp   StorageClass
-hi def link cssRubyProp     StorageClass
-hi def link cssSpeechProp   StorageClass
-hi def link cssTableProp    StorageClass
-hi def link cssTextProp     StorageClass
-hi def link cssUIProp       StorageClass
-hi def link cssWritingProp  StorageClass
+hi def link cssAttrSelectOp Operator
+hi def link cssCalcOp       Operator
+hi def link cssMediaOp      Operator
+hi def link cssSelectOp     Operator
+hi def link cssValOp        Operator
 
-hi def link cssBgVal        Type
-hi def link cssBoxVal       Type
-hi def link cssColorVal     Type
-hi def link cssFontVal      Type
-hi def link cssImgVal       Type
-hi def link cssGenConVal    Type
-hi def link cssMarqVal      Type
-hi def link cssMultiColVal  Type
-hi def link cssPageVal      Type
-hi def link cssRenderVal    Type
-hi def link cssRubyVal      Type
-hi def link cssSharedVal    Type
-hi def link cssSpeechVal    Type
-hi def link cssTableVal     Type
-hi def link cssTextVal      Type
-hi def link cssUIVal        Type
-hi def link cssWritingVal   Type
-
-hi def link cssAttrSelectOp Special
-hi def link cssCalcOp       Special
 hi def link cssImportantVal Special
-hi def link cssSelectOp     Special
-hi def link cssValOp        Special
-
-hi def link cssTagName      Statement
 
 hi def link cssQuo          String
+
+hi def link cssTagName      Tag
+
+hi def link cssBgProp       Type
+hi def link cssBoxProp      Type
+hi def link cssColorProp    Type
+hi def link cssFontProp     Type
+hi def link cssImgProp      Type
+hi def link cssGenConProp   Type
+hi def link cssMarqProp     Type
+hi def link cssMediaFeat    Type
+hi def link cssMultiColProp Type
+hi def link cssPageProp     Type
+hi def link cssRenderProp   Type
+hi def link cssRubyProp     Type
+hi def link cssSpeechProp   Type
+hi def link cssTableProp    Type
+hi def link cssTextProp     Type
+hi def link cssUIProp       Type
+hi def link cssWritingProp  Type
 
 let b:current_syntax = "css"
