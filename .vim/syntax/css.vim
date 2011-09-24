@@ -271,7 +271,7 @@ syn match cssPseudo         "\(:active\|
 syn region cssPseudo        contains=cssAttrSelect,
                                    \ cssNumVal,
                                    \ cssSelectOp,
-                                   \ cssUnitVal
+                                   \ cssUnit
                           \ keepend
                           \ matchgroup=cssPseudoExpr
                           \ oneline
@@ -306,7 +306,7 @@ syn region cssMediaExpr     contains=cssCalcOp,
                                    \ cssMediaFeat,
                                    \ cssMediaValue,
                                    \ cssNumVal,
-                                   \ cssUnitVal
+                                   \ cssUnit
                           \ keepend
                           \ oneline
                           \ start="\s\@<=("
@@ -439,7 +439,7 @@ syn match cssImportantVal   contained "!\s*important\>"
 
 syn match cssNumVal         contained "[-]\=\d\+\(\.\d*\)\="
 
-syn match cssUnitVal        contained
+syn match cssUnit           contained
                           \ "\(\d\)\@<=\(
                             \%\|
                             \ch\|
@@ -470,16 +470,14 @@ syn match cssUnitVal        contained
                             \vw\)
                             \\(\;\|\s\+\)\@="
 
-syn match cssValOp          contained
-                          \ "[:;,]"
+syn match cssValOp          contained "[:;,]"
 
 syn cluster cssShared       contains=cssImportantVal,
                                     \cssNumVal,
-                                    \cssUnitVal,
+                                    \cssUnit,
                                     \cssValOp
 
-syn match cssCalcOp         contained
-                          \ "\([\*+-\/]\)\|\(mod\)"
+syn match cssCalcOp         contained "\([\*+-\/]\)\|\(mod\)"
 
 syn match cssColorHex       contained 
                           \ "\(#[0-9A-Fa-f]\{6}\|
@@ -1017,6 +1015,13 @@ syn keyword cssImgProp      contained
                           \ object-fit
                           \ object-position
 
+syn match cssImgUnit        contained
+                          \ "\(\d\)\@<=\(
+                            \dpi\|
+                            \dpcm\|
+                            \dppx\|
+                            \\(\;\|\s\+\)\@="
+
 syn match cssImgVal         contained
                           \ "\<\(contain\|
                             \cover\|
@@ -1506,6 +1511,9 @@ syn match cssWritingVal     contained
 "=D E F A U L T  H I G H L I G H T  G R O U P S`
 "----------------------------------------------------------------------------"
 
+hi def link cssImgUnit      Character
+hi def link cssUnit         Character
+
 hi def link cssComment      Comment
 
 hi def link cssAtFontFace   Conditional
@@ -1555,7 +1563,6 @@ hi def link cssColorHex     Number
 hi def link cssNumVal       Number
 hi def link cssMarqNumVal   Number
 hi def link cssUnicode      Number
-hi def link cssUnitVal      Number
 
 hi def link cssAttrSelectOp Operator
 hi def link cssCalcOp       Operator
