@@ -13,6 +13,8 @@ endif
 set iskeyword=@,48-57,@-@,-
 syn sync fromstart
 
+syn cluster Spell           contains=NONE
+
 "=G L O B A L
 "----------------------------------------------------------------------------"
 
@@ -20,11 +22,7 @@ syn region cssComment       keepend
                           \ start="/\*"
                           \ end="\*/"
 
-syn region cssQuo           contained
-                          \ keepend
-                          \ start=+\'\|\"+
-                          \ skip=+\\'\|\\"+
-                          \ end=+\'\|\"+
+
 
 "=B A S I C  S E L E C T O R S
 "----------------------------------------------------------------------------"
@@ -34,11 +32,6 @@ syn match cssSelectOp       "[*+>:.,_|~-]"
 syn match cssAttrSelectOp   contained
                           \ "[=*~|$^]"
 
-syn match cssCalcOp         contained
-                          \ "\([\*+-\/]\)\|\(mod\)"
-
-syn match cssValOp          contained
-                          \ "[,]"
 
 syn match cssIdName         "#[A-Za-z_][A-Za-z0-9_-]*"
 syn match cssClassName      "\.[A-Za-z][A-Za-z0-9_-]*"
@@ -214,7 +207,6 @@ syn keyword cssAtRule       @bottom-center
                           \ @charset
                           \ @color-profile
                           \ @document
-                          \ @font-face
                           \ @import
                           \ @left-top
                           \ @left-middle
@@ -365,7 +357,7 @@ syn match cssMediaValue     contained
 "=D E C L A R A T I O N  B L O C K
 "----------------------------------------------------------------------------"
 
-syn region cssDecBlock      contains=cssProp,cssVal,cssBraceError
+syn region cssDecBlock      contains=@cssPropGroup
                           \ containedin=cssAtRuleBlock
                           \ extend
                           \ keepend
@@ -374,28 +366,44 @@ syn region cssDecBlock      contains=cssProp,cssVal,cssBraceError
                           \ end='}'
                           \ transparent
 
-syn region cssProp          contained
-                          \ contains=@cssPropGroup
-                          \ keepend
-                          \ start="\(^\|\(\;\s*\)\@<=\w\|\({\s*\)\@<=\w\)"
-                          \ end="\w\(\s*\:\)\@="
-                          \ oneline
-
-syn region cssVal           contained
-                          \ contains=@cssValGroup,cssValOp
-                          \ keepend
-                          \ matchgroup=cssValOp
-                          \ start="\:"
-                          \ end="\;"
-
-syn cluster cssValGroup     contains=css.*Val,cssQuo,cssExpr
 syn cluster cssPropGroup    contains=css.*Prop
 
 syn match cssBraceError     contained "{"
 syn match cssBraceError     "}"
 
-"=G L O B A L  P R O P S + V A L U E S
+"=C S S  E X P R E S S I O N S
 "----------------------------------------------------------------------------"
+
+syn region cssColorExpr     contained
+                          \ contains=cssQuo,
+                                    \cssNumVal,
+                                    \cssValOp
+                          \ keepend
+                          \ matchgroup=cssColorExprType
+                          \ oneline
+                          \ start="\<\(
+                                   \hsl\|
+                                   \hsla\|
+                                   \rgb\|
+                                   \rgba
+                                   \\)\>
+                                   \("
+                          \ end="\()\)\(\s\+\|;\|\,\)\@="
+                          \ transparent
+
+syn region cssDataExpr      contained
+                          \ contains=cssQuo,
+                                    \cssNumVal
+                          \ keepend
+                          \ matchgroup=cssDataExprType
+                          \ oneline
+                          \ start="\<\(
+                                   \url\|
+                                   \uri
+                                   \\)\>
+                                   \("
+                          \ end="\()\)\(\s\+\|;\|\,\)\@="
+                          \ transparent
 
 syn region cssExpr          contained
                           \ contains=cssQuo,
@@ -405,82 +413,29 @@ syn region cssExpr          contained
                           \ keepend
                           \ matchgroup=cssExprType
                           \ oneline
-                          \ start="\<\(annotation\|
+                          \ start="\<\(
                                    \attr\|
                                    \calc\|
                                    \clip\|
-                                   \character-variant\|
-                                   \counter\|format\|
+                                   \counter\|
                                    \cross-fade\|
                                    \element\|
-                                   \hsl\|
-                                   \hsla\|
                                    \image\|
                                    \linear-gradient\|
-                                   \local\|
                                    \max\|
                                    \min\|
-                                   \ornaments\|
                                    \radial-gradient\|
                                    \repeating-linear-gradient\|
                                    \repeating-radial-gradient\|
                                    \rect\|
-                                   \rgb\|
-                                   \rgba\|
-                                   \stylistic\|
-                                   \styleset\|
-                                   \swash\|
-                                   \uri\|
-                                   \url\)("
-                          \ end=")"
+                                   \\)("
+                          \ end="\()\)\(\s\+\|;\)\@="
                           \ transparent
 
+"=G L O B A L  P R O P S + V A L U E S
+"----------------------------------------------------------------------------"
+
 syn match cssImportantVal   contained "!\s*important\>"
-
-syn match cssSharedVal      contained
-                          \ "\<\(above\|
-                            \absolute\|
-                            \after\|
-                            \always\|
-                            \auto\|
-                            \avoid\|
-                            \before\|
-                            \border-box\|
-                            \bottom\|
-                            \center\|
-                            \circle\|
-                            \collapse\|
-                            \column\|
-                            \content-box\|
-                            \digits\|
-                            \end\|
-                            \fast\|
-                            \fill-available\|
-                            \fit-content\|
-                            \hidden\|
-                            \inline\|
-                            \intial\|
-                            \left\|
-                            \inherit\|
-                            \none\|
-                            \normal\|
-                            \max-content\|
-                            \min-content\|
-                            \medium\|
-                            \padding-box\|
-                            \page\|
-                            \preserve\|
-                            \right\|
-                            \scroll\|
-                            \slice\|
-                            \slow\
-                            \start\|
-                            \top\)\>"
-
-syn match cssUnicodeVal     contained
-                          \ "\(U+[0-9A-Fa-f?]\+[+-][0-9A-Fa-f?]\+\|
-                            \U+[0-9A-Fa-f?]\+\|\\\x\{1,6\}\(\w\|
-                            \\s\w\)\@!\)"
 
 syn match cssNumVal         contained "[-]\=\d\+\(\.\d*\)\="
 
@@ -513,106 +468,218 @@ syn match cssUnitVal        contained
                             \vh\|
                             \vm\|
                             \vw\)
-                            \\(\;\|\s\+\)"
+                            \\(\;\|\s\+\)\@="
+
+syn match cssValOp          contained
+                          \ "[:;,]"
+
+syn cluster cssShared       contains=cssImportantVal,
+                                    \cssNumVal,
+                                    \cssUnitVal,
+                                    \cssValOp
+
+syn match cssCalcOp         contained
+                          \ "\([\*+-\/]\)\|\(mod\)"
+
+syn match cssColorHex       contained 
+                          \ "\(#[0-9A-Fa-f]\{6}\|
+                            \#[0-9A-Fa-f]\{3}\)
+                            \\(\s\+\|;\|\,\)\@="
+
+syn match cssUnicode        contained
+                          \ "\(U+[0-9A-Fa-f?]\+[+-][0-9A-Fa-f?]\+\|
+                            \U+[0-9A-Fa-f?]\+\|\\\x\{1,6\}
+                            \\(\w\|\s\w\)\@!\)"
+
+syn region cssQuo           contained
+                          \ keepend
+                          \ start=+\'\|\"+
+                          \ skip=+\\'\|\\"+
+                          \ end=+\'\|\"+
 
 "=B A C K G R O U N D  and  B O R D E R S  M O D U L E       W3C CR 2/15/2011
 "----------------------------------------------------------------------------"
 
-syn match cssBgProp         contained
-                          \ "\<\(border\
-                            \(-\(top\|right\|bottom\|left\)\)\=
-                            \\(-\(color\|style\|width\)\)\=\)\>"
+syn region cssBgBorProp     contained
+                          \ contains=cssBgBorVal,
+                                    \cssColorExpr,
+                                    \cssColorHex
+                                    \cssDataExpr,
+                                    \@cssShared
+                          \ keepend
+                          \ start="\(\(^\|{\|\;\)\s*\)\@<=\(
+                                  \background\|
+                                  \background-attachment\|
+                                  \background-clip\|
+                                  \background-color\|
+                                  \background-image\|
+                                  \background-origin\|
+                                  \background-position\|
+                                  \background-repeat\|
+                                  \background-size\|
+                                  \border\|
+                                  \border-color\|
+                                  \border-style\|
+                                  \border-width\|
+                                  \border-bottom\|
+                                  \border-bottom-color\|
+                                  \border-bottom-style\|
+                                  \border-bottom-width\|
+                                  \border-left\|
+                                  \border-left-color\|
+                                  \border-left-style\|
+                                  \border-left-width\|
+                                  \border-right\|
+                                  \border-right-color\|
+                                  \border-right-style\|
+                                  \border-right-width\|
+                                  \border-top\|
+                                  \border-top-color\|
+                                  \border-top-style\|
+                                  \border-top-width\|
+                                  \border-image\|
+                                  \border-image-outset\|
+                                  \border-image-repeat\|
+                                  \border-image-slice\|
+                                  \border-image-source\|
+                                  \border-image-width\|
+                                  \border-radius\|
+                                  \border-radius-bottom-left\|
+                                  \border-radius-bottom-right\|
+                                  \border-radius-top-left\|
+                                  \border-radius-top-right\|
+                                  \box-decoration-break\|
+                                  \box-shadow
+                                  \\)\s*:"
+                          \ end=";"
 
-syn keyword cssBgProp       contained
-                          \ background
-                          \ background-attachment
-                          \ background-clip
-                          \ background-color
-                          \ background-image
-                          \ background-origin
-                          \ background-position
-                          \ background-repeat
-                          \ background-size
-                          \ border-image
-                          \ border-image-outset
-                          \ border-image-repeat
-                          \ border-image-slice
-                          \ border-image-source
-                          \ border-image-width
-                          \ border-radius
-                          \ border-radius-bottom-left
-                          \ border-radius-bottom-right
-                          \ border-radius-top-left
-                          \ border-radius-top-right
-                          \ box-decoration-break
-                          \ box-shadow
+syn keyword cssBgBorVal     contained
+                          \ auto
+                          \ border-box
+                          \ bottom
+                          \ center
+                          \ contain
+                          \ content-box
+                          \ cover
+                          \ clone
+                          \ currentColor
+                          \ dashed
+                          \ dotted
+                          \ double
+                          \ fill
+                          \ fixed
+                          \ groove
+                          \ hidden
+                          \ inset
+                          \ left
+                          \ local
+                          \ medium
+                          \ none
+                          \ no-repeat
+                          \ outset
+                          \ padding-box
+                          \ repeat
+                          \ repeat-x
+                          \ repeat-y
+                          \ ridge
+                          \ right
+                          \ round
+                          \ scroll
+                          \ slice
+                          \ solid
+                          \ space
+                          \ stretch
+                          \ top
 
-syn match cssBgVal          contained
-                          \ "\<\(center\|
-                            \contain\|
-                            \cover\|
-                            \clone\|
-                            \fixed\|
-                            \no-repeat\|
-                            \repeat-x\|
-                            \repeat-y\|
-                            \round\|
-                            \space\)\>"
+syn match cssBgBorVal       contained "\<transparent\>"
 
-"=BO X  P R O P S + V A L U E S
+"C S S 3  =BO X  M O D E L  M O D U L E                       W3C WD 8/9/2007 
 "----------------------------------------------------------------------------"
 
-syn keyword cssBoxProp      contained
-                          \ clear
-                          \ clip
-                          \ float
-                          \ height
-                          \ margin
-                          \ margin-bottom
-                          \ margin-left
-                          \ margin-right
-                          \ margin-top
-                          \ max-height
-                          \ max-width
-                          \ min-height
-                          \ min-width
-                          \ overflow
-                          \ overflow-x
-                          \ overflow-y
-                          \ padding
-                          \ padding-bottom
-                          \ padding-left
-                          \ padding-right
-                          \ padding-top
-                          \ visibility
-                          \ width
-                          \ z-index
+syn region cssBoxProp       contained
+                          \ contains=cssBoxVal,
+                                    \@cssShared
+                          \ keepend
+                          \ start="\(\(^\|{\|\;\)\s*\)\@<=\(
+                                  \clear\|
+                                  \display\|
+                                  \float\|
+                                  \height\|
+                                  \margin\|
+                                  \margin-bottom\|
+                                  \margin-left\|
+                                  \margin-right\|
+                                  \margin-top\|
+                                  \max-height\|
+                                  \max-width\|
+                                  \min-height\|
+                                  \min-width\|
+                                  \overflow\|
+                                  \overflow-x\|
+                                  \overflow-y\|
+                                  \padding\|
+                                  \padding-bottom\|
+                                  \padding-left\|
+                                  \padding-right\|
+                                  \padding-top\|
+                                  \rotation\|
+                                  \rotation-point\|
+                                  \visibility\|
+                                  \width\|
+                                  \z-index
+                                  \\)\s*:"
+                          \ end=";"
 
-syn match cssBoxVal         contained
-                          \ "\<\(dashed\|
-                            \dotted\|
-                            \double\|
-                            \fill\|
-                            \groove\|
-                            \inset\|
-                            \invert\|
-                            \outset\|
-                            \outset\|
-                            \ridge\|
-                            \scroll\|
-                            \solid\|
-                            \stretch\|
-                            \thick\|
-                            \thin\|
-                            \visible\)\>"
+syn keyword cssBoxVal       contained
+                          \ alternate
+                          \ auto
+                          \ block
+                          \ collapse
+                          \ compact
+                          \ hidden
+                          \ inline
+                          \ inline-block
+                          \ inline-table
+                          \ left
+                          \ list-item
+                          \ none
+                          \ right
+                          \ ruby
+                          \ ruby-base
+                          \ ruby-base-group
+                          \ ruby-text
+                          \ ruby-text-group
+                          \ run-in
+                          \ scroll
+                          \ slide
+                          \ table
+                          \ table-caption
+                          \ table-cell
+                          \ table-column
+                          \ table-column-group
+                          \ table-footer-group
+                          \ table-header-group
+                          \ table-row
+                          \ table-row-group
+                          \ visible
 
 "C S S 3  =C O L O R  M O D U L E                              W3C R 6/7/2011
 "----------------------------------------------------------------------------"
 
-syn keyword cssColorProp    contained
-                          \ color
-                          \ currentColor
-                          \ opacity
+syn region cssColorProp     contained
+                          \ contains=cssColorVal,
+                                    \cssColorExpr,
+                                    \cssColorHex
+                                    \@cssShared
+                          \ keepend
+                          \ start="\(\(^\|{\|\;\)\s*\)\@<=\(
+                                  \color\|
+                                  \currentColor\|
+                                  \opacity
+                                  \\)\s*:"
+                          \ end=";"
+
+syn match cssColorVal       contained "\<transparent\>"
 
 syn keyword cssColorVal     contained
                           \ aliceblue
@@ -782,111 +849,162 @@ syn keyword cssColorVal     contained
                           \ yellow
                           \ yellowgreen
 
-syn match cssColorVal       contained "\<transparent\>"
-syn match cssColorVal       contained "#[0-9A-Fa-f]\{3}"
-syn match cssColorVal       contained "#[0-9A-Fa-f]\{6}"
-
 "C S S 3  =F O N T S  M O D U L E                            W3C WD 3/24/2011
 "----------------------------------------------------------------------------"
 
-syn keyword cssFontProp     contained
-                          \ font
-                          \ font-family
+syn region cssFontBlock     contains=cssFontProp
+                          \ keepend
+                          \ matchgroup=cssFontBraces
+                          \ start="\(@font-face\s*\)\@<={"
+                          \ end="}"
+                          \ transparent
+
+syn region cssFontExpr      contained
+                          \ contains=cssNumVal,
+                                    \cssQuo
+                          \ keepend
+                          \ matchgroup=cssFontExprType
+                          \ oneline
+                          \ start="\<\(
+                                   \annotation\|
+                                   \character-variant\|
+                                   \format\|
+                                   \local\|
+                                   \ornaments\|
+                                   \stylistic\|
+                                   \styleset\|
+                                   \swash\|
+                                   \\)("
+                          \ end="\()\)\(\s\+\|;\)\@="
+                          \ transparent
+
+syn keyword cssAtFontFace   @font-face
+
+syn keyword cssFontName     contained
+                          \ Arial
+                          \ Calibri
+                          \ Candara
+                          \ Cambria
+                          \ Consolas
+                          \ Corbel
+                          \ Constantia
+                          \ Courier
+                          \ Georgia
+                          \ Helvetica
+                          \ Lucida
+                          \ Tahoma
+                          \ Times
+                          \ Verdana
+
+syn region cssFontProp      contained
+                          \ contains=cssCalcOp
+                                    \cssDataExpr,
+                                    \cssFontExpr,
+                                    \cssFontName,
+                                    \cssFontVal,
+                                    \@cssShared,
+                                    \cssQuo,
+                                    \cssUnicode
+                          \ keepend
+                          \ start="\(\(^\|{\|\;\)\s*\)\@<=\(
+                                  \font\|
+                                  \font-family\|
+                                  \font-feature-settings\|
+                                  \font-kerning\|
+                                  \font-language-override\|
+                                  \font-style\|
+                                  \font-variant\|
+                                  \font-variant-alternates\|
+                                  \font-variant-caps\|
+                                  \font-variant-east-asian\|
+                                  \font-variant-ligatures\|
+                                  \font-variant-numeric\|
+                                  \font-weight\|
+                                  \font-size\|
+                                  \font-size-adjust\|
+                                  \font-stretch\|
+                                  \font-synthesis\|
+                                  \src\|
+                                  \unicode-range\|
+                                  \vertical-position\|
+                                  \\)\s*:"
+                          \ end=";"
+
+syn keyword cssFontVal      contained
+                          \ additional-ligatures
+                          \ all-petite-caps
+                          \ all-small-caps
+                          \ bold
+                          \ bolder
+                          \ caption
+                          \ condensed
+                          \ contextual
+                          \ common-ligatures
+                          \ cursive
+                          \ diagonal-fractions
+                          \ expanded
+                          \ extra-condensed
+                          \ extra-expanded
+                          \ fantasy
                           \ font-feature-settings
-                          \ font-kerning
-                          \ font-language-override
-                          \ font-style
-                          \ font-variant
-                          \ font-variant-alternates
-                          \ font-variant-caps
-                          \ font-variant-east-asian
-                          \ font-variant-ligatures
-                          \ font-variant-numeric
-                          \ font-weight
-                          \ font-size
-                          \ font-size-adjust
-                          \ font-stretch
-                          \ src
-                          \ unicode-range
-                          \ vertical-position
-
-syn match cssFontVal        contained
-                          \ "\<\(Arial\|
-                            \Calibri\|
-                            \Candara\|
-                            \Cambria\|
-                            \Consolas\|
-                            \Corbel\|
-                            \Constantia\|
-                            \Courier\|
-                            \Georgia\|
-                            \Helvetica\|
-                            \Lucida\|
-                            \Tahoma\|
-                            \Times\|
-                            \Verdana\)\>"
-
-syn match cssFontVal        contained
-                          \ "\<\(additional-ligatures\|
-                            \all-petite-caps\|
-                            \all-small-caps\|
-                            \bold\|
-                            \bolder\|
-                            \caption\|
-                            \contextual\|
-                            \common-ligatures\|
-                            \cursive\|
-                            \diagonal-fractions\|
-                            \fantasy\|
-                            \full-width\|
-                            \historical-forms\|
-                            \historical-ligatures\|
-                            \hojo-kanji\|
-                            \icon\|
-                            \italic\|
-                            \jis78\|
-                            \jis83\|
-                            \jis90\|
-                            \jis04\|
-                            \large\|
-                            \larger\|
-                            \lighter\|
-                            \lining-nums\|
-                            \menu\|
-                            \message-box\|
-                            \monospace\|
-                            \nlckanji\|
-                            \no-additional-ligatures\|
-                            \no-contextual\|
-                            \no-common-ligatures\|
-                            \no-historical-ligatures\|
-                            \normal\|
-                            \oblique\|
-                            \oldstyle-nums\|
-                            \ordinal\|
-                            \petite-caps\|
-                            \proportional-nums\|
-                            \proportional-width\|
-                            \ruby\|
-                            \sans-serif\|
-                            \serif\|
-                            \simplified\|
-                            \slashed-zero\|
-                            \small\|
-                            \small-caps\|
-                            \small-caption\|
-                            \smaller\|
-                            \stacked-fractions\|
-                            \status-bar\|
-                            \subscript\|
-                            \superscript\|
-                            \tabular-nums\|
-                            \titling-caps\|
-                            \traditional\|
-                            \
-                            \unicase\|\(\(ultra\|extra\|semi\)-\)\=
-                            \\(condensed\|expanded\)\|
-                            \x-large\|x-small\|xx-large\|xx-small\)\>"
+                          \ font-language-ovveride
+                          \ full-width
+                          \ historical-forms
+                          \ historical-ligatures
+                          \ hojo-kanji
+                          \ icon
+                          \ inherit
+                          \ italic
+                          \ jis78
+                          \ jis83
+                          \ jis90
+                          \ jis04
+                          \ large
+                          \ larger
+                          \ lighter
+                          \ lining-nums
+                          \ menu
+                          \ message-box
+                          \ monospace
+                          \ nlckanji
+                          \ none
+                          \ normal
+                          \ no-additional-ligatures
+                          \ no-contextual
+                          \ no-common-ligatures
+                          \ no-historical-ligatures
+                          \ normal
+                          \ oblique
+                          \ oldstyle-nums
+                          \ ordinal
+                          \ petite-caps
+                          \ proportional-nums
+                          \ proportional-width
+                          \ ruby
+                          \ sans-serif
+                          \ serif
+                          \ semi-condensed
+                          \ semi-expanded
+                          \ simplified
+                          \ slashed-zero
+                          \ small
+                          \ small-caps
+                          \ small-caption
+                          \ smaller
+                          \ stacked-fractions
+                          \ status-bar
+                          \ subscript
+                          \ superscript
+                          \ tabular-nums
+                          \ titling-caps
+                          \ traditional
+                          \ ultra-condensed
+                          \ ultra-expanded
+                          \ unicase
+                          \ x-large
+                          \ x-small
+                          \ xx-large
+                          \ xx-small
 
 
 "C S S 3  =I M A G E S  M O D U L E                          W3C WD 7/12/2011
@@ -939,20 +1057,37 @@ syn match cssGenConVal      contained
 "C S S 3  =M A R Q U E E  M O D U L E                        W3C CR 12/5/2008
 "----------------------------------------------------------------------------"
 
-syn keyword cssMarqProp     contained
-                          \ marquee-direction
-                          \ marquee-play-count
-                          \ marquee-speed
-                          \ marquee-style
-                          \ overflow-style
+syn region cssMarqProp      contained
+                          \ contains=cssMarqVal,
+                                    \cssMarqNumVal,
+                                    \cssValOp
+                          \ keepend
+                          \ start="\(\(^\|{\|\;\)\s*\)\@<=\(
+                                  \marquee-direction\|
+                                  \marquee-play-count\|
+                                  \marquee-speed\|
+                                  \marquee-style\|
+                                  \overflow-style
+                                  \\)\s*:"
+                          \ end=";"
+                            
+syn keyword cssMarqVal      contained
+                          \ alternate
+                          \ fast
+                          \ forward
+                          \ infinite
+                          \ marquee-block
+                          \ marquee-line
+                          \ normal
+                          \ reverse
+                          \ scroll
+                          \ slide
+                          \ slow
 
-syn match cssMarqValue      contained
-                          \ "\<\(alternate\|
-                            \forward\|
-                            \marquee-block\|
-                            \marquee-line\|
-                            \slide\|
-                            \reverse\)\>"
+syn match cssMarqNumVal     contained 
+                            \"\(-\|\w\)\@<!
+                            \\([0-9]\{1,2}\)
+                            \\(\s\+\|;\|\,\)\@="
 
 "C S S 3  =MU L T I - C O L U M N  L A Y O U T  M O D U L E  W3C CR 3/12/2011
 "----------------------------------------------------------------------------"
@@ -1015,7 +1150,6 @@ syn match cssPageVal        contained
 
 syn keyword cssRenderProp   contained
                           \ bottom
-                          \ display
                           \ left
                           \ marker-offset
                           \ position
@@ -1023,27 +1157,14 @@ syn keyword cssRenderProp   contained
                           \ top
 
 syn match cssRenderVal      contained
-                          \ "\<\(block\|
+                          \ "\<\(
                             \bidi-override\|
-                            \compact\|
                             \embed\|
                             \fixed\|
-                            \inline-block\|
-                            \inline-table\|
-                            \list-item\|
                             \marker\|
                             \relative\|
-                            \ruby\|
-                            \ruby-base\|
-                            \ruby-base-group\|
-                            \ruby-text\|
-                            \ruby-text-group\|
-                            \run-in\|
                             \static\|
-                            \
-                            \table\(-\(row-group\|\(header\|footer\)
-                            \-group\|row\|column\(-group\)\=\|
-                            \cell\|caption\)\)\=\)\>"
+                            \\)\>"
 
 "C S S 3  =R U B Y  M O D U L E                              W3C WD 6/30/2011
 "----------------------------------------------------------------------------"
@@ -1387,11 +1508,13 @@ syn match cssWritingVal     contained
 
 hi def link cssComment      Comment
 
+hi def link cssAtFontFace   Conditional
 hi def link cssAtRule       Conditional
 
-hi def link cssBgVal        Constant
+hi def link cssBgBorVal     Constant
 hi def link cssBoxVal       Constant
 hi def link cssColorVal     Constant
+hi def link cssFontName     Constant
 hi def link cssFontVal      Constant
 hi def link cssImgVal       Constant
 hi def link cssGenConVal    Constant
@@ -1410,23 +1533,28 @@ hi def link cssWritingVal   Constant
 
 hi def link cssBraceError   Error
 
-hi def link cssAtRuleBraces Function
-hi def link cssAtRuleExpr   Function
-hi def link cssAttrBraces   Function
-hi def link cssBraces       Function
-hi def link cssExpr         Function
-hi def link cssExprType     Function
-hi def link cssMediaExpr    Function
-hi def link cssPseudo       Function
-hi def link cssPseudoExpr   Function
+hi def link cssAtRuleBraces   Function
+hi def link cssAtRuleExpr     Function
+hi def link cssAttrBraces     Function
+hi def link cssBraces         Function
+hi def link cssColorExprType  Function
+hi def link cssDataExprType   Function
+hi def link cssFontExprType   Function
+hi def link cssFontBraces     Function
+hi def link cssExprType       Function
+hi def link cssMediaExpr      Function
+hi def link cssPseudo         Function
+hi def link cssPseudoExpr     Function
 
 hi def link cssAttrSelect   Identifier
 hi def link cssClassName    Identifier
 hi def link cssIdName       Identifier
 hi def link cssMediaType    Identifier
 
+hi def link cssColorHex     Number
 hi def link cssNumVal       Number
-hi def link cssUnicodeVal   Number
+hi def link cssMarqNumVal   Number
+hi def link cssUnicode      Number
 hi def link cssUnitVal      Number
 
 hi def link cssAttrSelectOp Operator
@@ -1441,7 +1569,7 @@ hi def link cssQuo          String
 
 hi def link cssTagName      Tag
 
-hi def link cssBgProp       Type
+hi def link cssBgBorProp    Type
 hi def link cssBoxProp      Type
 hi def link cssColorProp    Type
 hi def link cssFontProp     Type
