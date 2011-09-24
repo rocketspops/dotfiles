@@ -269,7 +269,7 @@ syn match cssPseudo         "\(:active\|
                             \:visited\)"
 
 syn region cssPseudo        contains=cssAttrSelect,
-                                   \ cssNumVal,
+                                   \ cssNumber,
                                    \ cssSelectOp,
                                    \ cssUnit
                           \ keepend
@@ -305,7 +305,7 @@ syn match cssMediaType     "\(@media\s\+\)\@<=
 syn region cssMediaExpr     contains=cssCalcOp,
                                    \ cssMediaFeat,
                                    \ cssMediaValue,
-                                   \ cssNumVal,
+                                   \ cssNumber,
                                    \ cssUnit
                           \ keepend
                           \ oneline
@@ -376,7 +376,8 @@ syn match cssBraceError     "}"
 
 syn region cssColorExpr     contained
                           \ contains=cssQuo,
-                                    \cssNumVal,
+                                    \cssMod,
+                                    \cssNumber,
                                     \cssValOp
                           \ keepend
                           \ matchgroup=cssColorExprType
@@ -388,12 +389,12 @@ syn region cssColorExpr     contained
                                    \rgba
                                    \\)\>
                                    \("
-                          \ end="\()\)\(\s\+\|;\|\,\)\@="
+                          \ end="\()\)\(\s\+\|;\|\s*)\)\@="
                           \ transparent
 
 syn region cssDataExpr      contained
                           \ contains=cssQuo,
-                                    \cssNumVal
+                                    \cssNumber
                           \ keepend
                           \ matchgroup=cssDataExprType
                           \ oneline
@@ -405,11 +406,53 @@ syn region cssDataExpr      contained
                           \ end="\()\)\(\s\+\|;\|\,\)\@="
                           \ transparent
 
+syn region cssFontExpr      contained
+                          \ contains=cssNumber,
+                                    \cssQuo
+                          \ keepend
+                          \ matchgroup=cssFontExprType
+                          \ oneline
+                          \ start="\<\(
+                                   \annotation\|
+                                   \character-variant\|
+                                   \format\|
+                                   \local\|
+                                   \ornaments\|
+                                   \stylistic\|
+                                   \styleset\|
+                                   \swash\|
+                                   \\)("
+                          \ end="\()\)\(\s\+\|;\)\@="
+                          \ transparent
+
+syn region cssImgExpr       contained
+                          \ contains=cssColorExpr,
+                                    \cssColorHex,
+                                    \cssColorVal,
+                                    \cssImgVal,
+                                    \cssNumber,
+                                    \cssQuo,
+                                    \cssUnit,
+                                    \cssValOp
+                          \ matchgroup=cssImgExprType
+                          \ oneline
+                          \ start="\<\(
+                                   \element\|
+                                   \image\|
+                                   \linear-gradient\|
+                                   \radial-gradient\|
+                                   \repeating-linear-gradient\|
+                                   \repeating-radial-gradient\|
+                                   \\)("
+                          \ end="\()\)\(\s\+\|;\|\s*)\)\@="
+                          \ transparent
+
 syn region cssExpr          contained
                           \ contains=cssQuo,
                                     \cssSelectOp,
                                     \cssCalcOp,
-                                    \cssNumVal
+                                    \cssNumber,
+                                    \cssUnit
                           \ keepend
                           \ matchgroup=cssExprType
                           \ oneline
@@ -437,7 +480,7 @@ syn region cssExpr          contained
 
 syn match cssImportantVal   contained "!\s*important\>"
 
-syn match cssNumVal         contained "[-]\=\d\+\(\.\d*\)\="
+syn match cssNumber         contained "[-]\=\d\+\(\.\d*\)\="
 
 syn match cssUnit           contained
                           \ "\(\d\)\@<=\(
@@ -445,9 +488,6 @@ syn match cssUnit           contained
                             \ch\|
                             \cm\|
                             \deg\|
-                            \dpi\|
-                            \dpcm\|
-                            \dppx\|
                             \em\|
                             \ex\|
                             \fr\|
@@ -468,12 +508,12 @@ syn match cssUnit           contained
                             \vh\|
                             \vm\|
                             \vw\)
-                            \\(\;\|\s\+\)\@="
+                            \\(\;\|,\|)\|\s\+\)\@="
 
 syn match cssValOp          contained "[:;,]"
 
 syn cluster cssShared       contains=cssImportantVal,
-                                    \cssNumVal,
+                                    \cssNumber,
                                     \cssUnit,
                                     \cssValOp
 
@@ -483,6 +523,8 @@ syn match cssColorHex       contained
                           \ "\(#[0-9A-Fa-f]\{6}\|
                             \#[0-9A-Fa-f]\{3}\)
                             \\(\s\+\|;\|\,\)\@="
+
+syn match cssMod            contained "%"
 
 syn match cssUnicode        contained
                           \ "\(U+[0-9A-Fa-f?]\+[+-][0-9A-Fa-f?]\+\|
@@ -501,8 +543,9 @@ syn region cssQuo           contained
 syn region cssBgBorProp     contained
                           \ contains=cssBgBorVal,
                                     \cssColorExpr,
-                                    \cssColorHex
+                                    \cssColorHex,
                                     \cssDataExpr,
+                                    \cssImgExpr,
                                     \@cssShared
                           \ keepend
                           \ start="\(\(^\|{\|\;\)\s*\)\@<=\(
@@ -667,7 +710,7 @@ syn keyword cssBoxVal       contained
 syn region cssColorProp     contained
                           \ contains=cssColorVal,
                                     \cssColorExpr,
-                                    \cssColorHex
+                                    \cssColorHex,
                                     \@cssShared
                           \ keepend
                           \ start="\(\(^\|{\|\;\)\s*\)\@<=\(
@@ -857,24 +900,6 @@ syn region cssFontBlock     contains=cssFontProp
                           \ end="}"
                           \ transparent
 
-syn region cssFontExpr      contained
-                          \ contains=cssNumVal,
-                                    \cssQuo
-                          \ keepend
-                          \ matchgroup=cssFontExprType
-                          \ oneline
-                          \ start="\<\(
-                                   \annotation\|
-                                   \character-variant\|
-                                   \format\|
-                                   \local\|
-                                   \ornaments\|
-                                   \stylistic\|
-                                   \styleset\|
-                                   \swash\|
-                                   \\)("
-                          \ end="\()\)\(\s\+\|;\)\@="
-                          \ transparent
 
 syn keyword cssAtFontFace   @font-face
 
@@ -1004,31 +1029,56 @@ syn keyword cssFontVal      contained
                           \ xx-large
                           \ xx-small
 
-
-"C S S 3  =I M A G E S  M O D U L E                          W3C WD 7/12/2011
+"C S S 3  =I M A G E S  M O D U L E                           W3C WD 9/8/2011
 "----------------------------------------------------------------------------"
 
-syn keyword cssImgProp      contained
-                          \ image-orientation
-                          \ image-rendering
-                          \ image-resolution
-                          \ object-fit
-                          \ object-position
+syn region cssImgProp       contained
+                          \ contains=cssDataExpr,
+                                    \cssNumber,
+                                    \cssImgExpr,
+                                    \cssImgUnit,
+                                    \cssImgVal,
+                                    \cssValOp
+                          \ keepend
+                          \ start="\(\(^\|{\|\;\)\s*\)\@<=\(
+                                  \image-orientation\|
+                                  \image-rendering\|
+                                  \image-resolution\|
+                                  \object-fit\|
+                                  \object-position
+                                  \\)\s*:"
+                          \ end=";"
 
 syn match cssImgUnit        contained
                           \ "\(\d\)\@<=\(
                             \dpi\|
                             \dpcm\|
-                            \dppx\|
-                            \\(\;\|\s\+\)\@="
+                            \dppx\)
+                            \\(\;\|,\|)\|\s\+\)\@="
+
+syn keyword cssImgVal       contained
+                          \ bottom
+                          \ center
+                          \ circle
+                          \ closest-corner
+                          \ closest-side
+                          \ contain
+                          \ cover
+                          \ crisp-rendering
+                          \ ellipse
+                          \ farthest-corner
+                          \ farthest-side
+                          \ fill
+                          \ from-image
+                          \ left
+                          \ none
+                          \ right
+                          \ scale-down
+                          \ snap
+                          \ top
 
 syn match cssImgVal         contained
-                          \ "\<\(contain\|
-                            \cover\|
-                            \crisp-rendering\|
-                            \fill\|
-                            \from-image\|
-                            \scale-down\)\>"
+                          \ "to\(\s\(bottom\|left\|right\|top\)\)\@=" 
 
 "C S S 2.1  =G E N E R A T E D  C O N T E N T                  W3C R 6/7/2011
 "----------------------------------------------------------------------------"
@@ -1512,6 +1562,7 @@ syn match cssWritingVal     contained
 "----------------------------------------------------------------------------"
 
 hi def link cssImgUnit      Character
+hi def link cssMod          Character
 hi def link cssUnit         Character
 
 hi def link cssComment      Comment
@@ -1550,6 +1601,7 @@ hi def link cssDataExprType   Function
 hi def link cssFontExprType   Function
 hi def link cssFontBraces     Function
 hi def link cssExprType       Function
+hi def link cssImgExprType    Function
 hi def link cssMediaExpr      Function
 hi def link cssPseudo         Function
 hi def link cssPseudoExpr     Function
@@ -1560,7 +1612,7 @@ hi def link cssIdName       Identifier
 hi def link cssMediaType    Identifier
 
 hi def link cssColorHex     Number
-hi def link cssNumVal       Number
+hi def link cssNumber       Number
 hi def link cssMarqNumVal   Number
 hi def link cssUnicode      Number
 
