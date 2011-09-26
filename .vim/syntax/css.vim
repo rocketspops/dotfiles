@@ -15,21 +15,23 @@ syn sync fromstart
 
 syn cluster Spell           contains=cssComment
 
-"=G L O B A L
-"----------------------------------------------------------------------------
-
 syn region cssComment       keepend
                           \ start="/\*"
                           \ end="\*/"
 
-"=B A S I C  S E L E C T O R S
+"C S S 3  =S E L E C T O R S
+"----------------------------------------------------------------------------
+"W3C Proposed Recommendation (15 DEC 2009)      www.w3.org/TR/css3-selectors/
 "----------------------------------------------------------------------------
 
-syn match cssClassName      "\.[A-Za-z][A-Za-z0-9_-]*"
 
 syn match cssIdName         "#[A-Za-z_][A-Za-z0-9_-]*"
 
-syn keyword cssTagName      a
+syn match cssSelCombinator  "[+>~,]"
+
+"Type Selectors ------------------------------------------------------------- 
+
+syn keyword cssTypeSel      a
                           \ abbr
                           \ acronym
                           \ address
@@ -38,7 +40,6 @@ syn keyword cssTagName      a
                           \ article
                           \ aside
                           \ audio
-                          \
                           \ b
                           \ base
                           \ basefont
@@ -48,7 +49,6 @@ syn keyword cssTagName      a
                           \ body
                           \ br
                           \ button
-                          \
                           \ canvas
                           \ caption
                           \ center
@@ -57,7 +57,6 @@ syn keyword cssTagName      a
                           \ col
                           \ colgroup
                           \ command
-                          \
                           \ datalist
                           \ dd
                           \ del
@@ -67,10 +66,8 @@ syn keyword cssTagName      a
                           \ div
                           \ dl
                           \ dt
-                          \
                           \ em
                           \ embed
-                          \
                           \ fieldset
                           \ font
                           \ form
@@ -79,7 +76,6 @@ syn keyword cssTagName      a
                           \ footer
                           \ frame
                           \ frameset
-                          \
                           \ h1
                           \ h2
                           \ h3
@@ -91,49 +87,39 @@ syn keyword cssTagName      a
                           \ hgroup
                           \ hr
                           \ html
-                          \
                           \ i
                           \ iframe
                           \ img
                           \ input
                           \ ins
                           \ isindex
-                          \
                           \ kbd
                           \ keygen
-                          \
                           \ label
                           \ legend
                           \ li
                           \ link
-                          \
                           \ map
                           \ mark
                           \ menu
                           \ meta
                           \ meter
-                          \
                           \ nav
                           \ noframes
                           \ noscript
-                          \
                           \ object
                           \ ol
                           \ optgroup
                           \ option
                           \ output
-                          \
                           \ p
                           \ param
                           \ pre
                           \ progress
-                          \
                           \ q
-                          \
                           \ rp
                           \ rt
                           \ ruby
-                          \
                           \ s
                           \ samp
                           \ script
@@ -147,7 +133,6 @@ syn keyword cssTagName      a
                           \ sub
                           \ summary
                           \ sup
-                          \
                           \ table
                           \ tbody
                           \ td
@@ -159,24 +144,42 @@ syn keyword cssTagName      a
                           \ title
                           \ tr
                           \ tt
-                          \
                           \ ul
                           \ u
-                          \
                           \ var
                           \ variant
                           \ video
-                          \
                           \ xmp
 
-syn region cssAttrSelect    contains=
-                              \cssAttrSelectOp,
+"Universal Selectors -------------------------------------------------------- 
+
+syn match cssUniversalSel   "\(\(^\|\a\+\|\s\+\)\@<=
+                            \\(|[*]\)\|
+                            \\S\@<!\([*]|[*]\|[*]\)\)"
+
+"Namespace Selectors -------------------------------------------------------- 
+
+syn match cssNamespaceSel   "\(\S\@<!\([*]|\)\|
+                            \\(^\|\[\|\a\+\|\s\+\)\@<=
+                            \\(|\)\)\a\@="
+
+"Attr Selectors ------------------------------------------------------------- 
+
+syn match cssAttrSelOp      contained "\([*~|$^]=\|=\)"
+
+syn region cssAttrSel       contains=
+                              \cssAttrSelOp,
+                              \cssNamespaceSel,
                               \cssString
                           \ keepend
                           \ oneline
                           \ matchgroup=cssAttrBraces
                           \ start="\["
                           \ end="\]"
+
+"Class Selectors ------------------------------------------------------------ 
+
+syn match cssClassName      "\(\.[^+>~, ]\|\(\.\\\)\@<=.\)\(\(\([\]\{1}[0-9A-F]\{2}\s\)\{1}\)\=\([^+>~, ]\|\(\.\\\)\@<=.\)\)*"
 
 "=A T  R U L E  S E L E C T O R
 "----------------------------------------------------------------------------
@@ -282,7 +285,6 @@ syn region cssPseudoExpr    contains=
                           \ end=")"
                           \ transparent
 
-
 "C S S 3  =ME D I A  Q U E R I E S                           W3C CR 7/27/2011
 "----------------------------------------------------------------------------
 
@@ -374,7 +376,6 @@ syn match cssBraceError     "}"
 "=C S S 3  E X P R E S S I O N S
 "----------------------------------------------------------------------------
 
-
 syn region cssExpr          contained
                           \ contains=
                               \cssCalcOp,
@@ -394,10 +395,12 @@ syn region cssExpr          contained
                           \ end="\()\)\(\s\+\|;\)\@="
                           \ transparent
 
-"=C S S 3  V A L U E S  and  U N I T S  M O D U L E           W3C WD 9/6/2011
+"=C S S 3  V A L U E S  A N D  U N I T S  M O D U L E           
+"----------------------------------------------------------------------------
+"W3C Working Draft (6 SEP 2011)                    www.w3.org/TR/css3-values/ 
 "----------------------------------------------------------------------------
 
-" Distance Units ------------------------------------------------------------ 
+"Distance Units ------------------------------------------------------------- 
 
 syn match cssAbsLengthUnit  contained
                           \ "\(\d\)\@<=\(
@@ -420,7 +423,7 @@ syn match cssRelLengthUnit  contained
                             \vw\)
                             \\(\;\|,\|)\|\s\+\)\@="
 
-" Other Units --------------------------------------------------------------- 
+"Other Units ---------------------------------------------------------------- 
 
 syn match cssAngleUnit      contained
                           \ "\(\d\)\@<=\(
@@ -449,7 +452,7 @@ syn match cssTimeUnit       contained
                             \s\)
                             \\(\;\|,\|)\|\s\+\)\@="
 
-" Functional Notations ------------------------------------------------------ 
+"Functional Notations ------------------------------------------------------- 
 
 syn region cssAttrExpr      contained
                           \ contains=cssValOp
@@ -488,13 +491,13 @@ syn region cssCycleExpr     contained
                           \ end="\()\)\(\s\+\|;\)\@="
                           \ transparent
 
-" Numeric Data Types -------------------------------------------------------- 
+"Numeric Data Types --------------------------------------------------------- 
 
-syn match cssNumber         contained "[-]\=\d\+\(\.\d*\)\="
+syn match cssNumber         contained "[-+]\=\d\+\(\.\d*\)\="
 
 syn match cssPercentUnit    contained "\(\d\)\@<=\(%\)\(\;\|,\|)\|\s\+\)\@="
 
-" Textual Data Types -------------------------------------------------------- 
+"Textual Data Types --------------------------------------------------------- 
 
 syn region cssDataExpr      contained
                           \ contains=
@@ -520,11 +523,9 @@ syn region cssString           contained
 "=C S S 3  O P E R A T O R S
 "----------------------------------------------------------------------------
 
-syn match cssAttrSelectOp   contained "[=*~|$^]"
 
 syn match cssCalcOp         contained "\([\*+-\/]\)\|\(mod\)"
 
-syn match cssSelectOp       "[*+>,_|~-]"
 
 syn match cssValOp          contained "[:;,]"
 
@@ -544,69 +545,71 @@ syn cluster cssCommon       contains=
 
 syn match cssImportant      contained "!\s*important\>"
 
-
 syn match cssUnicode        contained
                           \ "\(U+[0-9A-Fa-f?]\+[+-][0-9A-Fa-f?]\+\|
                             \U+[0-9A-Fa-f?]\+\|\\\x\{1,6\}
                             \\(\w\|\s\w\)\@!\)"
 
-
-"=B A C K G R O U N D  and  B O R D E R S  M O D U L E       W3C CR 2/15/2011
+"C S S 3  =B A C K G R O U N D  A N D  B O R D E R S  M O D U L E  
+"----------------------------------------------------------------------------
+"W3C Candidate Recommendation (15 FEB 2011)    www.w3.org/TR/css3-background/
 "----------------------------------------------------------------------------
 
 syn region cssBgBorProp     contained
-                          \ contains=cssBgBorVal,
-                                    \cssColorExpr,
-                                    \cssColorHex,
-                                    \cssColorVal,
-                                    \@cssCommon,
-                                    \cssDataExpr,
-                                    \cssImgExpr
+                          \ contains=
+                              \cssBgBorVal,
+                              \cssColorExpr,
+                              \cssColorHex,
+                              \cssColorVal,
+                              \@cssCommon,
+                              \cssDataExpr,
+                              \cssImgExpr
                           \ keepend
-                          \ start="\(\(^\|{\|\;\)\s*\)\@<=\(
-                                  \background\|
-                                  \background-attachment\|
-                                  \background-clip\|
-                                  \background-color\|
-                                  \background-image\|
-                                  \background-origin\|
-                                  \background-position\|
-                                  \background-repeat\|
-                                  \background-size\|
-                                  \border\|
-                                  \border-color\|
-                                  \border-style\|
-                                  \border-width\|
-                                  \border-bottom\|
-                                  \border-bottom-color\|
-                                  \border-bottom-style\|
-                                  \border-bottom-width\|
-                                  \border-left\|
-                                  \border-left-color\|
-                                  \border-left-style\|
-                                  \border-left-width\|
-                                  \border-right\|
-                                  \border-right-color\|
-                                  \border-right-style\|
-                                  \border-right-width\|
-                                  \border-top\|
-                                  \border-top-color\|
-                                  \border-top-style\|
-                                  \border-top-width\|
-                                  \border-image\|
-                                  \border-image-outset\|
-                                  \border-image-repeat\|
-                                  \border-image-slice\|
-                                  \border-image-source\|
-                                  \border-image-width\|
-                                  \border-radius\|
-                                  \border-radius-bottom-left\|
-                                  \border-radius-bottom-right\|
-                                  \border-radius-top-left\|
-                                  \border-radius-top-right\|
-                                  \box-decoration-break\|
-                                  \box-shadow
-                                  \\)\s*:"
+                          \ start=
+                              \"\(\(^\|{\|\;\)\s*\)\@<=\(
+                              \background\|
+                              \background-attachment\|
+                              \background-clip\|
+                              \background-color\|
+                              \background-image\|
+                              \background-origin\|
+                              \background-position\|
+                              \background-repeat\|
+                              \background-size\|
+                              \border\|
+                              \border-color\|
+                              \border-style\|
+                              \border-width\|
+                              \border-bottom\|
+                              \border-bottom-color\|
+                              \border-bottom-style\|
+                              \border-bottom-width\|
+                              \border-left\|
+                              \border-left-color\|
+                              \border-left-style\|
+                              \border-left-width\|
+                              \border-right\|
+                              \border-right-color\|
+                              \border-right-style\|
+                              \border-right-width\|
+                              \border-top\|
+                              \border-top-color\|
+                              \border-top-style\|
+                              \border-top-width\|
+                              \border-image\|
+                              \border-image-outset\|
+                              \border-image-repeat\|
+                              \border-image-slice\|
+                              \border-image-source\|
+                              \border-image-width\|
+                              \border-radius\|
+                              \border-radius-bottom-left\|
+                              \border-radius-bottom-right\|
+                              \border-radius-top-left\|
+                              \border-radius-top-right\|
+                              \box-decoration-break\|
+                              \box-shadow
+                              \\)\s*:"
                           \ end=";"
 
 syn keyword cssBgBorVal     contained
@@ -649,43 +652,47 @@ syn keyword cssBgBorVal     contained
 
 syn match cssBgBorVal       contained "\<transparent\>"
 
-"C S S 3  =BO X  M O D E L  M O D U L E                       W3C WD 8/9/2007 
+"C S S 3  B A S I C  =B O X  M O D E L  M O D U L E                         
+"----------------------------------------------------------------------------
+"W3C Working Draft (9 AUG 2007)                       www.w3.org/TR/css3-box/ 
 "----------------------------------------------------------------------------
 
 syn region cssBoxProp       contained
-                          \ contains=cssBoxVal,
-                                    \cssAngleUnit,
-                                    \@cssCommon,
-                                    \cssGridUnit
+                          \ contains=
+                              \cssBoxVal,
+                              \cssAngleUnit,
+                              \@cssCommon,
+                              \cssGridUnit
                           \ keepend
-                          \ start="\(\(^\|{\|\;\)\s*\)\@<=\(
-                                  \clear\|
-                                  \display\|
-                                  \float\|
-                                  \height\|
-                                  \margin\|
-                                  \margin-bottom\|
-                                  \margin-left\|
-                                  \margin-right\|
-                                  \margin-top\|
-                                  \max-height\|
-                                  \max-width\|
-                                  \min-height\|
-                                  \min-width\|
-                                  \overflow\|
-                                  \overflow-x\|
-                                  \overflow-y\|
-                                  \padding\|
-                                  \padding-bottom\|
-                                  \padding-left\|
-                                  \padding-right\|
-                                  \padding-top\|
-                                  \rotation\|
-                                  \rotation-point\|
-                                  \visibility\|
-                                  \width\|
-                                  \z-index
-                                  \\)\s*:"
+                          \ start=
+                              \"\(\(^\|{\|\;\)\s*\)\@<=\(
+                              \clear\|
+                              \display\|
+                              \float\|
+                              \height\|
+                              \margin\|
+                              \margin-bottom\|
+                              \margin-left\|
+                              \margin-right\|
+                              \margin-top\|
+                              \max-height\|
+                              \max-width\|
+                              \min-height\|
+                              \min-width\|
+                              \overflow\|
+                              \overflow-x\|
+                              \overflow-y\|
+                              \padding\|
+                              \padding-bottom\|
+                              \padding-left\|
+                              \padding-right\|
+                              \padding-top\|
+                              \rotation\|
+                              \rotation-point\|
+                              \visibility\|
+                              \width\|
+                              \z-index
+                              \\)\s*:"
                           \ end=";"
 
 syn keyword cssBoxVal       contained
@@ -721,7 +728,9 @@ syn keyword cssBoxVal       contained
                           \ table-row-group
                           \ visible
 
-"C S S 3  =C O L O R  M O D U L E                              W3C R 6/7/2011
+"C S S 3  =C O L O R  M O D U L E                                
+"----------------------------------------------------------------------------
+"W3C Recommendation (7 JUN 2011)                    www.w3.org/TR/css3-color/
 "----------------------------------------------------------------------------
 
 syn region cssColorExpr     contained
@@ -933,7 +942,9 @@ syn keyword cssColorVal     contained
                           \ yellow
                           \ yellowgreen
 
-"C S S 3  =F O N T S  M O D U L E                            W3C WD 3/24/2011
+"C S S 3  =F O N T S  M O D U L E                              
+"----------------------------------------------------------------------------
+"W3C Working Draft (24 MAR 2011)                    www.w3.org/TR/css3-fonts/
 "----------------------------------------------------------------------------
 
 syn region cssFontBlock     contains=cssFontProp
@@ -1091,7 +1102,9 @@ syn keyword cssFontVal      contained
                           \ xx-large
                           \ xx-small
 
-"C S S 3  =I M A G E S  M O D U L E                           W3C WD 9/8/2011
+"C S S 3  =I M A G E  V A L U E S  M O D U L E                          
+"----------------------------------------------------------------------------
+"W3C Working Draft (8 SEP 2011)                    www.w3.org/TR/css3-images/
 "----------------------------------------------------------------------------
 
 syn region cssImgExpr       contained
@@ -1713,17 +1726,19 @@ hi def link cssNumber       Number
 hi def link cssMarqNumVal   Number
 hi def link cssUnicode      Number
 
-hi def link cssAttrSelectOp Operator
-hi def link cssCalcOp       Operator
-hi def link cssMediaOp      Operator
-hi def link cssSelectOp     Operator
-hi def link cssValOp        Operator
+hi def link cssAttrSelOp     Operator
+hi def link cssCalcOp        Operator
+hi def link cssMediaOp       Operator
+hi def link cssNamespaceSel  Operator
+hi def link cssSelCombinator Operator
+hi def link cssUniversalSel  Operator
+hi def link cssValOp         Operator
 
 hi def link cssImportant    Special
 
 hi def link cssString       String
 
-hi def link cssTagName      Tag
+hi def link cssTypeSel      Tag
 
 hi def link cssBgBorProp    Type
 hi def link cssBoxProp      Type
