@@ -1,19 +1,78 @@
-
-/* Working */
 .♥ { }
+.𝄞♪♩♫♬ { }
 .“‘’” { }
 .\? { }
 .\3A \) { }
 .⌘⌥ { }
+.\3A \`\({ }
 .\ \37 \35 145a2b3c{ }
 .f\\o\\o{ }
 .f\*o\*o{ }
 .\ f\!o\!o{ }
 .df{ }
-
-/* Not Working */
-.f\~o\~o{ }
-.f\+o\+o{}
+.f\+o\+o{ }
 .\<\>\<\<\<\>\>\<\>{ }
 .\<p\>{ }
-.honey-pie { }
+.honey-pie .gffgf { }
+.\+\+\+\+\+\+\+\+\+\+\[\>\+\+\+\+\+\+\+\>\+\+\+\+\+\+\+\+\+\+\>\+\+\+\>\+\<\<\<\<\-\]\>\+\+\.\>\+\.\+\+\+\+\+\+\+\.\.\+\+\+\.\>\+\+\.\<\<\+\+\+\+\+\+\+\+\+\+\+\+\+\+\+\.\>\.\+\+\+\.\-\-\-\-\-\-\.\-\-\-\-\-\-\-\-\.\>\+\.\>\. { }
+#ff {}
+
+#f:ff_ff\3\31 1.3 {}
+
+/* Pseudo */
+a:focus
+a:focus:hover {}
+a:link    
+a:visited 
+a:hover   
+a:active  
+p.note:target {}
+*:target { color : red }
+*:target::before { content: url(target.png); }
+html:lang(fr-be)
+html:lang(de)
+:lang(fr-be) > q
+:lang(de) > q
+tr:nth-child(2n+1) 
+tr:nth-child(odd)  
+tr:nth-child(2n+0) 
+tr:nth-child(even) 
+p:nth-child(4n+1) 
+p:nth-child(4n+2) 
+p:nth-child(4n+3) 
+p:nth-child(4n+4) 
+:nth-child(10n-1)  
+:nth-child(10n+9)  
+:nth-child(3n + 1)
+:nth-child(3 n)
+:nth-child(-n+6)
+:nth-child( +6 )
+tr:nth-last-child(-n+2)  
+tr:nth-last-child(odd)    
+body > h2:nth-of-type(n+2):nth-last-of-type(n+2)
+body > h2:not(input[type="frank"]):not(:last-of-type)
+   
+/* Attr */ 
+div p *[type="href"]
+
+/* Calc */
+p{ margin: calc(1% - 2px) calc(1rem - 1px); }
+
+/* Fonts */ 
+p { font: 12pt/14pt sans-serif }
+p { font: 80% sans-serif }
+p { font: x-large/110% "new century schoolbook", serif }
+p { font: bold italic large Palatino, serif }
+p { font: normal small-caps 120%/120% fantasy }
+p { font: oblique 12pt "Helvetica Neue", serif; font-stretch: condensed }
+
+/* Universal and Namespace Selectors */
+foo|h1 
+foo|* 
+|h1 
+*|h1 
+h1
+ns|*
+*|*
+|*
+*

@@ -11,23 +11,217 @@ if exists("b:current_syntax")
 endif
 
 set iskeyword=@,48-57,@-@,-
+
 syn sync fromstart
 
-syn cluster Spell           contains=cssComment
+"G L O B A L
+"----------------------------------------------------------------------------
+
+syn match cssBraceError     contained "{"
+syn match cssBraceError     "}"
 
 syn region cssComment       keepend
                           \ start="/\*"
                           \ end="\*/"
+
+syn cluster cssCommon       contains=
+                              \cssAbsLengthUnit,
+                              \cssAttrExpr,
+                              \cssCalcExpr,
+                              \cssCycleExpr,
+                              \cssImportant,
+                              \cssNumber,
+                              \cssPercentUnit,
+                              \cssRelLengthUnit,
+                              \cssValOp
+
+syn region cssDecBlock      contains=@cssProp
+                          \ containedin=cssAtRuleBlock
+                          \ extend
+                          \ keepend
+                          \ matchgroup=cssBraces
+                          \ start='\(@.*\)\@<!{'
+                          \ end='}'
+                          \ transparent
+
+syn match cssImportant      contained "!\s*important\>"
+
+syn cluster Spell           contains=cssComment
+
+syn match cssUnicode        contained
+                          \ "\(U+[0-9A-Fa-f?]\+[+-][0-9A-Fa-f?]\+\|
+                            \U+[0-9A-Fa-f?]\+\|\\\x\{1,6\}
+                            \\(\w\|\s\w\)\@!\)"
+
+syn match cssValOp          contained "[:;,/]"
+
+"C S S 3  =ME D I A  Q U E R I E S                           W3C CR 7/27/2011
+"----------------------------------------------------------------------------
+"W3C Candidate Recommendation (27 Jul 2011)  www.w3.org/TR/css3-mediaqueries/
+"----------------------------------------------------------------------------
+
+syn match cssMediaOp       "\(\sand\s\)"
+
+syn match cssMediaType     "\(@media\s\+\)\@<=
+                            \all\|
+                            \braille\|
+                            \embossed\|
+                            \handheld\|
+                            \print\|
+                            \projection\|
+                            \screen\|
+                            \speech\|
+                            \tty\|
+                            \tv"
+
+syn region cssMediaExpr     contains=
+                              \ cssCalcOp,
+                              \ cssMediaFeat,
+                              \ cssMediaValue,
+                              \ cssNumber
+                          \ keepend
+                          \ oneline
+                          \ start="\s\@<=("
+                          \ end=")"
+
+syn keyword cssMediaFeat    contained
+                          \ aspect-ratio
+                          \ color
+                          \ color-index
+                          \ device-aspect-ratio
+                          \ device-height
+                          \ device-width
+                          \ grid
+                          \ height
+                          \ max-aspect-ratio
+                          \ max-color
+                          \ max-color-index
+                          \ max-device-aspect-ratio
+                          \ max-device-height
+                          \ max-device-width
+                          \ max-height
+                          \ max-monochrome
+                          \ max-resolution
+                          \ max-width
+                          \ min-aspect-ratio
+                          \ min-color
+                          \ min-color-index
+                          \ min-device-aspect-ratio
+                          \ min-device-height
+                          \ min-device-width
+                          \ min-height
+                          \ min-monochrome
+                          \ min-resolution
+                          \ min-width
+                          \ monochrome
+                          \ orientation
+                          \ resolution
+                          \ scan
+                          \ width
+
+syn match cssMediaValue     contained
+                          \ "\<\(\:\s*\)\@<=\(
+                            \landscape\|
+                            \interlace\|
+                            \portrait\|
+                            \progressive\)\>"
 
 "C S S 3  =S E L E C T O R S
 "----------------------------------------------------------------------------
 "W3C Proposed Recommendation (15 DEC 2009)      www.w3.org/TR/css3-selectors/
 "----------------------------------------------------------------------------
 
+"Attr Selectors ------------------------------------------------------------- 
 
-syn match cssIdName         "#[A-Za-z_][A-Za-z0-9_-]*"
+syn region cssAttrSel       keepend
+                          \ oneline
+                          \ matchgroup=cssAttrSelExpr
+                          \ start="\["
+                          \ end="\]"
+
+syn match cssAttrSelOp      contained "\([*~|$^]=\|=\)"
+
+"Class Selectors ------------------------------------------------------------ 
+
+syn match cssClassSel       "\.\(\\[0-9A-F]\{2}\s\|
+                            \[^[:punct:][:space:][:cntrl:]]\|
+                            \\\[[:print:]]\|
+                            \\(\.\)\@<![\-_]\)\+"
+
+"Combinators ----------------------------------------------------------------
 
 syn match cssSelCombinator  "[+>~,]"
+
+"Pseudo Class Selectors -----------------------------------------------------
+
+syn match cssPseudoSel      "\(:active\|
+                            \\(:\|::\)after\|
+                            \\(:\|::\)before\|
+                            \:checked\|
+                            \:choices\|
+                            \:default\|
+                            \:disabled\|
+                            \:empty\|
+                            \:enabled\|
+                            \:first-child\|
+                            \\(:\|::\)first-letter\|
+                            \\(:\|::\)first-line\|
+                            \:first-of-type\|
+                            \:first\|
+                            \:focus\|
+                            \:hover\|
+                            \:in-range\|
+                            \:indeterminate\|
+                            \:invalid\|
+                            \:last-child\|
+                            \:last-of-type\|
+                            \:left\|
+                            \:link\|
+                            \:marker\|
+                            \:optional\|
+                            \:only-child\|
+                            \:only-of-type\|
+                            \:out-of-range\|
+                            \:read-only\|
+                            \:read-write\|
+                            \:repeat-index\|
+                            \:repeat-item\|
+                            \:required\|
+                            \:right\|
+                            \:root\|
+                            \::selection\|
+                            \::-moz-selection\|
+                            \::-webkit-selection\|
+                            \:target\|
+                            \:value\|
+                            \:valid\|
+                            \:visited\)"
+
+syn region cssPseudoExpr    keepend
+                          \ matchgroup=cssPseudoExprType
+                          \ oneline
+                          \ start=
+                              \"\(
+                              \:lang\|
+                              \:nth-child\|
+                              \:nth-of-type\|
+                              \:nth-last-of-type\|
+                              \:nth-last-child\|
+                              \:not
+                              \\)("
+                          \ end=")"
+
+"ID Selectors ---------------------------------------------------------------
+
+syn match cssIdSel          "\#\(\\[0-9A-F]\{2}\s\|
+                            \[^[:punct:][:space:][:cntrl:]]\|
+                            \\\[[:graph:]]\|
+                            \\(\#\S*\)\@<=[\-_:.]\)\+"
+
+"Namespace Selectors -------------------------------------------------------- 
+
+syn match cssNamespaceSel   "\(\(^\|\(\S\)\@<!\*\|\[\|\a\+\|\s\+\)\@<=
+                            \\(|\)\)\a\@="
 
 "Type Selectors ------------------------------------------------------------- 
 
@@ -154,35 +348,9 @@ syn keyword cssTypeSel      a
 "Universal Selectors -------------------------------------------------------- 
 
 syn match cssUniversalSel   "\(\(^\|\a\+\|\s\+\)\@<=
-                            \\(|[*]\)\|
-                            \\S\@<!\([*]|[*]\|[*]\)\)"
+                            \\(|\*\)\|
+                            \\S\@<!\(\*|\*\|\*\)\)"
 
-"Namespace Selectors -------------------------------------------------------- 
-
-syn match cssNamespaceSel   "\(\S\@<!\([*]|\)\|
-                            \\(^\|\[\|\a\+\|\s\+\)\@<=
-                            \\(|\)\)\a\@="
-
-"Attr Selectors ------------------------------------------------------------- 
-
-syn match cssAttrSelOp      contained "\([*~|$^]=\|=\)"
-
-syn region cssAttrSel       contains=
-                              \cssAttrSelOp,
-                              \cssNamespaceSel,
-                              \cssString
-                          \ keepend
-                          \ oneline
-                          \ matchgroup=cssAttrBraces
-                          \ start="\["
-                          \ end="\]"
-
-"Class Selectors ------------------------------------------------------------ 
-
-"syn match cssClassName      "\(\.[^!"#$%&'()*+,-./:;<=>?@[]{|}~]\|\(\.\\\)\@<=.\)\(\(\([\]\{1}[0-9A-F]\{2}\s\)\{1}\)\=\([^+>~, ]\|\(\.\\\)\@<=.\)\)*"
-"syn match cssClassName      "\(\.\\[0-9A-F]\{2}\s\|\.[^[:punct:][:space:][:cntrl:]]\|\.\\[[:print:]]\)\(\\[0-9A-F]\{2}\s\|[^[:punct:][":space:][:cntrl:]]\|\\[[:print:]]\)*"
-
-syn match cssClassName      "\.\(\\[0-9A-F]\{2}\s\|[^[:punct:][:space:][:cntrl:]]\|\\[[:print:]]\|\(\.\)\@<![\-_]\)\+"
 
 "=A T  R U L E  S E L E C T O R
 "----------------------------------------------------------------------------
@@ -225,156 +393,6 @@ syn keyword cssAtRule       @bottom-center
                           \ @top-right
                           \ @top-right-corner
 
-"=P S E U D O  C L A S S  S E L E C T O R S
-"----------------------------------------------------------------------------
-
-syn match cssPseudo         "\(:active\|
-                            \:after\|
-                            \:before\|
-                            \:checked\|
-                            \:choices\|
-                            \:default\|
-                            \:disabled\|
-                            \:empty\|
-                            \:enabled\|
-                            \:first-child\|
-                            \:first-letter\|
-                            \:first-line\|
-                            \:first-of-type\|
-                            \:first\|
-                            \:focus\|
-                            \:hover\|
-                            \:in-range\|
-                            \:indeterminate\|
-                            \:invalid\|
-                            \:last-child\|
-                            \:last-of-type\|
-                            \:left\|
-                            \:link\|
-                            \:marker\|
-                            \:optional\|
-                            \:only-child\|
-                            \:only-of-type\|
-                            \:out-of-range\|
-                            \:read-only\|
-                            \:read-write\|
-                            \:repeat-index\|
-                            \:repeat-item\|
-                            \:required\|
-                            \:right\|
-                            \:root\|
-                            \::selection\|
-                            \::-moz-selection\|
-                            \::-webkit-selection\|
-                            \:target\|
-                            \:value\|
-                            \:valid\|
-                            \:visited\)"
-
-syn region cssPseudoExpr    contains=
-                              \cssAttrSelect,
-                              \cssCalcOp,
-                              \cssNumber
-                          \ keepend
-                          \ matchgroup=cssPseudoExprType
-                          \ oneline
-                          \ start=
-                              \"\(:lang\|
-                              \:nth-child\|
-                              \:nth-of-type\|
-                              \:nth-last-of-type\|
-                              \:nth-last-child\|
-                              \:not\)("
-                          \ end=")"
-                          \ transparent
-
-"C S S 3  =ME D I A  Q U E R I E S                           W3C CR 7/27/2011
-"----------------------------------------------------------------------------
-
-syn match cssMediaOp       "\(\sand\s\)"
-
-syn match cssMediaType     "\(@media\s\+\)\@<=
-                            \all\|
-                            \braille\|
-                            \embossed\|
-                            \handheld\|
-                            \print\|
-                            \projection\|
-                            \screen\|
-                            \speech\|
-                            \tty\|
-                            \tv"
-
-syn region cssMediaExpr     contains=cssCalcOp,
-                                   \ cssMediaFeat,
-                                   \ cssMediaValue,
-                                   \ cssNumber,
-                                   \ cssUnit
-                          \ keepend
-                          \ oneline
-                          \ start="\s\@<=("
-                          \ end=")"
-
-syn keyword cssMediaFeat    contained
-                          \ aspect-ratio
-                          \ color
-                          \ color-index
-                          \ device-aspect-ratio
-                          \ device-height
-                          \ device-width
-                          \ grid
-                          \ height
-                          \ max-aspect-ratio
-                          \ max-color
-                          \ max-color-index
-                          \ max-device-aspect-ratio
-                          \ max-device-height
-                          \ max-device-width
-                          \ max-height
-                          \ max-monochrome
-                          \ max-resolution
-                          \ max-width
-                          \ min-aspect-ratio
-                          \ min-color
-                          \ min-color-index
-                          \ min-device-aspect-ratio
-                          \ min-device-height
-                          \ min-device-width
-                          \ min-height
-                          \ min-monochrome
-                          \ min-resolution
-                          \ min-width
-                          \ monochrome
-                          \ orientation
-                          \ resolution
-                          \ scan
-                          \ width
-
-syn match cssMediaValue     contained
-                          \ "\<\(\:\s*\)\@<=\(
-                            \landscape\|
-                            \interlace\|
-                            \portrait\|
-                            \progressive\)\>"
-
-"=D E C L A R A T I O N  B L O C K
-"----------------------------------------------------------------------------
-
-syn cluster cssProp        contains=css.*Prop
-
-syn cluster cssVal         contains=css.*Val
-
-syn region cssDecBlock      contains=@cssProp
-                          \ containedin=cssAtRuleBlock
-                          \ extend
-                          \ keepend
-                          \ matchgroup=cssBraces
-                          \ start='\(@.*\)\@<!{'
-                          \ end='}'
-                          \ transparent
-
-syn match cssBraceError     contained "{"
-syn match cssBraceError     "}"
 
 "=C S S 3  E X P R E S S I O N S
 "----------------------------------------------------------------------------
@@ -413,7 +431,7 @@ syn match cssAbsLengthUnit  contained
                             \pc\|
                             \pt\|
                             \px\)
-                            \\(\;\|,\|)\|\s\+\)\@="
+                            \\(\;\|,\|/\|\s\+\)\@="
 
 syn match cssRelLengthUnit  contained
                           \ "\(\d\)\@<=\(
@@ -424,36 +442,7 @@ syn match cssRelLengthUnit  contained
                             \vh\|
                             \vm\|
                             \vw\)
-                            \\(\;\|,\|)\|\s\+\)\@="
-
-"Other Units ---------------------------------------------------------------- 
-
-syn match cssAngleUnit      contained
-                          \ "\(\d\)\@<=\(
-                            \deg\|
-                            \grad\|
-                            \rad\|
-                            \rem\|
-                            \turn\)
-                            \\(\;\|,\|)\|\s\+\)\@="
-
-syn match cssFracUnit       contained
-                          \ "\(\d\)\@<=\(fr\)\(\;\|,\|)\|\s\+\)\@="
-
-syn match cssFreqUnit       contained
-                          \ "\(\d\)\@<=\(
-                            \kHz\|
-                            \Hz\)
-                            \\(\;\|,\|)\|\s\+\)\@="
-
-syn match cssGridUnit       contained
-                          \ "\(\d\)\@<=\(gr\)\(\;\|,\|)\|\s\+\)\@="
-
-syn match cssTimeUnit       contained
-                          \ "\(\d\)\@<=\(
-                            \ms\|
-                            \s\)
-                            \\(\;\|,\|)\|\s\+\)\@="
+                            \\(\;\|,\|/\|\s\+\)\@="
 
 "Functional Notations ------------------------------------------------------- 
 
@@ -467,8 +456,13 @@ syn region cssAttrExpr      contained
 
 syn region cssCalcExpr      contained
                           \ contains=
+                              \cssAbsLengthUnit,
+                              \cssAngleUnit,
                               \cssCalcOp,
+                              \cssFreqUnit,
                               \cssNumber,
+                              \cssRelLengthUnit,
+                              \cssTimeUnit,
                               \cssValOp
                           \ keepend
                           \ matchgroup=cssCalcExprType
@@ -481,6 +475,8 @@ syn region cssCalcExpr      contained
                               \\)("
                           \ end="\()\)\(\s\+\|;\)\@="
                           \ transparent
+
+syn match cssCalcOp         contained "\([*+%/-]\)"
 
 syn region cssCycleExpr     contained
                           \ contains=
@@ -498,7 +494,37 @@ syn region cssCycleExpr     contained
 
 syn match cssNumber         contained "[-+]\=\d\+\(\.\d*\)\="
 
-syn match cssPercentUnit    contained "\(\d\)\@<=\(%\)\(\;\|,\|)\|\s\+\)\@="
+syn match cssPercentUnit    contained 
+                          \ "\(\d\)\@<=\(%\)\(\;\|,\|/\|\s\+\)\@="
+
+"Other Units ---------------------------------------------------------------- 
+
+syn match cssAngleUnit      contained
+                          \ "\(\d\)\@<=\(
+                            \deg\|
+                            \grad\|
+                            \rad\|
+                            \rem\|
+                            \turn\)
+                            \\(\;\|,\|/\|\s\+\)\@="
+
+syn match cssFracUnit       contained
+                          \ "\(\d\)\@<=\(fr\)\(\;\|,\|/\|\s\+\)\@="
+
+syn match cssFreqUnit       contained
+                          \ "\(\d\)\@<=\(
+                            \kHz\|
+                            \Hz\)
+                            \\(\;\|,\|/\|\s\+\)\@="
+
+syn match cssGridUnit       contained
+                          \ "\(\d\)\@<=\(gr\)\(\;\|,\|/\|\s\+\)\@="
+
+syn match cssTimeUnit       contained
+                          \ "\(\d\)\@<=\(
+                            \ms\|
+                            \s\)
+                            \\(\;\|,\|/\|\s\+\)\@="
 
 "Textual Data Types --------------------------------------------------------- 
 
@@ -522,36 +548,6 @@ syn region cssString           contained
                           \ start=+\'\|\"+
                           \ skip=+\\'\|\\"+
                           \ end=+\'\|\"+
-
-"=C S S 3  O P E R A T O R S
-"----------------------------------------------------------------------------
-
-
-syn match cssCalcOp         contained "\([\*+-\/]\)\|\(mod\)"
-
-
-syn match cssValOp          contained "[:;,]"
-
-"=G L O B A L  P R O P S + V A L U E S
-"----------------------------------------------------------------------------
-
-syn cluster cssCommon       contains=
-                              \cssAbsLengthUnit,
-                              \cssAttrExpr,
-                              \cssCalcExpr,
-                              \cssCycleExpr,
-                              \cssImportant,
-                              \cssNumber,
-                              \cssPercentUnit,
-                              \cssRelLengthUnit,
-                              \cssValOp
-
-syn match cssImportant      contained "!\s*important\>"
-
-syn match cssUnicode        contained
-                          \ "\(U+[0-9A-Fa-f?]\+[+-][0-9A-Fa-f?]\+\|
-                            \U+[0-9A-Fa-f?]\+\|\\\x\{1,6\}
-                            \\(\w\|\s\w\)\@!\)"
 
 "C S S 3  =B A C K G R O U N D  A N D  B O R D E R S  M O D U L E  
 "----------------------------------------------------------------------------
@@ -1661,6 +1657,10 @@ syn match cssWritingVal     contained
                             \use-glyphs\|
                             \use-glyph-orientation\)\>"
 
+syn cluster cssProp        contains=css.*Prop
+
+syn cluster cssVal         contains=css.*Val
+
 "=D E F A U L T  H I G H L I G H T  G R O U P S`
 "----------------------------------------------------------------------------
 
@@ -1676,11 +1676,13 @@ hi def link cssTimeUnit      Character
 
 hi def link cssComment      Comment
 
-hi def link cssAtFontFace   Conditional
-hi def link cssAtRule       Conditional
+hi def link cssAtFontFace     Conditional
+hi def link cssAtRule         Conditional
+hi def link cssAttrSelExpr    Conditional
+hi def link cssPseudoExprType Conditional
+hi def link cssPseudoSel      Conditional
 
 hi def link cssAttrExpr     Constant
-
 hi def link cssBgBorVal     Constant
 hi def link cssBoxVal       Constant
 hi def link cssColorVal     Constant
@@ -1705,9 +1707,8 @@ hi def link cssBraceError   Error
 
 hi def link cssAtRuleBraces   Function
 hi def link cssAtRuleExpr     Function
-hi def link cssAttrBraces     Function
-hi def link cssBraces         Function
 hi def link cssAttrExprType   Function
+hi def link cssBraces         Function
 hi def link cssCalcExprType   Function
 hi def link cssColorExprType  Function
 hi def link cssCycleExprType  Function
@@ -1717,12 +1718,12 @@ hi def link cssFontBraces     Function
 hi def link cssExprType       Function
 hi def link cssImgExprType    Function
 hi def link cssMediaExpr      Function
-hi def link cssPseudoExprType Function
 
-hi def link cssAttrSelect   Identifier
-hi def link cssClassName    Identifier
-hi def link cssIdName       Identifier
+hi def link cssAttrSel      Identifier
+hi def link cssClassSel     Identifier
+hi def link cssIdSel        Identifier
 hi def link cssMediaType    Identifier
+hi def link cssPseudoExpr   Identifier
 
 hi def link cssColorHex     Number
 hi def link cssNumber       Number
