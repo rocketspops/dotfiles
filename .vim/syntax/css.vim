@@ -14,6 +14,8 @@ set iskeyword=@,48-57,@-@,-
 
 syn sync fromstart
 
+syn cluster Spell           contains=cssComment
+
 "G L O B A L
 "----------------------------------------------------------------------------
 
@@ -40,13 +42,11 @@ syn region cssDecBlock      contains=@cssProp
                           \ extend
                           \ keepend
                           \ matchgroup=cssBraces
-                          \ start='\(@.*\)\@<!{'
-                          \ end='}'
+                          \ start='{'
+                          \ end='\(\(;\s*\)\@<=}\|^\s*}\)'
                           \ transparent
 
 syn match cssImportant      contained "!\s*important\>"
-
-syn cluster Spell           contains=cssComment
 
 syn match cssUnicode        contained
                           \ "\(U+[0-9A-Fa-f?]\+[+-][0-9A-Fa-f?]\+\|
@@ -60,31 +60,18 @@ syn match cssValOp          contained "[:;,/]"
 "W3C Candidate Recommendation (27 Jul 2011)  www.w3.org/TR/css3-mediaqueries/
 "----------------------------------------------------------------------------
 
-syn match cssMediaOp       "\(\sand\s\)"
-
-syn match cssMediaType     "\(@media\s\+\)\@<=
-                            \all\|
-                            \braille\|
-                            \embossed\|
-                            \handheld\|
-                            \print\|
-                            \projection\|
-                            \screen\|
-                            \speech\|
-                            \tty\|
-                            \tv"
-
 syn region cssMediaExpr     contains=
                               \ cssCalcOp,
-                              \ cssMediaFeat,
+                              \ cssMediaFeature,
                               \ cssMediaValue,
-                              \ cssNumber
+                              \ cssNumber,
+                              \ cssValOp
                           \ keepend
                           \ oneline
                           \ start="\s\@<=("
                           \ end=")"
 
-syn keyword cssMediaFeat    contained
+syn keyword cssMediaFeature contained
                           \ aspect-ratio
                           \ color
                           \ color-index
@@ -118,6 +105,20 @@ syn keyword cssMediaFeat    contained
                           \ resolution
                           \ scan
                           \ width
+
+syn keyword cssMediaOp      and 
+
+syn match cssMediaType     "\(@media\s\+\)\@<=
+                            \all\|
+                            \braille\|
+                            \embossed\|
+                            \handheld\|
+                            \print\|
+                            \projection\|
+                            \screen\|
+                            \speech\|
+                            \tty\|
+                            \tv"
 
 syn match cssMediaValue     contained
                           \ "\<\(\:\s*\)\@<=\(
@@ -355,11 +356,14 @@ syn match cssUniversalSel   "\(\(^\|\a\+\|\s\+\)\@<=
 "=A T  R U L E  S E L E C T O R
 "----------------------------------------------------------------------------
 
-syn region cssAtRuleBlock   contains=ALLBUT,cssBraceError
+syn region cssAtRuleBlock   contains=
+                              \cssDecBlock,
+                              \cssBraceError,
+                              \css.*Sel
                           \ keepend
                           \ matchgroup=cssAtRuleBraces
                           \ start="\(^@[A-Za-z].*\)\@<={"
-                          \ end="\(}\|}\@<=}\)"
+                          \ end="}\|\(}\s*\)\@<={"
                           \ transparent
 
 syn region cssAtRuleExpr    contains=cssString
@@ -392,7 +396,6 @@ syn keyword cssAtRule       @bottom-center
                           \ @top-left-corner
                           \ @top-right
                           \ @top-right-corner
-
 
 "=C S S 3  E X P R E S S I O N S
 "----------------------------------------------------------------------------
@@ -1664,6 +1667,8 @@ syn cluster cssVal         contains=css.*Val
 "=D E F A U L T  H I G H L I G H T  G R O U P S`
 "----------------------------------------------------------------------------
 
+hi def link cssAtRule        boolean
+
 hi def link cssAbsLengthUnit Character
 hi def link cssAngleUnit     Character
 hi def link cssFracUnit      Character
@@ -1751,7 +1756,7 @@ hi def link cssFontProp     Type
 hi def link cssImgProp      Type
 hi def link cssGenConProp   Type
 hi def link cssMarqProp     Type
-hi def link cssMediaFeat    Type
+hi def link cssMediaFeature Type
 hi def link cssMultiColProp Type
 hi def link cssPageProp     Type
 hi def link cssRenderProp   Type

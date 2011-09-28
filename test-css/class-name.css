@@ -59,12 +59,14 @@ div p *[type="href"]
 p{ margin: calc(1% - 2px) calc(1rem - 1px); }
 
 /* Fonts */ 
-p { font: 12pt/14pt sans-serif }
-p { font: 80% sans-serif }
-p { font: x-large/110% "new century schoolbook", serif }
-p { font: bold italic large Palatino, serif }
-p { font: normal small-caps 120%/120% fantasy }
-p { font: oblique 12pt "Helvetica Neue", serif; font-stretch: condensed }
+p { font: 12pt/14pt sans-serif; }
+p { font: 80% sans-serif; }
+p { font: x-large/110% "new century schoolbook", serif; }
+p { font: bold italic large Palatino, serif; }
+p { font: normal small-caps 120%/120% fantasy; }
+p { 
+  font: oblique 12pt "Helvetica Neue", serif; 
+  font-stretch: condensed; }
 
 /* Universal and Namespace Selectors */
 foo|h1 
@@ -76,3 +78,11 @@ ns|*
 *|*
 |*
 *
+
+/* @Media */
+@media (orientation: portrait) { … }
+@media all and (orientation: portrait) { … }
+@media all { … }
+@media { … }
+@media all { 
+body { background:lime; } }  
