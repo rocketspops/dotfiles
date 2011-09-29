@@ -60,12 +60,25 @@ syn match cssValOp          contained "[:;,/]"
 "W3C Candidate Recommendation (27 Jul 2011)  www.w3.org/TR/css3-mediaqueries/
 "----------------------------------------------------------------------------
 
-syn region cssMediaExpr     contains=
-                              \ cssCalcOp,
-                              \ cssMediaFeature,
-                              \ cssMediaValue,
-                              \ cssNumber,
-                              \ cssValOp
+syn region cssMediaAtRule   contains=
+                              \cssAtRuleBlock,
+                              \cssDecBlock,
+                              \cssMediaExpr,
+                              \cssMediaOp,
+                              \cssMediaType
+                          \ start="\(^\s*\)\@<=@media"
+                          \ end="}"
+
+syn region cssMediaExpr     contained
+                          \ contains=
+                              \cssAbsLengthUnit,
+                              \cssImgResUnit,
+                              \cssMediaFeature,
+                              \cssMediaValue,
+                              \cssNumber,
+                              \cssPercentUnit,
+                              \cssRelLengthUnit,
+                              \cssValOp
                           \ keepend
                           \ oneline
                           \ start="\s\@<=("
@@ -106,9 +119,10 @@ syn keyword cssMediaFeature contained
                           \ scan
                           \ width
 
-syn keyword cssMediaOp      and 
+syn keyword cssMediaOp      contained and 
 
-syn match cssMediaType     "\(@media\s\+\)\@<=
+syn match cssMediaType      contained
+                          \ "\(@media\s\+\)\@<=
                             \all\|
                             \braille\|
                             \embossed\|
@@ -384,7 +398,6 @@ syn keyword cssAtRule       @bottom-center
                           \ @left-top
                           \ @left-middle
                           \ @left-bottom
-                          \ @media
                           \ @namespace
                           \ @page
                           \ @right-top
@@ -434,7 +447,7 @@ syn match cssAbsLengthUnit  contained
                             \pc\|
                             \pt\|
                             \px\)
-                            \\(\;\|,\|/\|\s\+\)\@="
+                            \\(\;\|,\|/\|)\|\s\+\)\@="
 
 syn match cssRelLengthUnit  contained
                           \ "\(\d\)\@<=\(
@@ -445,7 +458,7 @@ syn match cssRelLengthUnit  contained
                             \vh\|
                             \vm\|
                             \vw\)
-                            \\(\;\|,\|/\|\s\+\)\@="
+                            \\(\;\|,\|/\|)\|\s\+\)\@="
 
 "Functional Notations ------------------------------------------------------- 
 
@@ -498,7 +511,7 @@ syn region cssCycleExpr     contained
 syn match cssNumber         contained "[-+]\=\d\+\(\.\d*\)\="
 
 syn match cssPercentUnit    contained 
-                          \ "\(\d\)\@<=\(%\)\(\;\|,\|/\|\s\+\)\@="
+                          \ "\(\d\)\@<=\(%\)\(\;\|,\|/\|)\|\s\+\)\@="
 
 "Other Units ---------------------------------------------------------------- 
 
@@ -509,25 +522,25 @@ syn match cssAngleUnit      contained
                             \rad\|
                             \rem\|
                             \turn\)
-                            \\(\;\|,\|/\|\s\+\)\@="
+                            \\(\;\|,\|/\|)\|\s\+\)\@="
 
 syn match cssFracUnit       contained
-                          \ "\(\d\)\@<=\(fr\)\(\;\|,\|/\|\s\+\)\@="
+                          \ "\(\d\)\@<=\(fr\)\(\;\|,\|/\|)\|\s\+\)\@="
 
 syn match cssFreqUnit       contained
                           \ "\(\d\)\@<=\(
                             \kHz\|
                             \Hz\)
-                            \\(\;\|,\|/\|\s\+\)\@="
+                            \\(\;\|,\|/\|)\|\s\+\)\@="
 
 syn match cssGridUnit       contained
-                          \ "\(\d\)\@<=\(gr\)\(\;\|,\|/\|\s\+\)\@="
+                          \ "\(\d\)\@<=\(gr\)\(\;\|,\|/\|)\|\s\+\)\@="
 
 syn match cssTimeUnit       contained
                           \ "\(\d\)\@<=\(
                             \ms\|
                             \s\)
-                            \\(\;\|,\|/\|\s\+\)\@="
+                            \\(\;\|,\|/\|)\|\s\+\)\@="
 
 "Textual Data Types --------------------------------------------------------- 
 
@@ -949,6 +962,8 @@ syn keyword cssColorVal     contained
 "W3C Working Draft (24 MAR 2011)                    www.w3.org/TR/css3-fonts/
 "----------------------------------------------------------------------------
 
+syn keyword cssFontAtRule   @font-face
+
 syn region cssFontBlock     contains=cssFontProp
                           \ keepend
                           \ matchgroup=cssFontBraces
@@ -977,8 +992,6 @@ syn region cssFontExpr      contained
                           \ end="\()\)\(\s\+\|;\)\@="
                           \ transparent
 
-syn keyword cssAtFontFace   @font-face
-
 syn keyword cssFontName     contained
                           \ Arial
                           \ Calibri
@@ -996,36 +1009,38 @@ syn keyword cssFontName     contained
                           \ Verdana
 
 syn region cssFontProp      contained
-                          \ contains=@cssCommon,
-                                    \cssDataExpr,
-                                    \cssFontExpr,
-                                    \cssFontName,
-                                    \cssFontVal,
-                                    \cssString,
-                                    \cssUnicode
+                          \ contains=
+                              \@cssCommon,
+                              \cssDataExpr,
+                              \cssFontExpr,
+                              \cssFontName,
+                              \cssFontVal,
+                              \cssString,
+                              \cssUnicode
                           \ keepend
-                          \ start="\(\(^\|{\|\;\)\s*\)\@<=\(
-                                  \font\|
-                                  \font-family\|
-                                  \font-feature-settings\|
-                                  \font-kerning\|
-                                  \font-language-override\|
-                                  \font-style\|
-                                  \font-variant\|
-                                  \font-variant-alternates\|
-                                  \font-variant-caps\|
-                                  \font-variant-east-asian\|
-                                  \font-variant-ligatures\|
-                                  \font-variant-numeric\|
-                                  \font-weight\|
-                                  \font-size\|
-                                  \font-size-adjust\|
-                                  \font-stretch\|
-                                  \font-synthesis\|
-                                  \src\|
-                                  \unicode-range\|
-                                  \vertical-position\|
-                                  \\)\s*:"
+                          \ start=
+                              \"\(\(^\|{\|\;\)\s*\)\@<=\(
+                              \font\|
+                              \font-family\|
+                              \font-feature-settings\|
+                              \font-kerning\|
+                              \font-language-override\|
+                              \font-style\|
+                              \font-variant\|
+                              \font-variant-alternates\|
+                              \font-variant-caps\|
+                              \font-variant-east-asian\|
+                              \font-variant-ligatures\|
+                              \font-variant-numeric\|
+                              \font-weight\|
+                              \font-size\|
+                              \font-size-adjust\|
+                              \font-stretch\|
+                              \font-synthesis\|
+                              \src\|
+                              \unicode-range\|
+                              \vertical-position\|
+                              \\)\s*:"
                           \ end=";"
 
 syn keyword cssFontVal      contained
@@ -1135,20 +1150,22 @@ syn region cssImgExpr       contained
                           \ transparent
 
 syn region cssImgProp       contained
-                          \ contains=cssDataExpr,
-                                    \cssNumber,
-                                    \cssImgExpr,
-                                    \cssImgResUnit,
-                                    \cssImgVal,
-                                    \cssValOp
+                          \ contains=
+                              \cssDataExpr,
+                              \cssNumber,
+                              \cssImgExpr,
+                              \cssImgResUnit,
+                              \cssImgVal,
+                              \cssValOp
                           \ keepend
-                          \ start="\(\(^\|{\|\;\)\s*\)\@<=\(
-                                  \image-orientation\|
-                                  \image-rendering\|
-                                  \image-resolution\|
-                                  \object-fit\|
-                                  \object-position
-                                  \\)\s*:"
+                          \ start=
+                              \"\(\(^\|{\|\;\)\s*\)\@<=\(
+                              \image-orientation\|
+                              \image-rendering\|
+                              \image-resolution\|
+                              \object-fit\|
+                              \object-position
+                              \\)\s*:"
                           \ end=";"
 
 syn match cssImgResUnit     contained
@@ -1668,6 +1685,7 @@ syn cluster cssVal         contains=css.*Val
 "----------------------------------------------------------------------------
 
 hi def link cssAtRule        boolean
+hi def link cssMediaAtRule   boolean
 
 hi def link cssAbsLengthUnit Character
 hi def link cssAngleUnit     Character
@@ -1681,9 +1699,10 @@ hi def link cssTimeUnit      Character
 
 hi def link cssComment      Comment
 
-hi def link cssAtFontFace     Conditional
 hi def link cssAtRule         Conditional
 hi def link cssAttrSelExpr    Conditional
+hi def link cssFontAtRule     Conditional
+hi def link cssMediaAtRule    Conditional
 hi def link cssPseudoExprType Conditional
 hi def link cssPseudoSel      Conditional
 
