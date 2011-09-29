@@ -1,15 +1,15 @@
-.♥ { }
-.𝄞♪♩♫♬ { }
-.“‘’” { }
-.\? { }
-.\3A \) { }
-.⌘⌥ { }
-.\3A \`\({ }
-.\ \37 \35 145a2b3c{ }
-.f\\o\\o{ }
-.f\*o\*o{ }
-.\ f\!o\!o{ }
-.df{ }
+.♥ 
+.𝄞♪♩♫♬
+.“‘’”
+.\?
+.\3A \)
+.⌘⌥ 
+.\3A \`\(
+.\ \37 \35 145a2b3 { }
+.f\\o\\o
+.f\*o\*o
+.\ f\!o\!o
+.df
 .f\+o\+o{ }
 .\<\>\<\<\<\>\>\<\>{ }
 .\<p\>{ }
@@ -27,7 +27,7 @@ a:visited
 a:hover   
 a:active  
 p.note:target {}
-*:target { color : red }
+*:target { color : red; }
 *:target::before { content: url(target.png); }
 html:lang(fr-be)
 html:lang(de)
@@ -56,17 +56,18 @@ body > h2:not(input[type="frank"]):not(:last-of-type)
 div p *[type="href"]
 
 /* Calc */
-p{ margin: calc(1% - 2px) calc(1rem - 1px); }
+p{ margin: calc(1 - 2px) calc(1rem - 1px); }
 
 /* Fonts */ 
 p { font: 12pt/14pt sans-serif; }
 p { font: 80% sans-serif; }
 p { font: x-large/110% "new century schoolbook", serif; }
 p { font: bold italic large Palatino, serif; }
-p { font: normal small-caps 120%/120% fantasy; }
+p { font: normal jis04 small-caps 120%/120% fantasy; }
 p { 
   font: oblique 12pt "Helvetica Neue", serif; 
-  font-stretch: condensed; }
+  font-stretch: condensed;
+}
 
 /* Universal and Namespace Selectors */
 foo|h1 
@@ -97,3 +98,7 @@ ns|*
 @media tv and (scan: progressive) { … }
 @media tv and (resolution:12dppx) { … }
 @media handheld and (grid) and (max-width: 15em) { … }
+
+/* Gen Con */ 
+
+.thumbnail { crop: rect(0px, 115px, 85px, 30px); }
