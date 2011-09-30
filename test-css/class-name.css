@@ -63,7 +63,7 @@ p { font: 12pt/14pt sans-serif; }
 p { font: 80% sans-serif; }
 p { font: x-large/110% "new century schoolbook", serif; }
 p { font: bold italic large Palatino, serif; }
-p { font: normal jis04 small-caps 120%/120% fantasy; }
+p { /**/ font: /**/ ; }
 p { 
   font: oblique 12pt "Helvetica Neue", serif; 
   font-stretch: condensed;
@@ -97,8 +97,112 @@ ns|*
 @media all and (min-color-index: 1) { … }
 @media tv and (scan: progressive) { … }
 @media tv and (resolution:12dppx) { … }
-@media handheld and (grid) and (max-width: 15em) { … }
+/* 
+ 
+ */ @media handheld and (grid) and (max-width: 15em) { … }
 
+@counter-style {  }
+
+@counter-style triangle {
+	type: repeating;
+	glyphs: '▶';
+	suffix: '';
+}
+
+@counter-style trinary {
+	type: numeric;
+	glyphs: '0' '1' '2';
+}
+
+@counter-style go {
+	type: alphabetic;
+	glyphs: url(white.svg) url(black.svg);
+	suffix: '';
+}
+
+@counter-style fixed-decimal {
+	type: alphabetic;
+	glyphs: '0' '1' '2' '3' '4' '5' '6' '7' '8' '9' /* */;
+}
+
+@counter-style unary {
+	type: symbolic;
+	glyphs: '|';
+}
+
+@counter-style box-corner {
+	type: non-repeating;
+	glyphs: '◰' '◳' '◲' '◱';
+	suffix: ':';
+}
+
+@counter-style dice {
+	type: additive;
+	additive-glyphs: 6 '⚅', 5 '⚄', 4 '⚃', 3 '⚂', 2 '⚁', 1 '⚀';
+	suffix: '';
+}
+
+@counter-style box {
+	type: repeating;
+	glyphs: '\25FD';
+	/* '◽' */
+	suffix: '';
+}
+
+@counter-style check {
+	type: repeating;
+	glyphs: '\2713';
+	/* '✓' */
+	suffix: '';
+}
+
+@counter-style circle {
+	type: repeating;
+	glyphs: '\25E6';
+	/* '◦' */
+	suffix: '';
+}
+
+@counter-style diamond {
+	type: repeating;
+	glyphs: '\25C6';
+	/* '◆' */
+	suffix: '';
+}
+
+@counter-style disc {
+	type: repeating;
+	glyphs: '\2022';
+	/* '•' */
+	suffix: '';
+}
+
+/*
+ 
+ */ @counter-style dash {
+	type: repeating;
+	glyphs: '\2014';
+	/* '—' */
+	suffix: '';
+}
+
+@counter-style square {
+	type: repeating;
+	glyphs: '\25FE';
+	/* '◾' */
+	suffix: '';
+}
+	
+
+/*
+
+ Gen Con */ @font-face {
 /* Gen Con */ 
+} 
 
 .thumbnail { crop: rect(0px, 115px, 85px, 30px); }
+fn { content: counter(footnote, footnotes); }
+
+li {overflow: auto; overflow-style: marquee; marquee-play-count: 0; }
+li:focus, li:hover {marquee-play-count: 1; }
+li {overflow: auto; overflow-style: marquee-line; white-space: nowrap}
