@@ -192,12 +192,9 @@ ns|*
 	/* '◾' */
 	suffix: '';
 }
-	
 
-/*
+@font-face {
 
- Gen Con */ @font-face {
-/* Gen Con */ 
 } 
 
 .thumbnail { crop: rect(0px, 115px, 85px, 30px); }
@@ -205,4 +202,28 @@ fn { content: counter(footnote, footnotes); }
 
 li {overflow: auto; overflow-style: marquee; marquee-play-count: 0; }
 li:focus, li:hover {marquee-play-count: 1; }
-li {overflow: auto; overflow-style: marquee-line; white-space: nowrap}
+li {overflow: auto; overflow-style: marquee-line; white-space: nowrap;}
+
+/* multicol */ 
+
+.multicol { column-width: 8em ;}
+.multicol h2 { 
+  break-before: column; 
+  margin-top: 2em; 
+}
+.multicol img { 
+  break-after: column;
+}
+
+body { 
+  column-gap: 1em;
+  column-rule-width: 1em;
+  column-rule-style: solid;
+  column-rule-color: black;
+  columns: 12em;      
+  columns: auto 12em; 
+  columns: 2;         
+  columns: 2 auto;    
+  columns: auto;      
+  columns: auto auto; 
+ }

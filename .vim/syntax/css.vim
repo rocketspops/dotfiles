@@ -22,6 +22,11 @@ syn cluster Spell               contains=cssComment
 syn match cssBraceError         contained "{"
 syn match cssBraceError         "}"
 
+syn cluster cssColor            contains=
+                                  \cssColorExpr,
+                                  \cssColorHex,
+                                  \cssColorVal
+
 syn region cssComment           containedin=ALL
                               \ keepend
                               \ start="/\*"
@@ -500,6 +505,10 @@ syn region cssCycleExpr         contained
                               \ transparent
 
 "Numeric Data Types --------------------------------------------------------- 
+syn match cssInteger            contained 
+                                \"\(-\|\w\)\@<!
+                                \\([0-9]\+\)
+                                \\(\s\+\|;\|\,\)\@="
 
 syn match cssNumber             contained "[-+]\=\d\+\(\.\d*\)\="
 
@@ -565,9 +574,7 @@ syn region cssString            contained
 syn region cssBgBorProp         contained
                               \ contains=
                                   \cssBgBorVal,
-                                  \cssColorExpr,
-                                  \cssColorHex,
-                                  \cssColorVal,
+                                  \@cssColor, 
                                   \@cssCommon,
                                   \cssDataExpr,
                                   \cssImgExpr
@@ -766,9 +773,7 @@ syn match cssColorHex           contained
 
 syn region cssColorProp         contained
                               \ contains=
-                                  \cssColorVal,
-                                  \cssColorExpr,
-                                  \cssColorHex,
+                                  \@cssColor, 
                                   \cssNumber,
                                   \cssPercentUnit,
                                   \cssValOp
@@ -1128,9 +1133,7 @@ syn match cssFontVal            contained
 syn region cssImgExpr           contained
                               \ contains=
                                   \cssAngleUnit,
-                                  \cssColorExpr,
-                                  \cssColorHex,
-                                  \cssColorVal,
+                                  \@cssColor, 
                                   \@cssCommon,
                                   \cssImgVal,
                                   \cssNumber,
@@ -1512,7 +1515,7 @@ syn keyword cssGenConVal        contained
 syn region cssMarqProp          contained
                               \ contains=
                                   \cssMarqVal,
-                                  \cssMarqNumVal,
+                                  \cssInteger,
                                   \cssValOp
                               \ keepend
                               \ start=
@@ -1540,36 +1543,52 @@ syn keyword cssMarqVal          contained
                               \ slide
                               \ slow
 
-syn match cssMarqNumVal         contained 
-                                \"\(-\|\w\)\@<!
-                                \\([0-9]\{1,2}\)
-                                \\(\s\+\|;\|\,\)\@="
 
 "C S S 3  =MU L T I - C O L U M N  L A Y O U T  M O D U L E
 "----------------------------------------------------------------------------
 "W3C Candidate Recommendation (12 APR 2011)      www.w3.org/TR/css3-multicol/ 
 "----------------------------------------------------------------------------
 
-syn keyword cssMultiColProp contained
-                          \ break-after
-                          \ break-after
-                          \ break-inside
-                          \ columns
-                          \ column-count
-                          \ column-fill
-                          \ column-gap
-                          \ column-width
-                          \ column-rule
-                          \ column-rule-color
-                          \ column-rule-style
-                          \ column-rule-width
-                          \ column-span
+syn region cssMultiColProp      contained
+                              \ contains=
+                                \cssBgBorVal,
+                                \@cssColor, 
+                                \@cssCommon,
+                                \cssInteger,
+                                \cssMultiColVal
+                              \ start=
+                                  \"\(\(^\|{\|\;\|\*/\)\s*\)\@<=\(
+                                  \break-after\|
+                                  \break-before\|
+                                  \break-inside\|
+                                  \columns\|
+                                  \column-count\|
+                                  \column-fill\|
+                                  \column-gap\|
+                                  \column-width\|
+                                  \column-rule\|
+                                  \column-rule-color\|
+                                  \column-rule-style\|
+                                  \column-rule-width\|
+                                  \column-span
+                                  \\)\s*:"
+                              \ end=";"
 
-syn match cssMultiColVal    contained
-                          \ "\<\(all\|
-                            \avoid-page\|
-                            \avoid-column\|
-                            \balance\)\>"
+syn keyword cssMultiColVal      contained
+                              \ all
+                              \ always
+                              \ auto
+                              \ avoid
+                              \ avoid-page
+                              \ avoid-column
+                              \ balance
+                              \ column
+                              \ left
+                              \ medium
+                              \ none
+                              \ normal
+                              \ page
+                              \ right
 
 "C S S 3  =P A G E D  M E D I A  M O D U L E                   W3C WD 6/7/2011
 "----------------------------------------------------------------------------
@@ -2041,8 +2060,8 @@ hi def link cssMediaType        Identifier
 hi def link cssPseudoExpr       Identifier
 
 hi def link cssColorHex         Number
+hi def link cssInteger          Number
 hi def link cssNumber           Number
-hi def link cssMarqNumVal       Number
 hi def link cssUnicode          Number
 
 hi def link cssAttrSelOp        Operator
