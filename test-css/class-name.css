@@ -194,14 +194,37 @@ ns|*
 }
 
 @font-face {
+  font-family: Helvetica;
+  src: url(http://example.com/fonts/Gentium.ttf);
+}
 
-} 
+/* regular face of Gentium */
+@font-face {
+  font-family: MyGentium;
+  src: local(Gentium), url(Gentium.ttf); /* otherwise, download it */
+}
+
+/* bold face of Gentium */
+@font-face {
+  font-family: "Trebuchet MS";
+  src: local(Gentium Bold),   /* full font name */
+       local(Gentium-Bold),   /* Postscript name */
+       url(GentiumBold.ttf);  /* otherwise, download it */
+  font-weight: bold;
+}
+
+/* load WOFF font if possible, otherwise use OpenType font */
+@font-face {
+  font-family: bodytext;
+  src: url(ideal-sans-serif.woff) format("woff"),
+       url(basic-sans-serif.ttf) format("opentype");
+}
 
 .thumbnail { crop: rect(0px, 115px, 85px, 30px); }
 fn { content: counter(footnote, footnotes); }
 
 li {overflow: auto; overflow-style: marquee; marquee-play-count: 0; }
-li:focus, li:hover {marquee-play-count: 1; }
+li:focus, li:hover {marquee-play-count: 1000; }
 li {overflow: auto; overflow-style: marquee-line; white-space: nowrap;}
 
 /* multicol */ 
@@ -222,8 +245,17 @@ body {
   column-rule-color: black;
   columns: 12em;      
   columns: auto 12em; 
-  columns: 2;         
+  columns: auto 2;         
   columns: 2 auto;    
   columns: auto;      
   columns: auto auto; 
  }
+
+@namespace toto "http://toto.example.org";
+@namespace "http://example.com/foo";
+@namespace Q "http://example.com/q-markup";
+@namespace lq "http://example.com/q-markup";
+@namespace empty "";
+@namespace "";
+@namespace "http://www.w3.org/1999/xhtml";
+@namespace svg "http://www.w3.org/2000/svg";

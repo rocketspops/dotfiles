@@ -417,7 +417,6 @@ syn keyword cssAtRule           @bottom-center
                               \ @left-top
                               \ @left-middle
                               \ @left-bottom
-                              \ @namespace
                               \ @page
                               \ @right-top
                               \ @right-middle
@@ -466,7 +465,7 @@ syn region cssAttrExpr          contained
                               \ matchgroup=cssAttrExprType
                               \ oneline
                               \ start="\<\(attr\)("
-                              \ end="\()\)\(\s\+\|;\)\@="
+                              \ end="\()\)\(\s\+\|;\|,\|\s*)\)\@="
 
 syn region cssCalcExpr          contained
                               \ contains=
@@ -487,7 +486,7 @@ syn region cssCalcExpr          contained
                                   \max\|
                                   \min
                                   \\)("
-                              \ end="\()\)\(\s\+\|;\)\@="
+                              \ end="\()\)\(\s\+\|;\|,\|\s*)\)\@="
                               \ transparent
 
 syn match cssCalcOp             contained "\([*+%/-]\)"
@@ -501,7 +500,7 @@ syn region cssCycleExpr         contained
                               \ matchgroup=cssCycleExprType
                               \ oneline
                               \ start="\<\(cycle\)("
-                              \ end="\()\)\(\s\+\|;\)\@="
+                              \ end="\()\)\(\s\+\|;\|,\|\s*)\)\@="
                               \ transparent
 
 "Numeric Data Types --------------------------------------------------------- 
@@ -558,7 +557,7 @@ syn region cssDataExpr          contained
                                   \url\|
                                   \uri
                                   \\)("
-                              \ end="\()\)\(\s\+\|;\|\,\)\@="
+                              \ end="\()\)\(\s\+\|;\|,\|\s*)\)\@="
 
 syn region cssString            contained
                               \ keepend
@@ -763,7 +762,7 @@ syn region cssColorExpr         contained
                                   \rgb\|
                                   \rgba
                                   \\)("
-                              \ end="\()\)\(\s\+\|;\|\s*)\)\@="
+                              \ end="\()\)\(\s\+\|;\|,\|\s*)\)\@="
                               \ transparent
 
 syn match cssColorHex           contained 
@@ -991,24 +990,55 @@ syn region cssFontExpr          contained
                                   \styleset\|
                                   \swash\|
                                   \\)("
-                              \ end="\()\)\(\s\+\|;\)\@="
+                              \ end="\()\)\(\s\+\|;\|,\|\s*)\)\@="
                               \ transparent
 
 syn keyword cssFontName         contained
                               \ Arial
+                              \ Baskerville
                               \ Calibri
-                              \ Candara
                               \ Cambria
+                              \ Candara
+                              \ Capitals
+                              \ Chalkboard
+                              \ Charcoal
+                              \ Chicago
+                              \ Cochin
                               \ Consolas
+                              \ Constantia
+                              \ Cooper
+                              \ Copperplate
                               \ Corbel
                               \ Constantia
                               \ Courier
+                              \ Didot
+                              \ Euphemia
+                              \ Futura
+                              \ Gadget
+                              \ Geneva
                               \ Georgia
                               \ Helvetica
+                              \ Herculanum
+                              \ Impact
                               \ Lucida
+                              \ Marlett
+                              \ Menlo
+                              \ Miriam
+                              \ Monaco
+                              \ Optima
+                              \ Palatino
+                              \ Papyrus
+                              \ Sand
+                              \ Skia
+                              \ Symbol
                               \ Tahoma
+                              \ Techno
+                              \ Textile
                               \ Times
                               \ Verdana
+                              \ Webdings
+                              \ Wingdings
+                              \ Zapfino
 
 syn region cssFontProp          contained
                               \ contains=
@@ -1150,7 +1180,7 @@ syn region cssImgExpr           contained
                                   \repeating-linear-gradient\|
                                   \repeating-radial-gradient\|
                                   \\)("
-                              \ end="\()\)\(\s\+\|;\|\s*)\)\@="
+                              \ end="\()\)\(\s\+\|;\|,\|\s*)\)\@="
                               \ transparent
 
 syn region cssImgProp           contained
@@ -1260,7 +1290,7 @@ syn match cssCounterName        "\(^\s*@counter-style\s*\(
                                 \inside\|
                                 \none\|
                                 \outside
-                                \\)\@!\)\@<=[A-Za-z][0-9A-Za-z_-]\+"
+                                \\)\@!\)\@<=[A-Za-z]\+[0-9A-Za-z_-]*"
 
 syn keyword cssCounterVal       contained
                               \ afar
@@ -1589,6 +1619,28 @@ syn keyword cssMultiColVal      contained
                               \ normal
                               \ page
                               \ right
+
+"C S S 3  =N A M E S P A C E S  M O D U L E
+"----------------------------------------------------------------------------
+"W3C Recommendation (29 SEP 2011)               www.w3.org/TR/css3-namespace/
+"----------------------------------------------------------------------------
+
+syn keyword cssNamespaceAtRule  contained @namespace
+
+syn region cssNamespace         contains=
+                                  \cssNamespaceAtRule,
+                                  \cssNamespacePrefix,
+                                  \cssString,
+                                  \cssValOp
+                              \ keepend
+                              \ start=
+                                  \"\(^\s*\|\*/\s*\)
+                                  \@namespace\s\+.*"
+                              \ end=";"
+                              \ transparent
+
+syn match cssNamespacePrefix    "\(^\s*@namespace\s*\)
+                                \\@<=[A-Za-z]\+[0-9A-Za-z_-]*"
 
 "C S S 3  =P A G E D  M E D I A  M O D U L E                   W3C WD 6/7/2011
 "----------------------------------------------------------------------------
@@ -2010,6 +2062,7 @@ hi def link cssAtRule           Conditional
 hi def link cssAttrSelExpr      Conditional
 hi def link cssCounterAtRule    Conditional
 hi def link cssFontAtRule       Conditional
+hi def link cssNamespaceAtRule  Conditional
 hi def link cssPseudoExprType   Conditional
 hi def link cssPseudoSel        Conditional
 
@@ -2057,6 +2110,7 @@ hi def link cssClassSel         Identifier
 hi def link cssCounterName      Identifier
 hi def link cssIdSel            Identifier
 hi def link cssMediaType        Identifier
+hi def link cssNamespacePrefix  Identifier
 hi def link cssPseudoExpr       Identifier
 
 hi def link cssColorHex         Number
