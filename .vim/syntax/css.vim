@@ -62,96 +62,6 @@ syn match cssUnicode            contained
 
 syn match cssValOp              contained "[:;,/]"
 
-"C S S 3  =ME D I A  Q U E R I E S                           W3C CR 7/27/2011
-"----------------------------------------------------------------------------
-"W3C Candidate Recommendation (27 Jul 2011)  www.w3.org/TR/css3-mediaqueries/
-"----------------------------------------------------------------------------
-
-syn keyword cssMediaAtRule      contained @media
-
-syn region cssMediaBlock        contains=
-                                  \cssAtRuleBlock,
-                                  \cssDecBlock,
-                                  \cssMediaAtRule,
-                                  \cssMediaExpr,
-                                  \cssMediaOp,
-                                  \cssMediaType
-                              \ keepend
-                              \ start="\(^\s*\|\*/\s*\)\@<=@media"
-                              \ end="}\|\(}\s*\)\@<=}"
-
-syn region cssMediaExpr         contained
-                              \ contains=
-                                  \cssAbsLengthUnit,
-                                  \cssImgResUnit,
-                                  \cssMediaFeature,
-                                  \cssMediaValue,
-                                  \cssNumber,
-                                  \cssPercentUnit,
-                                  \cssRelLengthUnit,
-                                  \cssValOp
-                              \ keepend
-                              \ oneline
-                              \ start="\s\@<=("
-                              \ end=")"
-
-syn keyword cssMediaFeature     contained
-                              \ aspect-ratio
-                              \ color
-                              \ color-index
-                              \ device-aspect-ratio
-                              \ device-height
-                              \ device-width
-                              \ grid
-                              \ height
-                              \ max-aspect-ratio
-                              \ max-color
-                              \ max-color-index
-                              \ max-device-aspect-ratio
-                              \ max-device-height
-                              \ max-device-width
-                              \ max-height
-                              \ max-monochrome
-                              \ max-resolution
-                              \ max-width
-                              \ min-aspect-ratio
-                              \ min-color
-                              \ min-color-index
-                              \ min-device-aspect-ratio
-                              \ min-device-height
-                              \ min-device-width
-                              \ min-height
-                              \ min-monochrome
-                              \ min-resolution
-                              \ min-width
-                              \ monochrome
-                              \ orientation
-                              \ resolution
-                              \ scan
-                              \ width
-
-syn keyword cssMediaOp          contained and 
-
-syn match cssMediaType          contained
-                              \ "\(@media\s\+\)\@<=
-                                \all\|
-                                \braille\|
-                                \embossed\|
-                                \handheld\|
-                                \print\|
-                                \projection\|
-                                \screen\|
-                                \speech\|
-                                \tty\|
-                                \tv"
-
-syn match cssMediaValue         contained
-                              \ "\<\(\:\s*\)\@<=\(
-                                \landscape\|
-                                \interlace\|
-                                \portrait\|
-                                \progressive\)\>"
-
 "C S S 3  =S E L E C T O R S
 "----------------------------------------------------------------------------
 "W3C Proposed Recommendation (15 DEC 2009)      www.w3.org/TR/css3-selectors/
@@ -413,7 +323,6 @@ syn keyword cssAtRule           @bottom-center
                               \ @charset
                               \ @color-profile
                               \ @document
-                              \ @import
                               \ @left-top
                               \ @left-middle
                               \ @left-bottom
@@ -741,6 +650,29 @@ syn keyword cssBoxVal           contained
                               \ table-row-group
                               \ visible
 
+"C S S 3  =C A S C A D I N G  A N D  I N H E R I T A N C E  M O D U L E                                
+"----------------------------------------------------------------------------
+"W3C Working Draft (15 DEC 2005)           www.w3.org/TR/css3-cascade/#import
+"----------------------------------------------------------------------------
+
+syn keyword cssImportAtRule     contained @import
+
+syn region cssImport            contains=
+                                  \cssDataExpr,
+                                  \cssImportAtRule,
+                                  \cssMediaExpr,
+                                  \cssMediaOp,
+                                  \cssMediaType,
+                                  \cssString,
+                                  \cssValOp
+                              \ keepend
+                              \ start=
+                                  \"\(^\s*\|\*/\s*\)
+                                  \@import\s*
+                                  \\(\".*\"\|url(.*)\)\@="
+                              \ end=";"
+                              \ transparent
+
 "C S S 3  =C O L O R  M O D U L E                                
 "----------------------------------------------------------------------------
 "W3C Recommendation (7 JUN 2011)                    www.w3.org/TR/css3-color/
@@ -992,6 +924,9 @@ syn region cssFontExpr          contained
                                   \\)("
                               \ end="\()\)\(\s\+\|;\|,\|\s*)\)\@="
                               \ transparent
+
+"These font names were compiled from a list of 'browser safe' fonts commonly 
+"found on either the Mac OS, Windows OS or both:
 
 syn keyword cssFontName         contained
                               \ Arial
@@ -1573,6 +1508,97 @@ syn keyword cssMarqVal          contained
                               \ slide
                               \ slow
 
+"C S S 3  =ME D I A  Q U E R I E S                           W3C CR 7/27/2011
+"----------------------------------------------------------------------------
+"W3C Candidate Recommendation (27 Jul 2011)  www.w3.org/TR/css3-mediaqueries/
+"----------------------------------------------------------------------------
+
+syn keyword cssMediaAtRule      contained @media
+
+syn region cssMediaBlock        contains=
+                                  \cssAtRuleBlock,
+                                  \cssDecBlock,
+                                  \cssMediaAtRule,
+                                  \cssMediaExpr,
+                                  \cssMediaOp,
+                                  \cssMediaType,
+                                  \cssString,
+                                  \cssValOp
+                              \ keepend
+                              \ start="\(^\s*\|\*/\s*\)\@<=@media"
+                              \ end="}\|\(}\s*\)\@<=}"
+
+syn region cssMediaExpr         contained
+                              \ contains=
+                                  \cssAbsLengthUnit,
+                                  \cssImgResUnit,
+                                  \cssMediaFeature,
+                                  \cssMediaValue,
+                                  \cssNumber,
+                                  \cssPercentUnit,
+                                  \cssRelLengthUnit,
+                                  \cssValOp
+                              \ keepend
+                              \ oneline
+                              \ start="\s\@<=("
+                              \ end=")"
+
+syn keyword cssMediaFeature     contained
+                              \ aspect-ratio
+                              \ color
+                              \ color-index
+                              \ device-aspect-ratio
+                              \ device-height
+                              \ device-width
+                              \ grid
+                              \ height
+                              \ max-aspect-ratio
+                              \ max-color
+                              \ max-color-index
+                              \ max-device-aspect-ratio
+                              \ max-device-height
+                              \ max-device-width
+                              \ max-height
+                              \ max-monochrome
+                              \ max-resolution
+                              \ max-width
+                              \ min-aspect-ratio
+                              \ min-color
+                              \ min-color-index
+                              \ min-device-aspect-ratio
+                              \ min-device-height
+                              \ min-device-width
+                              \ min-height
+                              \ min-monochrome
+                              \ min-resolution
+                              \ min-width
+                              \ monochrome
+                              \ orientation
+                              \ resolution
+                              \ scan
+                              \ width
+
+syn keyword cssMediaOp          contained and 
+
+syn match cssMediaType          contained
+                              \ "\(@media\s\+\)\@<=
+                                \all\|
+                                \braille\|
+                                \embossed\|
+                                \handheld\|
+                                \print\|
+                                \projection\|
+                                \screen\|
+                                \speech\|
+                                \tty\|
+                                \tv"
+
+syn match cssMediaValue         contained
+                              \ "\<\(\:\s*\)\@<=\(
+                                \landscape\|
+                                \interlace\|
+                                \portrait\|
+                                \progressive\)\>"
 
 "C S S 3  =MU L T I - C O L U M N  L A Y O U T  M O D U L E
 "----------------------------------------------------------------------------
@@ -2058,11 +2084,7 @@ hi def link cssTimeUnit         Character
 
 hi def link cssComment          Comment
 
-hi def link cssAtRule           Conditional
 hi def link cssAttrSelExpr      Conditional
-hi def link cssCounterAtRule    Conditional
-hi def link cssFontAtRule       Conditional
-hi def link cssNamespaceAtRule  Conditional
 hi def link cssPseudoExprType   Conditional
 hi def link cssPseudoSel        Conditional
 
@@ -2127,6 +2149,12 @@ hi def link cssUniversalSel     Operator
 hi def link cssValOp            Operator
 
 hi def link cssImportant        Special
+
+hi def link cssAtRule           Statement
+hi def link cssCounterAtRule    Statement
+hi def link cssFontAtRule       Statement
+hi def link cssImportAtRule     Statement
+hi def link cssNamespaceAtRule  Statement
 
 hi def link cssString           String
 hi def link cssDataExpr         String

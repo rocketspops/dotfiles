@@ -97,6 +97,13 @@ ns|*
 @media all and (min-color-index: 1) { … }
 @media tv and (scan: progressive) { … }
 @media tv and (resolution:12dppx) { … }
+@media screen "Reverse video" {
+  body { background: black; color: white; }
+}
+@media screen, print "Rainbow style" {
+  p { color: #E0D; }
+}
+
 /* 
  
  */ @media handheld and (grid) and (max-width: 15em) { … }
@@ -259,3 +266,20 @@ body {
 @namespace "";
 @namespace "http://www.w3.org/1999/xhtml";
 @namespace svg "http://www.w3.org/2000/svg";
+
+@import "common1.css";
+@import "common1.css";
+@import "yellowfish.css" "Yellow Fish";
+@import "simple.css"     "Simple";
+@import "extra.css"      "Yellow Fish";
+@import "deco-a.css"     "Budapest";
+@import "deco-b.css"     "Budapest";
+@import "common2.css";
+@import url(layout1.css) screen "Plain style";
+@import url(colors1.css) screen "Plain style";
+@import url(style4.css) "Four-columns and dark";
+@import url(base.css);
+@import url("altbase.css") "Reverse video";
+@import url("fineprint.css") print;
+@import url("bluish.css") projection, tv;
+@import url("narrow.css") handheld and (max-width: 400px);
