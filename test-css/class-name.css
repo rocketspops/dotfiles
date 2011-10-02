@@ -1,4 +1,4 @@
-@charset "ISO-8859-1";
+FE FF 00 00 @charset "ISO-8859-1";
 
 .♥ 
 .𝄞♪♩♫♬
@@ -30,8 +30,9 @@ a:active
 p.note:target {}
 *:target { color : red; }
 *:target::before { content: url(target.png); }
-html:lang(fr-be)
-html:lang(de)
+html:lang(fr-be) {}
+html:lang(de) {font:;}
+
 :lang(fr-be) > q
 :lang(de) > q
 tr:nth-child(2n+1) 
@@ -44,7 +45,7 @@ p:nth-child(4n+3)
 p:nth-child(4n+4) 
 :nth-child(10n-1)  
 :nth-child(10n+9)  
-:nth-child(3n + 1)
+:nth-child(3n + 1) { }
 :nth-child(3 n)
 :nth-child(-n+6)
 :nth-child( +6 )
@@ -57,7 +58,7 @@ body > h2:not(input[type="frank"]):not(:last-of-type)
 div p *[type="href"]
 
 /* Calc */
-p{ margin: calc(1 - 2px) calc(1rem - 1px); }
+p { margin: calc(1 - 2px); }
 
 /* Fonts */ 
 p { font: 12pt/14pt sans-serif; }
@@ -101,9 +102,9 @@ ns|*
 @media screen "Reverse video" {
   body { background: black; color: white; }
 }
+
 @media screen, print "Rainbow style" {
-  p { color: #E0D; }
-}
+  p { color: #E0D; } }
 
 /* 
  
@@ -117,7 +118,8 @@ ns|*
 	suffix: '';
 }
 
-@counter-style trinary {
+@counter-style trinary 
+{
 	type: numeric;
 	glyphs: '0' '1' '2';
 }
@@ -133,7 +135,8 @@ ns|*
 	glyphs: '0' '1' '2' '3' '4' '5' '6' '7' '8' '9' /* */;
 }
 
-@counter-style unary {
+@counter-style unary 
+{
 	type: symbolic;
 	glyphs: '|';
 }
@@ -178,19 +181,10 @@ ns|*
 	suffix: '';
 }
 
-@counter-style disc {
+ @counter-style disc {
 	type: repeating;
 	glyphs: '\2022';
 	/* '•' */
-	suffix: '';
-}
-
-/*
- 
- */ @counter-style dash {
-	type: repeating;
-	glyphs: '\2014';
-	/* '—' */
 	suffix: '';
 }
 
@@ -199,21 +193,25 @@ ns|*
 	glyphs: '\25FE';
 	/* '◾' */
 	suffix: '';
-}
+} 
+/**/
 
-@font-face {
+@font-face {  
+
   font-family: Helvetica;
   src: url(http://example.com/fonts/Gentium.ttf);
 }
 
 /* regular face of Gentium */
-@font-face {
+@font-face 
+{
   font-family: MyGentium;
   src: local(Gentium), url(Gentium.ttf); /* otherwise, download it */
 }
 
 /* bold face of Gentium */
-@font-face {
+@font-face 
+{
   font-family: "Trebuchet MS";
   src: local(Gentium Bold),   /* full font name */
        local(Gentium-Bold),   /* Postscript name */

@@ -19,18 +19,22 @@ syn cluster Spell               contains=cssComment
 "G L O B A L
 "----------------------------------------------------------------------------
 
+syn match cssByteOrderMark      "\%^\(\x\{2}\s\)\+"
+
 syn match cssBraceError         contained "{"
 syn match cssBraceError         "}"
 
-syn keyword cssCharsetAtRule    contained @charset
+syn keyword cssCharAtKeyword    contained @charset
 
-syn region cssCharset           contains=
-                                  \cssCharsetAtRule,
+syn region cssCharAtRule        contains=
+                                  \cssByteOrderMark,
+                                  \cssCharAtKeyword,
                                   \cssString,
                                   \cssValOp
                               \ keepend
                               \ start=
-                                  \"\%^@charset\s*
+                                  \"\(\%^\|\%^\(\x\{2}\s\)\+\)
+                                  \@charset\s*
                                   \\(\"[0-9A-Za-z_-]*\";\)\@="
                               \ end=";"
                               \ transparent
@@ -312,13 +316,20 @@ syn match cssUniversalSel       "\(\(^\|\a\+\|\s\+\)\@<=
 "----------------------------------------------------------------------------
 
 syn region cssAtRuleBlock       contains=
-                                  \cssDecBlock,
                                   \cssBraceError,
+                                  \cssCountDesc,
+                                  \cssDecBlock,
+                                  \cssFontProp,
                                   \css.*Sel
+                              \ containedin=
+                                  \cssCountAtRule,
+                                  \cssFontAtRule,
+                                  \cssMediaAtRule
                               \ keepend
                               \ matchgroup=cssAtRuleBraces
                               \ start=
-                                  \"\(\(^\s*\|\*/\s*\)@[A-Za-z].*\)\@<={\|^\s*{"
+                                  \"\(\(^\s*\|\*/\s*\)
+                                  \@[A-Za-z].*\|^\s*\)\@<={"
                               \ end="}\|\(}\s*\)\@<=}"
                               \ transparent
 
@@ -667,11 +678,11 @@ syn keyword cssBoxVal           contained
 "W3C Working Draft (15 DEC 2005)           www.w3.org/TR/css3-cascade/#import
 "----------------------------------------------------------------------------
 
-syn keyword cssImportAtRule     contained @import
+syn keyword cssImportAtKeyword  contained @import
 
-syn region cssImport            contains=
+syn region cssImportAtRule      contains=
                                   \cssDataExpr,
-                                  \cssImportAtRule,
+                                  \cssImportAtKeyword,
                                   \cssMediaExpr,
                                   \cssMediaOp,
                                   \cssMediaType,
@@ -904,15 +915,14 @@ syn keyword cssColorVal         contained
 "W3C Working Draft (24 MAR 2011)                    www.w3.org/TR/css3-fonts/
 "----------------------------------------------------------------------------
 
-syn keyword cssFontAtRule       @font-face
+syn keyword cssFontAtKeyword    contained @font-face
 
-syn region cssFontBlock         contains=
-                                  \cssFontProp
+syn region cssFontAtRule        contains=
+                                  \cssAtRuleBlock,
+                                  \cssFontProp,
+                                  \cssFontAtKeyword
                               \ keepend
-                              \ matchgroup=cssFontBraces
-                              \ start=
-                                  \"\(\(^\s*\|\*/\s*\)
-                                  \@font-face\s*\)\@<={"
+                              \ start="\(^\s*\|\*/\s*\)\@<=@font-face"
                               \ end="}\|\(}\s*\)\@<=}"
                               \ transparent
 
@@ -1185,11 +1195,11 @@ syn match cssImgVal             contained
 "W3C Working Draft (24 MAY 2011)                    www.w3.org/TR/css3-lists/
 "----------------------------------------------------------------------------
 
-syn keyword cssCounterAtRule    @counter-style
+syn keyword cssCountAtKeyword   contained @counter-style
 
-syn region cssCounterDesc       contained
+syn region cssCountDesc         contained
                               \ contains=
-                                  \cssCounterDescVal,
+                                  \cssCountDescVal,
                                   \cssDataExpr,
                                   \cssNumber,
                                   \cssString,
@@ -1208,7 +1218,7 @@ syn region cssCounterDesc       contained
                                   \\)\s*:"
                               \ end=";"
 
-syn keyword cssCounterDescVal   contained
+syn keyword cssCountDescVal     contained
                               \ additive
                               \ alphabetic
                               \ non-repeating
@@ -1217,17 +1227,18 @@ syn keyword cssCounterDescVal   contained
                               \ repeating
                               \ symbolic
 
-syn region cssCounterBlock      contains=
-                                  \cssCounterDesc
+syn region cssCountAtRule       contains=
+                                  \cssAtRuleBlock,
+                                  \cssCountAtKeyword,
+                                  \cssCountName
                               \ keepend
-                              \ matchgroup=cssCounterBraces
                               \ start=
-                                  \"\(\(^\s*\|\*/\s*\)
-                                  \@counter-style.*\)\@<={"
+                                  \"\(^\s*\|\*/\s*\)
+                                  \\@<=@counter-style\s.*"
                               \ end="}\|\(}\s*\)\@<=}"
                               \ transparent
 
-syn match cssCounterName        "\(^\s*@counter-style\s*\(
+syn match cssCountName          "\(^\s*@counter-style\s*\(
                                 \decimal\|
                                 \default\|
                                 \hanging\|
@@ -1239,7 +1250,7 @@ syn match cssCounterName        "\(^\s*@counter-style\s*\(
                                 \outside
                                 \\)\@!\)\@<=[A-Za-z]\+[0-9A-Za-z_-]*"
 
-syn keyword cssCounterVal       contained
+syn keyword cssCountVal         contained
                               \ afar
                               \ agaw
                               \ ancient-tamil
@@ -1380,7 +1391,7 @@ syn keyword cssCounterVal       contained
 
 syn region cssListProp          contained 
                               \ contains=
-                                  \cssCounterVal,
+                                  \cssCountVal,
                                   \cssDataExpr,
                                   \cssListVal,
                                   \cssString
@@ -1410,7 +1421,7 @@ syn keyword cssListVal          contained
 syn region cssGenConExpr        contained
                               \ contains=
                                   \cssAbsLengthUnit,
-                                  \cssCounterVal,
+                                  \cssCountVal,
                                   \cssGenConVal,
                                   \cssNumber,
                                   \cssPercentUnit,
@@ -1525,12 +1536,12 @@ syn keyword cssMarqVal          contained
 "W3C Candidate Recommendation (27 Jul 2011)  www.w3.org/TR/css3-mediaqueries/
 "----------------------------------------------------------------------------
 
-syn keyword cssMediaAtRule      contained @media
+syn keyword cssMediaAtKeyword   contained @media
 
-syn region cssMediaBlock        contains=
+syn region cssMediaAtRule       contains=
                                   \cssAtRuleBlock,
                                   \cssDecBlock,
-                                  \cssMediaAtRule,
+                                  \cssMediaAtKeyword,
                                   \cssMediaExpr,
                                   \cssMediaOp,
                                   \cssMediaType,
@@ -2077,13 +2088,6 @@ syn cluster cssVal         contains=css.*Val
 "=D E F A U L T  H I G H L I G H T  G R O U P S`
 "----------------------------------------------------------------------------
 
-hi def link cssAtRule           Boolean
-hi def link cssAtRuleBraces     Boolean
-hi def link cssAtRuleExpr       Boolean
-hi def link cssMediaAtRule      Boolean
-hi def link cssMediaBlock       Boolean
-hi def link cssMediaExpr        Boolean
-
 hi def link cssAbsLengthUnit    Character
 hi def link cssAngleUnit        Character
 hi def link cssFracUnit         Character
@@ -2104,8 +2108,8 @@ hi def link cssAttrExpr         Constant
 hi def link cssBgBorVal         Constant
 hi def link cssBoxVal           Constant
 hi def link cssColorVal         Constant
-hi def link cssCounterVal       Constant
-hi def link cssCounterDescVal   Constant
+hi def link cssCountVal         Constant
+hi def link cssCountDescVal     Constant
 hi def link cssFontName         Constant
 hi def link cssFontVal          Constant
 hi def link cssImgVal           Constant
@@ -2126,27 +2130,28 @@ hi def link cssWritingVal       Constant
 
 hi def link cssBraceError       Error
 
+hi def link cssAtRuleExpr       Function
 hi def link cssAttrExprType     Function
 hi def link cssBraces           Function
 hi def link cssCalcExprType     Function
 hi def link cssColorExprType    Function
-hi def link cssCounterBraces    Function
 hi def link cssCycleExprType    Function
 hi def link cssDataExprType     Function
+hi def link cssExprType         Function
 hi def link cssFontExprType     Function
 hi def link cssGenConExprType   Function
-hi def link cssFontBraces       Function
-hi def link cssExprType         Function
 hi def link cssImgExprType      Function
+hi def link cssMediaExpr        Function
 
 hi def link cssAttrSel          Identifier
 hi def link cssClassSel         Identifier
-hi def link cssCounterName      Identifier
+hi def link cssCountName        Identifier
 hi def link cssIdSel            Identifier
 hi def link cssMediaType        Identifier
 hi def link cssNamespacePrefix  Identifier
 hi def link cssPseudoExpr       Identifier
 
+hi def link cssByteOrderMark    Number
 hi def link cssColorHex         Number
 hi def link cssInteger          Number
 hi def link cssNumber           Number
@@ -2163,10 +2168,13 @@ hi def link cssValOp            Operator
 hi def link cssImportant        Special
 
 hi def link cssAtRule           Statement
-hi def link cssCharsetAtRule    Statement
-hi def link cssCounterAtRule    Statement
-hi def link cssFontAtRule       Statement
-hi def link cssImportAtRule     Statement
+hi def link cssAtRuleBraces     Statement
+hi def link cssCharAtKeyword    Statement
+hi def link cssCountAtKeyword   Statement
+hi def link cssFontAtKeyword    Statement
+hi def link cssImportAtKeyword  Statement
+hi def link cssMediaAtKeyword   Statement
+hi def link cssMediaAtRule      Statement
 hi def link cssNamespaceAtRule  Statement
 
 hi def link cssString           String
@@ -2177,7 +2185,7 @@ hi def link cssTypeSel          Tag
 hi def link cssBgBorProp        Type
 hi def link cssBoxProp          Type
 hi def link cssColorProp        Type
-hi def link cssCounterDesc      Type
+hi def link cssCountDesc        Type
 hi def link cssFontProp         Type
 hi def link cssImgProp          Type
 hi def link cssListProp         Type
