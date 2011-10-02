@@ -22,6 +22,19 @@ syn cluster Spell               contains=cssComment
 syn match cssBraceError         contained "{"
 syn match cssBraceError         "}"
 
+syn keyword cssCharsetAtRule    contained @charset
+
+syn region cssCharset           contains=
+                                  \cssCharsetAtRule,
+                                  \cssString,
+                                  \cssValOp
+                              \ keepend
+                              \ start=
+                                  \"\%^@charset\s*
+                                  \\(\"[0-9A-Za-z_-]*\";\)\@="
+                              \ end=";"
+                              \ transparent
+
 syn cluster cssColor            contains=
                                   \cssColorExpr,
                                   \cssColorHex,
@@ -320,7 +333,6 @@ syn keyword cssAtRule           @bottom-center
                               \ @bottom-left-corner
                               \ @bottom-right
                               \ @bottom-right-corner
-                              \ @charset
                               \ @color-profile
                               \ @document
                               \ @left-top
@@ -2151,6 +2163,7 @@ hi def link cssValOp            Operator
 hi def link cssImportant        Special
 
 hi def link cssAtRule           Statement
+hi def link cssCharsetAtRule    Statement
 hi def link cssCounterAtRule    Statement
 hi def link cssFontAtRule       Statement
 hi def link cssImportAtRule     Statement
