@@ -19,6 +19,8 @@ syn cluster Spell               contains=cssComment
 "G L O B A L
 "----------------------------------------------------------------------------
 
+
+
 syn match cssByteOrderMark      "\%^\(\x\{2}\s\)\+"
 
 syn match cssBraceError         contained "{"
@@ -122,7 +124,6 @@ syn match cssPseudoSel          "\(
                                 \\(:\|::\)first-letter\|
                                 \\(:\|::\)first-line\|
                                 \:first-of-type\|
-                                \:first\|
                                 \:focus\|
                                 \:hover\|
                                 \:in-range\|
@@ -130,7 +131,6 @@ syn match cssPseudoSel          "\(
                                 \:invalid\|
                                 \:last-child\|
                                 \:last-of-type\|
-                                \:left\|
                                 \:link\|
                                 \::line-marker\|
                                 \::marker\|
@@ -144,7 +144,6 @@ syn match cssPseudoSel          "\(
                                 \:repeat-index\|
                                 \:repeat-item\|
                                 \:required\|
-                                \:right\|
                                 \:root\|
                                 \::selection\|
                                 \::-moz-selection\|
@@ -312,54 +311,6 @@ syn match cssUniversalSel       "\(\(^\|\a\+\|\s\+\)\@<=
                                 \\(|\*\)\|
                                 \\S\@<!\(\*|\*\|\*\)\)"
 
-"=A T  R U L E  S E L E C T O R
-"----------------------------------------------------------------------------
-
-syn region cssAtRuleBlock       contains=
-                                  \cssBraceError,
-                                  \cssCountDesc,
-                                  \cssDecBlock,
-                                  \cssFontProp,
-                                  \css.*Sel
-                              \ containedin=
-                                  \cssCountAtRule,
-                                  \cssFontAtRule,
-                                  \cssMediaAtRule
-                              \ keepend
-                              \ matchgroup=cssAtRuleBraces
-                              \ start=
-                                  \"\(\(^\s*\|\*/\s*\)
-                                  \@[A-Za-z].*\|^\s*\)\@<={"
-                              \ end="}\|\(}\s*\)\@<=}"
-                              \ transparent
-
-syn region cssAtRuleExpr        contains=cssString
-                              \ keepend
-                              \ oneline
-                              \ start="\(url\)("
-                              \ end=")"
-
-syn keyword cssAtRule           @bottom-center
-                              \ @bottom-left
-                              \ @bottom-left-corner
-                              \ @bottom-right
-                              \ @bottom-right-corner
-                              \ @color-profile
-                              \ @document
-                              \ @left-top
-                              \ @left-middle
-                              \ @left-bottom
-                              \ @page
-                              \ @right-top
-                              \ @right-middle
-                              \ @right-bottom
-                              \ @supports
-                              \ @top-center
-                              \ @top-left
-                              \ @top-left-corner
-                              \ @top-right
-                              \ @top-right-corner
-
 "=C S S 3  V A L U E S  A N D  U N I T S  M O D U L E           
 "----------------------------------------------------------------------------
 "W3C Working Draft (6 SEP 2011)                    www.w3.org/TR/css3-values/ 
@@ -436,6 +387,7 @@ syn region cssCycleExpr         contained
                               \ transparent
 
 "Numeric Data Types --------------------------------------------------------- 
+
 syn match cssInteger            contained 
                                 \"\(-\|\w\)\@<!
                                 \\([0-9]\+\)
@@ -918,11 +870,24 @@ syn keyword cssColorVal         contained
 syn keyword cssFontAtKeyword    contained @font-face
 
 syn region cssFontAtRule        contains=
-                                  \cssAtRuleBlock,
-                                  \cssFontProp,
+                                  \cssFontAtRuleBlock,
                                   \cssFontAtKeyword
                               \ keepend
                               \ start="\(^\s*\|\*/\s*\)\@<=@font-face"
+                              \ end="}\|\(}\s*\)\@<=}"
+                              \ transparent
+
+syn region cssFontAtRuleBlock   contains=
+                                  \cssBraceError,
+                                  \cssFontProp
+                              \ containedin=cssFontAtRule
+                              \ keepend
+                              \ matchgroup=cssAtRuleBraces
+                              \ start=
+                                  \"\(\(^\s*\|\*/\s*\)
+                                  \@font-face\s*\|
+                                  \\(^\_s*$\)\@!\n\s*\)
+                                  \\@<={"
                               \ end="}\|\(}\s*\)\@<=}"
                               \ transparent
 
@@ -1190,6 +1155,89 @@ syn keyword cssImgVal           contained
 syn match cssImgVal             contained
                               \ "to\(\s\(bottom\|left\|right\|top\)\)\@=" 
 
+"C S S 3  =G E N E R A T E D  A N D  R E P L A C E D  C O N T E N T  M O D U L E
+"----------------------------------------------------------------------------
+"W3C Working Draft (14 MAY 2003)                  www.w3.org/TR/css3-content/
+"----------------------------------------------------------------------------
+
+syn region cssGenConExpr        contained
+                              \ contains=
+                                  \cssAbsLengthUnit,
+                                  \cssCountVal,
+                                  \cssGenConVal,
+                                  \cssNumber,
+                                  \cssPercentUnit,
+                                  \cssRelLengthUnit,
+                                  \cssValOp
+                              \ keepend
+                              \ matchgroup=cssGenConExprType
+                              \ oneline
+                              \ start=
+                                  \"\<\(
+                                  \attr\|
+                                  \counter\|
+                                  \counters\|
+                                  \date\|
+                                  \inset-rect\|
+                                  \pending\|
+                                  \rect\|
+                                  \strings\|
+                                  \target
+                                  \\)("
+                              \ end="\()\)\(\s\+\|;\)\@="
+                              \ transparent
+
+syn region cssGenConProp        contained 
+                              \ contains=
+                                  \cssDataExpr,
+                                  \cssGenConExpr,
+                                  \cssGenConVal,
+                                  \cssString,
+                                  \cssValOp
+                              \ keepend
+                              \ start=
+                                  \"\(\(^\|{\|\;\|\*/\)\s*\)\@<=\(
+                                  \content\|
+                                  \counter-increment\|
+                                  \counter-reset\|
+                                  \crop\|
+                                  \display\|
+                                  \move-to\|
+                                  \page-policy\|
+                                  \quotes\|
+                                  \\)\s*:"
+                              \ end=";"
+
+syn keyword cssGenConVal        contained
+                              \ auto 
+                              \ box 
+                              \ check 
+                              \ circle 
+                              \ close-quote 
+                              \ contents 
+                              \ diamond
+                              \ disc
+                              \ document-url
+                              \ endnote 
+                              \ first 
+                              \ footnote
+                              \ here 
+                              \ hyphen 
+                              \ inhibit
+                              \ last
+                              \ list-item
+                              \ none
+                              \ normal                            
+                              \ no-close-quote
+                              \ no-open-quote
+                              \ open-quote
+                              \ section-note
+                              \ section-notes
+                              \ square
+                              \ start
+                              \ top-floats
+
+
 "C S S 3  =L I S T S  A N D  C O U N T E R S  M O D U L E
 "----------------------------------------------------------------------------
 "W3C Working Draft (24 MAY 2011)                    www.w3.org/TR/css3-lists/
@@ -1228,13 +1276,28 @@ syn keyword cssCountDescVal     contained
                               \ symbolic
 
 syn region cssCountAtRule       contains=
-                                  \cssAtRuleBlock,
+                                  \cssCountAtRuleBlock,
                                   \cssCountAtKeyword,
                                   \cssCountName
                               \ keepend
                               \ start=
                                   \"\(^\s*\|\*/\s*\)
                                   \\@<=@counter-style\s.*"
+                              \ end="}\|\(}\s*\)\@<=}"
+                              \ transparent
+
+syn region cssCountAtRuleBlock  contains=
+                                  \cssBraceError,
+                                  \cssCountDesc,
+                                  \cssDecBlock
+                              \ containedin=cssCountAtRule
+                              \ keepend
+                              \ matchgroup=cssAtRuleBraces
+                              \ start=
+                                  \"\(\(^\s*\|\*/\s*\)
+                                  \@counter-style\s.*\|
+                                  \\(^\_s*$\)\@!\n\s*\)
+                                  \\@<={"
                               \ end="}\|\(}\s*\)\@<=}"
                               \ transparent
 
@@ -1413,88 +1476,6 @@ syn keyword cssListVal          contained
                               \ none
                               \ outside
 
-"C S S 3  =G E N E R A T E D  A N D  R E P L A C E D  C O N T E N T  M O D U L E
-"----------------------------------------------------------------------------
-"W3C Working Draft (14 MAY 2003)                  www.w3.org/TR/css3-content/
-"----------------------------------------------------------------------------
-
-syn region cssGenConExpr        contained
-                              \ contains=
-                                  \cssAbsLengthUnit,
-                                  \cssCountVal,
-                                  \cssGenConVal,
-                                  \cssNumber,
-                                  \cssPercentUnit,
-                                  \cssRelLengthUnit,
-                                  \cssValOp
-                              \ keepend
-                              \ matchgroup=cssGenConExprType
-                              \ oneline
-                              \ start=
-                                  \"\<\(
-                                  \attr\|
-                                  \counter\|
-                                  \counters\|
-                                  \date\|
-                                  \inset-rect\|
-                                  \pending\|
-                                  \rect\|
-                                  \strings\|
-                                  \target
-                                  \\)("
-                              \ end="\()\)\(\s\+\|;\)\@="
-                              \ transparent
-
-syn region cssGenConProp        contained 
-                              \ contains=
-                                  \cssDataExpr,
-                                  \cssGenConExpr,
-                                  \cssGenConVal,
-                                  \cssString,
-                                  \cssValOp
-                              \ keepend
-                              \ start=
-                                  \"\(\(^\|{\|\;\|\*/\)\s*\)\@<=\(
-                                  \content\|
-                                  \counter-increment\|
-                                  \counter-reset\|
-                                  \crop\|
-                                  \display\|
-                                  \move-to\|
-                                  \page-policy\|
-                                  \quotes\|
-                                  \\)\s*:"
-                              \ end=";"
-
-syn keyword cssGenConVal        contained
-                              \ auto 
-                              \ box 
-                              \ check 
-                              \ circle 
-                              \ close-quote 
-                              \ contents 
-                              \ diamond
-                              \ disc
-                              \ document-url
-                              \ endnote 
-                              \ first 
-                              \ footnote
-                              \ here 
-                              \ hyphen 
-                              \ inhibit
-                              \ last
-                              \ list-item
-                              \ none
-                              \ normal                            
-                              \ no-close-quote
-                              \ no-open-quote
-                              \ open-quote
-                              \ section-note
-                              \ section-notes
-                              \ square
-                              \ start
-                              \ top-floats
-
 "C S S 3  =M A R Q U E E  M O D U L E                        
 "----------------------------------------------------------------------------
 "W3C Candidate Recommendation (5 DEC 2008)        www.w3.org/TR/css3-marquee/
@@ -1539,8 +1520,7 @@ syn keyword cssMarqVal          contained
 syn keyword cssMediaAtKeyword   contained @media
 
 syn region cssMediaAtRule       contains=
-                                  \cssAtRuleBlock,
-                                  \cssDecBlock,
+                                  \cssMediaAtRuleBlock,
                                   \cssMediaAtKeyword,
                                   \cssMediaExpr,
                                   \cssMediaOp,
@@ -1550,6 +1530,21 @@ syn region cssMediaAtRule       contains=
                               \ keepend
                               \ start="\(^\s*\|\*/\s*\)\@<=@media"
                               \ end="}\|\(}\s*\)\@<=}"
+
+syn region cssMediaAtRuleBlock  contains=
+                                  \cssBraceError,
+                                  \cssDecBlock,
+                                  \css.*Sel
+                              \ containedin=cssMediaAtRule
+                              \ keepend
+                              \ matchgroup=cssAtRuleBraces
+                              \ start=
+                                  \"\(\(^\s*\|\*/\s*\)
+                                  \@media\s.*\|
+                                  \\(^\_s*$\)\@!\n\s*\)
+                                  \\@<={"
+                              \ end="}\|\(}\s*\)\@<=}"
+                              \ transparent
 
 syn region cssMediaExpr         contained
                               \ contains=
@@ -1691,37 +1686,108 @@ syn region cssNamespace         contains=
 syn match cssNamespacePrefix    "\(^\s*@namespace\s*\)
                                 \\@<=[A-Za-z]\+[0-9A-Za-z_-]*"
 
-"C S S 3  =P A G E D  M E D I A  M O D U L E                   W3C WD 6/7/2011
+"C S S 3  =P A G E D  M E D I A  M O D U L E                   
+"----------------------------------------------------------------------------
+"W3C Working Draft (10 OCT 2006)                     www.w3.org/TR/css3-page/
 "----------------------------------------------------------------------------
 
-syn keyword cssPageProp     contained
-                          \ fit
-                          \ fit-position
-                          \ inside
-                          \ marks
-                          \ orphans
-                          \ page
-                          \ page-break-before
-                          \ page-break-after
-                          \ page-break-inside
-                          \ size
-                          \ widows
+syn keyword cssPageAtKeyword     contained @page
 
-syn match cssPageVal        contained
-                          \ "\<\(A5\|
-                            \A4\|
-                            \A3\|
-                            \B5\|
-                            \B4\|
-                            \crop\|
-                            \cross\|
-                            \fill\|
-                            \landscape\|
-                            \ledger\|
-                            \legal\|
-                            \letter\|
-                            \meet\|
-                            \portrait\)\>"
+" syn keyword cssPageAtKeyword    @bottom-center
+"                               \ @bottom-left
+"                               \ @bottom-left-corner
+"                               \ @bottom-right
+"                               \ @bottom-right-corner
+"                               \ @color-profile
+"                               \ @document
+"                               \ @left-top
+"                               \ @left-middle
+"                               \ @left-bottom
+"                               \ @page
+"                               \ @right-top
+"                               \ @right-middle
+"                               \ @right-bottom
+"                               \ @supports
+"                               \ @top-center
+"                               \ @top-left
+"                               \ @top-left-corner
+"                               \ @top-right
+"                               \ @top-right-corner
+
+syn region cssPageAtRule        contains=
+                                  \cssPageAtRuleBlock,
+                                  \cssPageAtKeyword,
+                                  \cssPagePseudoSel
+                              \ keepend
+                              \ start=
+                                  \"\(^\s*\|\*/\s*\)
+                                  \\@<=@page\(\s*\|:\)"
+                              \ end="}\|\(}\s*\)\@<=}"
+                              \ transparent
+
+syn region cssPageAtRuleBlock   contains=
+                                  \cssBgBorProp,
+                                  \cssBoxProp,
+                                  \cssBraceError,
+                                  \cssGenConProp,
+                                  \cssPageProp
+                              \ containedin=cssPageAtRule
+                              \ keepend
+                              \ matchgroup=cssAtRuleBraces
+                              \ start=
+                                  \"\(\(^\s*\|\*/\s*\)
+                                  \@page\s.*\|
+                                  \\(^\_s*$\)\@!\n\s*\)
+                                  \\@<={"
+                              \ end="}\|\(}\s*\)\@<=}"
+                              \ transparent
+
+syn region cssPageProp          contained
+                              \ contains=
+                                  \cssAbsLengthUnit,
+                                  \cssNumber,
+                                  \cssPageVal,
+                                  \cssPercentUnit,
+                                  \cssRelLengthUnit,
+                                  \cssValOp
+                              \ keepend
+                              \ start=
+                                  \"\(\(^\|{\|\;\|\*/\)\s*\)\@<=\(
+                                  \fit\|
+                                  \fit-position\|
+                                  \inside\|
+                                  \marks\|
+                                  \orphans\|
+                                  \page\|
+                                  \page-break-before\|
+                                  \page-break-after\|
+                                  \page-break-inside\|
+                                  \size
+                                  \\)\s*:"
+                              \ end=";"
+
+syn match cssPagePseudoSel      contained "\(:first\|:left\|:right\)" 
+
+syn match cssPageVal            contained
+                              \ "\(
+                                \A5\|
+                                \A4\|
+                                \A3\|
+                                \B5\|
+                                \B4
+                                \\)"
+
+syn keyword cssPageVal          contained
+                              \ auto
+                              \ crop
+                              \ cross
+                              \ fill
+                              \ landscape
+                              \ ledger
+                              \ legal
+                              \ letter
+                              \ meet
+                              \ portrait
 
 "=R E N D E R  P R O P S + V A L U E S
 "----------------------------------------------------------------------------
@@ -2101,6 +2167,7 @@ hi def link cssTimeUnit         Character
 hi def link cssComment          Comment
 
 hi def link cssAttrSelExpr      Conditional
+hi def link cssPagePseudoSel    Conditional
 hi def link cssPseudoExprType   Conditional
 hi def link cssPseudoSel        Conditional
 
@@ -2130,7 +2197,6 @@ hi def link cssWritingVal       Constant
 
 hi def link cssBraceError       Error
 
-hi def link cssAtRuleExpr       Function
 hi def link cssAttrExprType     Function
 hi def link cssBraces           Function
 hi def link cssCalcExprType     Function
@@ -2167,7 +2233,6 @@ hi def link cssValOp            Operator
 
 hi def link cssImportant        Special
 
-hi def link cssAtRule           Statement
 hi def link cssAtRuleBraces     Statement
 hi def link cssCharAtKeyword    Statement
 hi def link cssCountAtKeyword   Statement
@@ -2175,6 +2240,7 @@ hi def link cssFontAtKeyword    Statement
 hi def link cssImportAtKeyword  Statement
 hi def link cssMediaAtKeyword   Statement
 hi def link cssMediaAtRule      Statement
+hi def link cssPageAtKeyword    Statement
 hi def link cssNamespaceAtRule  Statement
 
 hi def link cssString           String

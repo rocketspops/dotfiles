@@ -118,7 +118,7 @@ ns|*
 	suffix: '';
 }
 
-@counter-style trinary 
+@counter-style trinary
 {
 	type: numeric;
 	glyphs: '0' '1' '2';
@@ -282,3 +282,19 @@ body {
 @import url("fineprint.css") print;
 @import url("bluish.css") projection, tv;
 @import url("narrow.css") handheld and (max-width: 400px);
+
+@page 
+{
+  size: auto; /* auto is the initial value */
+  margin: 10%;
+}
+
+@page { size: A4 landscape; }
+
+@page { size: 8.5in 11in; /* width height */ }
+
+@page :left { ... }
+@page :right { ... }
+@page LandscapeTable { ... }
+@page CompanyLetterHead:first { ... } /*  identifier and pseudo page. */
+@page:first { ... }
