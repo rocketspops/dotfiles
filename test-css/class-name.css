@@ -294,7 +294,31 @@ body {
 @page { size: 8.5in 11in; /* width height */ }
 
 @page :left { ... }
-@page :right { ... }
+@page:right { ... }
+
+@page {
+  margin-left: 3cm;
+}
+
+@page :left {
+  margin-left: 4cm;
+}
+
 @page LandscapeTable { ... }
 @page CompanyLetterHead:first { ... } /*  identifier and pseudo page. */
 @page:first { ... }
+@page { } /* f=0 g=0 h=0 -> specificity = 0 */
+@page :left { } /* f=0 g=0 h=1 -> specificity = 1 */
+@page :first { } /* f=0 g=1 h=0 -> specificity = 10 */
+@page artsy { } /* f=1 g=0 h=0 -> specificity = 100 */
+@page artsy:left { } /* f=1 g=0 h=1 -> specificity = 101 */
+@page artsy:first {
+
+} /* f=1 g=1 h=0 -> specificity = 110 */ 
+
+
+@page {
+   @top-left { ... /* document name */ }
+   @bottom-center { ... /* document name */ }   
+}
+
