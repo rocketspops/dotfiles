@@ -12,7 +12,6 @@ runtime macros/matchit.vim
 :set showcmd
 
 set ofu=syntaxcomplete#Complete
-"set iskeyword=a-z,A-Z,48-57,_,.,-,>
 
 set bs=indent,eol,start  "Allow backspacing over everything in insert mode
 
@@ -69,30 +68,17 @@ map <Leader>nf :NERDTreeFind<CR>
 :let g:loaded_netrw              = 1
 :let g:loaded_netrwPlugin        = 1
 
-"Indent Guides Configuration
-
-let g:indent_guides_guide_size = 1
-let g:indent_guides_auto_colors = 0
-let g:indent_guides_color_change_percent = 0
-let g:indent_guides_enable_on_vim_startup = 1
+"Zen-Coding Configuration
+let g:user_zen_leader_key = '<C-E>'
 
 "Alphabetically sort CSS properties in file with :SortCSS 
 :command! SortCSS :g#\({\n\)\@<=#.,/}/sort   
 
 "Custom Mappings
-
 nmap <Leader>md :%!/usr/local/bin/Markdown.pl --html4tags <CR>
-
-"Insert a closing brace on the same line
 inoremap {      {}<Left> 
-
-"Insert closing brace on the line below the cursor
 inoremap {<CR>  {<CR>}<Esc>O
-
-"Insert a single brace
 inoremap {{     {
-
-"Insert open/closing brace as normal
 inoremap {}     {}
 
 "Show syntax highlighting groups for word under cursor
@@ -104,6 +90,7 @@ function! <SID>SynStack()
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
 
+"Toggle relative line numbers
 function! g:ToggleNuMode() 
   if(&rnu == 1) 
     set nu 
@@ -114,11 +101,7 @@ endfunc
 
 nnoremap <C-L> :call g:ToggleNuMode()<cr> 
 
-" Source the vimrc file after saving it
-if has("autocmd")
-  autocmd! bufwritepost .vimrc source ~/.vimrc 
-endif
-
+"Implement buffer dimming
 augroup BgHighlight
   autocmd!
   autocmd BufEnter * filetype detect 
