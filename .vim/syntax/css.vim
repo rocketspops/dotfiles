@@ -345,7 +345,7 @@ syn region cssAttrExpr              contained
                                   \ keepend
                                   \ matchgroup=cssAttrExprType
                                   \ oneline
-                                  \ start="\<\(attr\)("
+                                  \ start="attr("
                                   \ end="\()\)\(\s\+\|;\|,\|\s*)\)\@="
 
 syn region cssCalcExpr              contained
@@ -362,7 +362,7 @@ syn region cssCalcExpr              contained
                                   \ matchgroup=cssCalcExprType
                                   \ oneline
                                   \ start=
-                                      \"\<\(
+                                      \"\(
                                       \calc\|
                                       \max\|
                                       \min
@@ -380,7 +380,7 @@ syn region cssCycleExpr             contained
                                   \ keepend
                                   \ matchgroup=cssCycleExprType
                                   \ oneline
-                                  \ start="\<\(cycle\)("
+                                  \ start="cycle("
                                   \ end="\()\)\(\s\+\|;\|,\|\s*)\)\@="
                                   \ transparent
 
@@ -435,7 +435,7 @@ syn region cssDataExpr              contained
                                   \ matchgroup=cssDataExprType
                                   \ oneline
                                   \ start=
-                                      \"\<\(
+                                      \"\(
                                       \url\|
                                       \uri
                                       \\)("
@@ -552,19 +552,29 @@ syn match cssBgBorVal               contained "\<transparent\>"
 "W3C Working Draft (9 AUG 2007)                       www.w3.org/TR/css3-box/ 
 "----------------------------------------------------------------------------
 
+syn region cssBoxExpr             contained
+                                  \ keepend
+                                  \ matchgroup=cssBoxExprType
+                                  \ oneline
+                                  \ start="running(\(\a\+\)\@="
+                                  \ end="\()\)\(\s\+\|;\|,\|\s*)\)\@="
+
 syn region cssBoxProp               contained
                                   \ contains=
                                       \cssAngleUnit,
+                                      \cssBoxExpr,
                                       \cssBoxVal,
                                       \@cssCommon,
                                       \cssGridUnit
                                   \ keepend
                                   \ start=
                                       \"\(\(^\|{\|\;\|\*/\)\s*\)\@<=\(
+                                      \bottom\|
                                       \clear\|
                                       \display\|
                                       \float\|
                                       \height\|
+                                      \left\|
                                       \margin\|
                                       \margin-bottom\|
                                       \margin-left\|
@@ -582,8 +592,11 @@ syn region cssBoxProp               contained
                                       \padding-left\|
                                       \padding-right\|
                                       \padding-top\|
+                                      \position\|
+                                      \right\|
                                       \rotation\|
                                       \rotation-point\|
+                                      \top\|
                                       \visibility\|
                                       \width\|
                                       \z-index
@@ -591,11 +604,13 @@ syn region cssBoxProp               contained
                                   \ end=";"
 
 syn keyword cssBoxVal               contained
+                                  \ absolute
                                   \ alternate
                                   \ auto
                                   \ block
                                   \ collapse
                                   \ compact
+                                  \ fixed
                                   \ hidden
                                   \ inline
                                   \ inline-block
@@ -604,6 +619,7 @@ syn keyword cssBoxVal               contained
                                   \ list-item
                                   \ none
                                   \ right
+                                  \ relative
                                   \ ruby
                                   \ ruby-base
                                   \ ruby-base-group
@@ -612,6 +628,7 @@ syn keyword cssBoxVal               contained
                                   \ run-in
                                   \ scroll
                                   \ slide
+                                  \ static
                                   \ table
                                   \ table-caption
                                   \ table-cell
@@ -661,7 +678,7 @@ syn region cssColorExpr             contained
                                   \ matchgroup=cssColorExprType
                                   \ oneline
                                   \ start=
-                                      \"\<\(
+                                      \"\(
                                       \hsl\|
                                       \hsla\|
                                       \rgb\|
@@ -897,7 +914,7 @@ syn region cssFontExpr              contained
                                   \ matchgroup=cssFontExprType
                                   \ oneline
                                   \ start=
-                                      \"\<\(
+                                      \"\(
                                       \annotation\|
                                       \character-variant\|
                                       \format\|
@@ -1092,7 +1109,7 @@ syn region cssImgExpr               contained
                                   \ matchgroup=cssImgExprType
                                   \ oneline
                                   \ start=
-                                      \"\<\(
+                                      \"\(
                                       \element\|
                                       \image\|
                                       \linear-gradient\|
@@ -1153,7 +1170,8 @@ syn keyword cssImgVal               contained
 syn match cssImgVal                 contained
                                   \ "to\(\s\(bottom\|left\|right\|top\)\)\@=" 
 
-"C S S 3  =G E N E R A T E D  A N D  R E P L A C E D  C O N T E N T  M O D U L E
+"C S S 3  =G E N E R A T E D  A N D  R E P L A C E D  C O N T E N T  
+"          M O D U L E
 "----------------------------------------------------------------------------
 "W3C Working Draft (14 MAY 2003)                  www.w3.org/TR/css3-content/
 "----------------------------------------------------------------------------
@@ -1162,28 +1180,31 @@ syn region cssGenConExpr            contained
                                   \ contains=
                                       \cssAbsLengthUnit,
                                       \cssCountVal,
+                                      \cssGenConExprArgs,
                                       \cssGenConVal,
                                       \cssNumber,
                                       \cssPercentUnit,
                                       \cssRelLengthUnit,
+                                      \cssString,
                                       \cssValOp
                                   \ keepend
                                   \ matchgroup=cssGenConExprType
                                   \ oneline
                                   \ start=
-                                      \"\<\(
+                                      \"\(
                                       \attr\|
                                       \counter\|
                                       \counters\|
                                       \date\|
+                                      \element\|
                                       \inset-rect\|
+                                      \leader\|
                                       \pending\|
                                       \rect\|
-                                      \strings\|
+                                      \string\|
                                       \target
                                       \\)("
-                                  \ end="\()\)\(\s\+\|;\)\@="
-                                  \ transparent
+                                  \ end="\()\)\(\s\+\|;\|,\|\s*)\)\@="
 
 syn region cssGenConProp            contained 
                                   \ contains=
@@ -1202,7 +1223,7 @@ syn region cssGenConProp            contained
                                       \display\|
                                       \move-to\|
                                       \page-policy\|
-                                      \quotes\|
+                                      \quotes
                                       \\)\s*:"
                                   \ end=";"
 
@@ -1235,6 +1256,59 @@ syn keyword cssGenConVal            contained
                                   \ start
                                   \ top-floats
 
+"These arguments must override cssGenConVal to ensure proper
+"syntax highlighting.
+
+syn keyword cssGenConExprArgs       contained
+                                  \ dotted
+                                  \ first
+                                  \ first-except
+                                  \ last
+                                  \ solid
+                                  \ space
+                                  \ start
+
+"C S S 3  =G E N E R A T E D  C O N T E N T  F O R  P A G E D  M E D I A  
+"          M O D U L E
+"----------------------------------------------------------------------------
+"W3C Working Draft (08 JUN 2008)                     www.w3.org/TR/css3-gcpm/
+"----------------------------------------------------------------------------
+
+syn keyword cssGenConPageExprArgs   contained
+                                  \ after
+                                  \ before
+                                  \ date
+                                  \ date-time
+                                  \ first-letter
+                                  \ time
+                                  \ url
+
+syn region cssGenConPageExpr        contained
+                                  \ contains=
+                                      \cssGenConPageExprArgs
+                                  \ keepend
+                                  \ matchgroup=cssGenConPageExprType
+                                  \ oneline
+                                  \ start=
+                                      \"\(
+                                      \content\|
+                                      \counter\|
+                                      \counters\|
+                                      \env
+                                      \\)("
+                                  \ end="\()\)\(\s\+\|;\|,\|\s*)\)\@="
+
+syn region cssGenConPageProp        contained 
+                                  \ contains=
+                                      \cssGenConPageExpr,
+                                      \cssString,
+                                      \cssValOp
+                                  \ keepend
+                                  \ start=
+                                      \"\(\(^\|{\|\;\|\*/\)\s*\)\@<=\(
+                                      \string-set\|
+                                      \\)\s*:"
+                                  \ end=";"
 
 "C S S 3  =L I S T S  A N D  C O U N T E R S  M O D U L E
 "----------------------------------------------------------------------------
@@ -1725,9 +1799,12 @@ syn region cssPageAtRuleBlock       contains=
                                       \cssBgBorProp,
                                       \cssBoxProp,
                                       \cssBraceError,
+                                      \cssColorProp,
+                                      \cssFontProp,
                                       \cssGenConProp,
                                       \cssPageProp,
-                                      \cssPageSelAtRule
+                                      \cssPageSelAtRule,
+                                      \cssTextProp
                                   \ containedin=cssPageAtRule
                                   \ keepend
                                   \ matchgroup=cssAtRuleBraces
@@ -1743,7 +1820,7 @@ syn region cssPageSelAtRule         contains=
                                       \cssPageSelAtRuleBlock,
                                       \cssPageSelAtKeyword
                                   \ start=
-                                      \"\(^\s*\|\*/\s*\)\@<=
+                                      \"\(^\s*\|\*/\s*\\|{\s*\)\@<=
                                       \@bottom-center\|
                                       \@bottom-left\|
                                       \@bottom-left-corner\|
@@ -1764,12 +1841,20 @@ syn region cssPageSelAtRule         contains=
                                   \ end="}"
                                   \ transparent
 
-syn region cssPageSelAtRuleBlock    contains=NONE
+syn region cssPageSelAtRuleBlock    contains=
+                                      \cssBgBorProp,
+                                      \cssBoxProp,
+                                      \cssBraceError,
+                                      \cssColorProp,
+                                      \cssFontProp,
+                                      \cssGenConProp,
+                                      \cssTextProp
                                   \ containedin=cssPageSelAtRule
                                   \ extend
+                                  \ keepend
                                   \ matchgroup=cssAtRuleBraces
                                   \ start=
-                                      \"\(\(^\s*\|\*/\s*\)\(
+                                      \"\(\(^\s*\|\*/\s*\|{\s*\)\(
                                       \@bottom-center\|
                                       \@bottom-left\|
                                       \@bottom-left-corner\|
@@ -1799,6 +1884,7 @@ syn match cssPageName               contained
 syn region cssPageProp              contained
                                   \ contains=
                                       \cssAbsLengthUnit,
+                                      \cssAngleUnit,
                                       \cssNumber,
                                       \cssPageVal,
                                       \cssPercentUnit,
@@ -1809,6 +1895,7 @@ syn region cssPageProp              contained
                                       \"\(\(^\|{\|\;\|\*/\)\s*\)\@<=\(
                                       \fit\|
                                       \fit-position\|
+                                      \image-orientation\|
                                       \inside\|
                                       \marks\|
                                       \orphans\|
@@ -1816,7 +1903,8 @@ syn region cssPageProp              contained
                                       \page-break-before\|
                                       \page-break-after\|
                                       \page-break-inside\|
-                                      \size
+                                      \size\|
+                                      \widows
                                       \\)\s*:"
                                   \ end=";"
 
@@ -1832,36 +1920,37 @@ syn match cssPageVal                contained
                                     \\)"
 
 syn keyword cssPageVal              contained
+                                  \ always
                                   \ auto
+                                  \ avoid
+                                  \ bottom
+                                  \ center
                                   \ crop
                                   \ cross
                                   \ fill
+                                  \ hidden
                                   \ landscape
                                   \ ledger
+                                  \ left
                                   \ legal
                                   \ letter
                                   \ meet
                                   \ portrait
+                                  \ top
+                                  \ right
+                                  \ slice
 
 "=R E N D E R  P R O P S + V A L U E S
 "----------------------------------------------------------------------------
 
 syn keyword cssRenderProp   contained
-                          \ bottom
-                          \ left
                           \ marker-offset
-                          \ position
-                          \ right
-                          \ top
 
 syn match cssRenderVal      contained
                           \ "\<\(
                             \bidi-override\|
                             \embed\|
-                            \fixed\|
                             \marker\|
-                            \relative\|
-                            \static\|
                             \\)\>"
 
 "C S S 3  =R U B Y  M O D U L E                              W3C WD 6/30/2011
@@ -2253,6 +2342,7 @@ hi def link cssBraceError           Error
 
 hi def link cssAttrExprType         Function
 hi def link cssBraces               Function
+hi def link cssBoxExprType          Function
 hi def link cssCalcExprType         Function
 hi def link cssColorExprType        Function
 hi def link cssCycleExprType        Function
@@ -2260,6 +2350,7 @@ hi def link cssDataExprType         Function
 hi def link cssExprType             Function
 hi def link cssFontExprType         Function
 hi def link cssGenConExprType       Function
+hi def link cssGenConPageExprType   Function
 hi def link cssImgExprType          Function
 hi def link cssMediaExpr            Function
 
@@ -2300,7 +2391,12 @@ hi def link cssPageSelAtKeyword     Statement
 hi def link cssNamespaceAtRule      Statement
 
 hi def link cssString               String
+hi def link cssBoxExpr              String
 hi def link cssDataExpr             String
+hi def link cssGenConExpr           String
+hi def link cssGenConExprArgs       String
+hi def link cssGenConPageExpr       String
+hi def link cssGenConPageExprArgs   String
 
 hi def link cssTypeSel              Tag
 
@@ -2312,6 +2408,7 @@ hi def link cssFontProp             Type
 hi def link cssImgProp              Type
 hi def link cssListProp             Type
 hi def link cssGenConProp           Type
+hi def link cssGenConPageProp       Type
 hi def link cssMarqProp             Type
 hi def link cssMediaFeature         Type
 hi def link cssMultiColProp         Type

@@ -1,0 +1,40 @@
+/* Fonts */ 
+p { font: 12pt/14pt sans-serif; }
+p { font: 80% sans-serif; }
+p { font: x-large/110% "new century schoolbook", serif; }
+p { font: bold italic large Palatino, serif; }
+p { /**/ font: /**/ ; }
+p { 
+  font: oblique 12pt "Helvetica Neue", serif; 
+  font-stretch: condensed;
+}
+
+@font-face {  
+
+  font-family: Helvetica;
+  src: url(http://example.com/fonts/Gentium.ttf);
+}
+
+/* regular face of Gentium */
+@font-face 
+{
+  font-family: MyGentium;
+  src: local(Gentium), url(Gentium.ttf); /* otherwise, download it */
+}
+
+/* bold face of Gentium */
+@font-face 
+{
+  font-family: "Trebuchet MS";
+  src: local(Gentium Bold),   /* full font name */
+       local(Gentium-Bold),   /* Postscript name */
+       url(GentiumBold.ttf);  /* otherwise, download it */
+  font-weight: bold;
+}
+
+/* load WOFF font if possible, otherwise use OpenType font */
+@font-face {
+  font-family: bodytext;
+  src: url(ideal-sans-serif.woff) format("woff"),
+       url(basic-sans-serif.ttf) format("opentype");
+}

@@ -1,0 +1,26 @@
+/* @Media */
+@media (orientation: portrait) { … }
+@media all and (orientation: portrait) { … }
+@media all { … }
+@media { … }
+@media all { body { background:lime; } }  
+@media screen and (color), projection and (color) { … }
+@media all and (color) { … }
+@media screen and (device-aspect-ratio: 16/9) { … }
+@media screen and (device-aspect-ratio: 32/18) { … }
+@media screen and (device-aspect-ratio: 1280/720) { … }
+@media screen and (device-aspect-ratio: 2560/1440) { … }
+@media all and (min-color: 2) { … }
+@media all and (color-index) { … }
+@media all and (min-color-index: 1) { … }
+@media tv and (scan: progressive) { … }
+@media tv and (resolution:12dppx) { … }
+@media screen "Reverse video" {
+  body { background: black; color: white; }
+}
+
+@media screen, print "Rainbow style" {
+  p { color: #E0D; } }
+ 
+@media handheld and (grid) and (max-width: 15em) { … }
+
