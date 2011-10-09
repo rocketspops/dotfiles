@@ -635,9 +635,10 @@ syn keyword cssBoxVal               contained
                                   \ relative
                                   \ ruby
                                   \ ruby-base
+                                  \ ruby-base-container
                                   \ ruby-base-group
                                   \ ruby-text
-                                  \ ruby-text-group
+                                  \ ruby-text-container
                                   \ run-in
                                   \ scroll
                                   \ slide
@@ -1248,7 +1249,6 @@ syn region cssGenConProp            contained
                                       \counter-increment\|
                                       \counter-reset\|
                                       \crop\|
-                                      \display\|
                                       \move-to\|
                                       \page-policy\|
                                       \quotes
@@ -2025,17 +2025,36 @@ syn match cssRenderVal      contained
 "C S S 3  =R U B Y  M O D U L E                              W3C WD 6/30/2011
 "----------------------------------------------------------------------------
 
-syn keyword cssRubyProp     contained
-                          \ ruby-align
-                          \ ruby-overhang
-                          \ ruby-position
-                          \ ruby-span
+syn region cssRubyProp              contained
+                                  \ contains=
+                                      \cssAttrExpr,
+                                      \cssRubyVal,
+                                      \cssValOp
+                                  \ keepend
+                                  \ start=
+                                      \"\(\(^\|{\|\;\|\*/\)\s*\)\@<=\(
+                                      \ruby-align\|
+                                      \ruby-overhang\|
+                                      \ruby-position\|
+                                      \ruby-span
+                                      \\)\s*:"
+                                  \ end=";"
 
-syn match cssRubyVal        contained
-                          \ "\<\(distribute-letter\|
-                            \distribute-space\|
-                            \line-edge\)\>"
-
+syn keyword cssRubyVal              contained
+                                  \ after
+                                  \ auto
+                                  \ before
+                                  \ center
+                                  \ distribute-letter
+                                  \ distribute-space
+                                  \ end
+                                  \ left
+                                  \ line-edge
+                                  \ inline
+                                  \ inter-character
+                                  \ none
+                                  \ right
+                                  \ start
 
 "C S S 3  =S P E E C H  M O D U L E                          W3C WD 8/18/2011
 "----------------------------------------------------------------------------
