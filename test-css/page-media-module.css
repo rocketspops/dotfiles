@@ -120,19 +120,20 @@ h2 {
   counter-increment: header;
 }
 @page { @right-middle { content: string(index); }}
-@page { @top-left { content: string(entry); }}
-
-@page { @top-left { content: string(term, first) }}
-@page { @top-right { content: string(term, last) }}
-@page { @top-center { content: string(index, first) }}
+@page { @top-left { content: string(entry); } } 
+@page { @top-left { content: string(term, first); }}
+@page { @top-right { content: string(term, last); } }  
+@page { 
+  @top-center { content: string(index, first); }
+}  
 dt { string-set: index content(first-letter), term content(); }
 title { position: running(dfd); }
 
-@page { @top-center {
-  content: element(header); }
+@page { 
+  @top-center { content: element(header); } 
 }
 
-@page { @top-center { content: element(header, first-except) }}
+@page { @top-center { content: element(header, first-except); }}
 heading::after { 
   content: leader(dotted); 
 }
@@ -140,3 +141,82 @@ heading::after {
 ul.toc a::after {
   content: leader(". . . ") attr(href, url);
 }
+
+a::after { content: "(see page " target-counters( attr(href, url), page, decimal) ")";}
+
+h2 { counter-increment: chapter; }
+h3 {  content: target-text(attr(href), content(first-letter) );}
+a { content: "Chapter " target-counter( attr(href, url), chapter) 
+             ' ("'  target-text(attr(href), content()) '") on page '
+             target-counter(attr(href, url), page); }
+
+@footnote { 
+  margin-top: 0.5em;
+  border-top: thin solid black;
+  border-clip: 4em;
+  padding-top: 0.5em;
+  } 
+@page { counter-reset: footnote; }
+@page { content: counter(footnote, super-decimal); }
+h1:before { content: counter(chapter, ordinal) " chapter"; }
+
+::footnote-call {
+    content: counter(footnote, symbols('*', '+', '!')); }
+
+ol { list-style: symbols("*", "\2020", "\2021", "\A7", "#"); }
+a { bookmark-label: attr(title, string); }
+h1 { bookmark-label: content(); }
+h2 { bookmark-label: content(before); }
+#frog { bookmark-label: "The green frog"; }
+.exable { bookmark-label: url(http://www.example.com); }
+* { bookmark-state: closed; }
+#open { bookmark-state: open; }
+
+h1 { page-break-before: left; }
+
+@page :blank {
+  @top-center { content: "This page is intentionally left blank"; }
+}
+.figure { 
+  float: top next page;
+  float: page(dfd);
+}
+table.wide { 
+  float: page(landscape);
+}
+table.wide { 
+  page: landscape;
+}
+table { 
+  float: page(landscape);
+  page-break-before: always;
+}
+
+@footnote { 
+  float: bottom inside multicol; 
+}
+
+img { 
+  float: top left multicol;
+  float-offset: 1.5gr 50%;
+  width: 8em;
+}
+
+@page {
+  counter-reset: footnote;
+  @footnote {
+    counter-increment: footnote;
+    float: page bottom;
+    width: 100%;
+    height: auto;
+  }
+}
+
+::footnote-call {
+  counter-increment: footnote;
+  content: counter(footnote, super-decimal); 
+}
+::footnote-marker {
+  content: counter(footnote, super-decimal); 
+}
+

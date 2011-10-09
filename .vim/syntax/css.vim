@@ -123,6 +123,8 @@ syn match cssPseudoSel              "\(
                                     \\(:\|::\)first-line\|
                                     \:first-of-type\|
                                     \:focus\|
+                                    \::footnote-call\|
+                                    \::footnote-marker\|
                                     \:hover\|
                                     \:in-range\|
                                     \:indeterminate\|
@@ -472,6 +474,7 @@ syn region cssBgBorProp             contained
                                       \background-repeat\|
                                       \background-size\|
                                       \border\|
+                                      \border-clip\|
                                       \border-color\|
                                       \border-style\|
                                       \border-width\|
@@ -556,7 +559,8 @@ syn region cssBoxExpr             contained
                                   \ keepend
                                   \ matchgroup=cssBoxExprType
                                   \ oneline
-                                  \ start="running(\(\a\+\)\@="
+                                  \ start=
+                                    \"\(running\|page\)(\(\a\+\)\@="
                                   \ end="\()\)\(\s\+\|;\|,\|\s*)\)\@="
 
 syn region cssBoxProp               contained
@@ -573,6 +577,7 @@ syn region cssBoxProp               contained
                                       \clear\|
                                       \display\|
                                       \float\|
+                                      \float-offset\|
                                       \height\|
                                       \left\|
                                       \margin\|
@@ -608,16 +613,24 @@ syn keyword cssBoxVal               contained
                                   \ alternate
                                   \ auto
                                   \ block
+                                  \ bottom
                                   \ collapse
                                   \ compact
                                   \ fixed
+                                  \ footnote 
+                                  \ hide
                                   \ hidden
                                   \ inline
                                   \ inline-block
                                   \ inline-table
+                                  \ inside 
+                                  \ intrude
                                   \ left
                                   \ list-item
+                                  \ multicol
+                                  \ next
                                   \ none
+                                  \ outside
                                   \ right
                                   \ relative
                                   \ ruby
@@ -638,7 +651,12 @@ syn keyword cssBoxVal               contained
                                   \ table-header-group
                                   \ table-row
                                   \ table-row-group
+                                  \ top
+                                  \ unless-room
                                   \ visible
+
+syn match cssBoxVal                 contained 
+                                  \ "page\((\)\@!"
 
 "C S S 3  =C A S C A D I N G  A N D  I N H E R I T A N C E  M O D U L E                                
 "----------------------------------------------------------------------------
@@ -679,6 +697,7 @@ syn region cssColorExpr             contained
                                   \ oneline
                                   \ start=
                                       \"\(
+                                      \cmyk\|
                                       \hsl\|
                                       \hsla\|
                                       \rgb\|
@@ -1180,13 +1199,18 @@ syn region cssGenConExpr            contained
                                   \ contains=
                                       \cssAbsLengthUnit,
                                       \cssCountVal,
+                                      \cssGenConExpr,
                                       \cssGenConExprArgs,
+                                      \cssGenConPageExpr,
+                                      \cssGenConPageExprArgs,
                                       \cssGenConVal,
+                                      \cssListValExpr,
                                       \cssNumber,
                                       \cssPercentUnit,
                                       \cssRelLengthUnit,
                                       \cssString,
                                       \cssValOp
+                                  \ extend
                                   \ keepend
                                   \ matchgroup=cssGenConExprType
                                   \ oneline
@@ -1202,7 +1226,11 @@ syn region cssGenConExpr            contained
                                       \pending\|
                                       \rect\|
                                       \string\|
-                                      \target
+                                      \target\|
+                                      \target-counter\|
+                                      \target-counters\|
+                                      \target-pull\|
+                                      \target-text
                                       \\)("
                                   \ end="\()\)\(\s\+\|;\|,\|\s*)\)\@="
 
@@ -1286,29 +1314,38 @@ syn keyword cssGenConPageExprArgs   contained
 syn region cssGenConPageExpr        contained
                                   \ contains=
                                       \cssGenConPageExprArgs
+                                  \ extend
                                   \ keepend
                                   \ matchgroup=cssGenConPageExprType
                                   \ oneline
-                                  \ start=
-                                      \"\(
-                                      \content\|
-                                      \counter\|
-                                      \counters\|
-                                      \env
-                                      \\)("
+                                  \ start="\(content\|env\)("
                                   \ end="\()\)\(\s\+\|;\|,\|\s*)\)\@="
 
 syn region cssGenConPageProp        contained 
                                   \ contains=
+                                      \cssDataExpr,
                                       \cssGenConPageExpr,
+                                      \cssGenConPageVal,
+                                      \cssInteger,
                                       \cssString,
                                       \cssValOp
                                   \ keepend
                                   \ start=
                                       \"\(\(^\|{\|\;\|\*/\)\s*\)\@<=\(
-                                      \string-set\|
+                                      \hyphens\|
+                                      \hyphenate-after\|
+                                      \hyphenate-before\|
+                                      \hyphenate-character\|
+                                      \hyphenate-lines\|
+                                      \hyphenate-resource\|
+                                      \string-set
                                       \\)\s*:"
                                   \ end=";"
+
+syn keyword cssGenConPageVal      contained
+                                \ auto
+                                \ manual
+                                \ none
 
 "C S S 3  =L I S T S  A N D  C O U N T E R S  M O D U L E
 "----------------------------------------------------------------------------
@@ -1529,7 +1566,9 @@ syn region cssListProp              contained
                                       \cssCountVal,
                                       \cssDataExpr,
                                       \cssListVal,
-                                      \cssString
+                                      \cssListValExpr,
+                                      \cssString,
+                                      \cssValOp
                                   \ keepend
                                   \ start=
                                       \"\(\(^\|{\|\;\)\s*\)\@<=\(
@@ -1547,6 +1586,17 @@ syn keyword cssListVal              contained
                                   \ inside
                                   \ none
                                   \ outside
+
+syn region cssListValExpr          contained
+                                  \ contains=
+                                      \cssString,
+                                      \cssValOp
+                                  \ extend
+                                  \ keepend
+                                  \ matchgroup=cssListValExprType
+                                  \ oneline
+                                  \ start="\<symbols("
+                                  \ end="\()\)\(\s\+\|;\|,\|\s*)\)\@="
 
 "C S S 3  =M A R Q U E E  M O D U L E                        
 "----------------------------------------------------------------------------
@@ -1608,7 +1658,6 @@ syn region cssMediaAtRuleBlock      contains=
                                       \cssDecBlock,
                                       \css.*Sel
                                   \ containedin=cssMediaAtRule
-                                  \ keepend
                                   \ matchgroup=cssAtRuleBraces
                                   \ start=
                                       \"\(\(^\s*\|\*/\s*\)
@@ -1771,6 +1820,7 @@ syn keyword cssPageSelAtKeyword     contained
                                   \ @bottom-left-corner
                                   \ @bottom-right
                                   \ @bottom-right-corner
+                                  \ @footnote
                                   \ @left-top
                                   \ @left-middle
                                   \ @left-bottom
@@ -1788,6 +1838,7 @@ syn region cssPageAtRule            contains=
                                       \cssPageAtKeyword,
                                       \cssPageName,
                                       \cssPagePseudoSel
+                                  \ extend
                                   \ keepend
                                   \ start=
                                       \"\(^\s*\|\*/\s*\)
@@ -1805,8 +1856,7 @@ syn region cssPageAtRuleBlock       contains=
                                       \cssPageProp,
                                       \cssPageSelAtRule,
                                       \cssTextProp
-                                  \ containedin=cssPageAtRule
-                                  \ keepend
+                                  \ contained
                                   \ matchgroup=cssAtRuleBraces
                                   \ start=
                                       \"\(\(^\s*\|\*/\s*\)
@@ -1819,6 +1869,8 @@ syn region cssPageAtRuleBlock       contains=
 syn region cssPageSelAtRule         contains=
                                       \cssPageSelAtRuleBlock,
                                       \cssPageSelAtKeyword
+                                  \ extend
+                                  \ keepend
                                   \ start=
                                       \"\(^\s*\|\*/\s*\\|{\s*\)\@<=
                                       \@bottom-center\|
@@ -1826,6 +1878,7 @@ syn region cssPageSelAtRule         contains=
                                       \@bottom-left-corner\|
                                       \@bottom-right\|
                                       \@bottom-right-corner\|
+                                      \@footnote\|
                                       \@left-top\|
                                       \@left-middle\|
                                       \@left-bottom\|
@@ -1849,9 +1902,7 @@ syn region cssPageSelAtRuleBlock    contains=
                                       \cssFontProp,
                                       \cssGenConProp,
                                       \cssTextProp
-                                  \ containedin=cssPageSelAtRule
-                                  \ extend
-                                  \ keepend
+                                  \ contained
                                   \ matchgroup=cssAtRuleBraces
                                   \ start=
                                       \"\(\(^\s*\|\*/\s*\|{\s*\)\(
@@ -1860,6 +1911,7 @@ syn region cssPageSelAtRuleBlock    contains=
                                       \@bottom-left-corner\|
                                       \@bottom-right\|
                                       \@bottom-right-corner\|
+                                      \@footnote\|
                                       \@left-top\|
                                       \@left-middle\|
                                       \@left-bottom\|
@@ -1885,14 +1937,22 @@ syn region cssPageProp              contained
                                   \ contains=
                                       \cssAbsLengthUnit,
                                       \cssAngleUnit,
+                                      \cssDataExpr,
+                                      \cssGenConExpr,
+                                      \cssGenConPageExpr,
                                       \cssNumber,
                                       \cssPageVal,
                                       \cssPercentUnit,
                                       \cssRelLengthUnit,
+                                      \cssString,
                                       \cssValOp
                                   \ keepend
                                   \ start=
                                       \"\(\(^\|{\|\;\|\*/\)\s*\)\@<=\(
+                                      \bookmark-label\|
+                                      \bookmark-state\|
+                                      \bookmark-target\|
+                                      \bleed\|
                                       \fit\|
                                       \fit-position\|
                                       \image-orientation\|
@@ -1908,7 +1968,13 @@ syn region cssPageProp              contained
                                       \\)\s*:"
                                   \ end=";"
 
-syn match cssPagePseudoSel          contained "\(:first\|:left\|:right\)" 
+syn match cssPagePseudoSel          contained 
+                                  \ "\(
+                                    \:blank\|
+                                    \:first\|
+                                    \:left\|
+                                    \:right
+                                    \\)" 
 
 syn match cssPageVal                contained
                                   \ "\(
@@ -1925,6 +1991,7 @@ syn keyword cssPageVal              contained
                                   \ avoid
                                   \ bottom
                                   \ center
+                                  \ closed
                                   \ crop
                                   \ cross
                                   \ fill
@@ -1935,6 +2002,8 @@ syn keyword cssPageVal              contained
                                   \ legal
                                   \ letter
                                   \ meet
+                                  \ none
+                                  \ open
                                   \ portrait
                                   \ top
                                   \ right
@@ -2351,6 +2420,7 @@ hi def link cssExprType             Function
 hi def link cssFontExprType         Function
 hi def link cssGenConExprType       Function
 hi def link cssGenConPageExprType   Function
+hi def link cssListValExprType      Function
 hi def link cssImgExprType          Function
 hi def link cssMediaExpr            Function
 
