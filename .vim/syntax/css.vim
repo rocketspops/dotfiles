@@ -616,6 +616,8 @@ syn keyword cssBoxVal               contained
                                   \ bottom
                                   \ collapse
                                   \ compact
+                                  \ fill-available
+                                  \ fit-content
                                   \ fixed
                                   \ footnote 
                                   \ hide
@@ -627,6 +629,8 @@ syn keyword cssBoxVal               contained
                                   \ intrude
                                   \ left
                                   \ list-item
+                                  \ max-content
+                                  \ min-content
                                   \ multicol
                                   \ next
                                   \ none
@@ -1651,20 +1655,21 @@ syn region cssMediaAtRule           contains=
                                       \cssValOp
                                   \ keepend
                                   \ start="\(^\s*\|\*/\s*\)\@<=@media"
-                                  \ end="}\|\(}\s*\)\@<=}"
+                                  \ end="}"
 
 syn region cssMediaAtRuleBlock      contains=
                                       \cssBraceError,
                                       \cssDecBlock,
                                       \css.*Sel
                                   \ containedin=cssMediaAtRule
+                                  \ keepend
                                   \ matchgroup=cssAtRuleBraces
                                   \ start=
-                                      \"\(\(^\s*\|\*/\s*\)
-                                      \@media\s.*\|
-                                      \\(^\_s*$\)\@!\n\s*\)
+                                      \"\(\(^\s*\|\*/\s*\)@media\s.*\|
+                                      \\(\(^\s*\|\*/\s*\)@media\s.*$\)
+                                      \\@<=\n\s*\)
                                       \\@<={"
-                                  \ end="}\|\(}\s*\)\@<=}"
+                                  \ end="}"
                                   \ transparent
 
 syn region cssMediaExpr             contained
@@ -1778,8 +1783,12 @@ syn keyword cssMultiColVal          contained
                                   \ avoid-column
                                   \ balance
                                   \ column
+                                  \ fill-available
+                                  \ fit-content
                                   \ left
                                   \ medium
+                                  \ max-content
+                                  \ min-content
                                   \ none
                                   \ normal
                                   \ page
@@ -2022,7 +2031,9 @@ syn match cssRenderVal      contained
                             \marker\|
                             \\)\>"
 
-"C S S 3  =R U B Y  M O D U L E                              W3C WD 6/30/2011
+"C S S 3  =R U B Y  M O D U L E                              
+"----------------------------------------------------------------------------
+"W3C Working Draft (06 JUN 2011)                     www.w3.org/TR/css3-ruby/
 "----------------------------------------------------------------------------
 
 syn region cssRubyProp              contained
@@ -2116,7 +2127,6 @@ syn match cssSpeechVal      contained
 syn keyword cssTableProp    contained
                           \ border-collapse
                           \ border-spacing
-                          \ caption-side
                           \ empty-cells
                           \ speak-header
                           \ table-layout
@@ -2343,40 +2353,68 @@ syn match cssUIVal          contained
                             \window\|
                             \workspace\)\>"
 
-"=C S S 3  =W R I T I N G  M O D E S  M O D U L E             W3C WD 9/1/2011
+"=C S S 3  =W R I T I N G  M O D E S  M O D U L E             
+"----------------------------------------------------------------------------
+"W3C Working Draft (01 SEP 2011)            www.w3.org/TR/css3-writing-modes/
 "----------------------------------------------------------------------------
 
-syn keyword cssWritingProp  contained
-                          \ caption-side
-                          \ direction
-                          \ text-combine-horizontal
-                          \ text-combine-mode
-                          \ text-orientation
-                          \ unicode-bidi
-                          \ writing-mode
+syn region cssWritingModeProp       contained
+                                  \ contains=
+                                      \cssInteger,
+                                      \cssWritingModeVal,
+                                      \cssValOp
+                                  \ keepend
+                                  \ start=
+                                      \"\(\(^\|{\|\;\|\*/\)\s*\)\@<=\(
+                                      \caption-side\|
+                                      \direction\|
+                                      \text-combine-horizontal\|
+                                      \text-combine-mode\|
+                                      \text-orientation\|
+                                      \unicode-bidi\|
+                                      \writing-mode
+                                      \\)\s*:"
+                                  \ end=";"
 
-syn match cssWritingVal     contained
-                          \ "\<\(alpha\|
-                            \alphanumeric\|
-                            \ascii-digits\|
-                            \bidi-override\|
-                            \compress\|
-                            \embed\|
-                            \horizontal-tb\|
-                            \vertical-lr\|
-                            \vertical-rl\|
-                            \latin\|
-                            \ltr\|
-                            \no-compress\|
-                            \plaintext\|
-                            \rtl\|
-                            \sideways\|
-                            \sideways-left\|
-                            \sideways-right\|
-                            \upright\|
-                            \upright-right\|
-                            \use-glyphs\|
-                            \use-glyph-orientation\)\>"
+syn keyword cssWritingModeVal       contained
+                                  \ after
+                                  \ after-outside
+                                  \ all
+                                  \ alpha
+                                  \ alphanumeric
+                                  \ ascii-digits
+                                  \ before
+                                  \ before-outside
+                                  \ bidi-override
+                                  \ bottom
+                                  \ bottom-outside
+                                  \ compress
+                                  \ digits
+                                  \ embed
+                                  \ horizontal-tb
+                                  \ isolate
+                                  \ latin
+                                  \ left
+                                  \ ltr
+                                  \ none
+                                  \ normal
+                                  \ no-compress
+                                  \ plaintext
+                                  \ right
+                                  \ rtl
+                                  \ sideways
+                                  \ sideways-left
+                                  \ sideways-right
+                                  \ top
+                                  \ top-outside
+                                  \ upright
+                                  \ upright-right
+                                  \ use-glyphs
+                                  \ use-glyph-orientation
+                                  \ vertical-lr
+                                  \ vertical-rl
+
+"----------------------------------------------------------------------------
 
 syn cluster cssProp        contains=css.*Prop
 
@@ -2424,7 +2462,7 @@ hi def link cssSpeechVal            Constant
 hi def link cssTableVal             Constant
 hi def link cssTextVal              Constant
 hi def link cssUIVal                Constant
-hi def link cssWritingVal           Constant
+hi def link cssWritingModeVal       Constant
 
 hi def link cssBraceError           Error
 
@@ -2508,6 +2546,6 @@ hi def link cssSpeechProp           Type
 hi def link cssTableProp            Type
 hi def link cssTextProp             Type
 hi def link cssUIProp               Type
-hi def link cssWritingProp          Type
+hi def link cssWritingModeProp      Type
 
 let b:current_syntax = "css"

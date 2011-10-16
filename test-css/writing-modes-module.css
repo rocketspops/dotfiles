@@ -1,0 +1,22 @@
+.date { 
+  text-combine-horizontal: digits 2; 
+  color: red; 
+}
+
+:root { text-orientation: sideways; }
+caption { caption-side: left; writing-mode: vertical-lr; }
+thead th { writing-mode: vertical-lr; }
+h1.banner { position: absolute; top: 0; right: 0; writing-mode: vertical-rl; }
+
+bdo[dir="ltr"]  { direction: ltr; unicode-bidi: bidi-override; }
+bdo[dir="rtl"] 
+
+@media 
+{
+  direction: rtl; unicode-bidi: bidi-override; 
+}
+
+h1, h2, h3, h4, h5, h6 
+{ unicode-bidi: isolate; }
+
+
