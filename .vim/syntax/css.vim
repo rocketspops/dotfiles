@@ -66,8 +66,12 @@ syn region cssDecBlock              contains=
                                   \ extend
                                   \ keepend
                                   \ matchgroup=cssBraces
-                                  \ start='{'
-                                  \ end='\(\(;\s*\)\@<=}\|^\s*}\|\({\s*\)\@<=}\)'
+                                  \ start=
+                                      \"\(\(\S\+\s*\)\|
+                                      \\(\S\+\s*$\)
+                                      \\@<=\n\s*\)
+                                      \\@<={"
+                                  \ end='}'
                                   \ transparent
 
 syn match cssImportant              contained "!\s*important\>"
@@ -180,7 +184,8 @@ syn match cssIdSel                  "\#\(\\[0-9A-F]\{2}\s\|
 
 "Namespace Selectors -------------------------------------------------------- 
 
-syn match cssNamespaceSel           "\(\(^\|\(\S\)\@<!\*\|\[\|\a\+\|\s\+\)\@<=
+syn match cssNamespaceSel           "\(\(^\|\(\S\)\@<!\*\|
+                                    \\[\|\a\+\|\s\+\)\@<=
                                     \\(|\)\)\a\@="
 
 "Type Selectors ------------------------------------------------------------- 
@@ -912,8 +917,10 @@ syn region cssFontAtRule            contains=
                                       \cssFontAtRuleBlock,
                                       \cssFontAtKeyword
                                   \ keepend
-                                  \ start="\(^\s*\|\*/\s*\)\@<=@font-face"
-                                  \ end="}\|\(}\s*\)\@<=}"
+                                  \ start=
+                                      \"\(^\s*\|\*/\s*\)
+                                      \\@<=@font-face"
+                                  \ end="}"
                                   \ transparent
 
 syn region cssFontAtRuleBlock       contains=
@@ -925,9 +932,10 @@ syn region cssFontAtRuleBlock       contains=
                                   \ start=
                                       \"\(\(^\s*\|\*/\s*\)
                                       \@font-face\s*\|
-                                      \\(^\_s*$\)\@!\n\s*\)
+                                      \\(\1@font-face\s*$\)
+                                      \\@<=\n\s*\)
                                       \\@<={"
-                                  \ end="}\|\(}\s*\)\@<=}"
+                                  \ end="}"
                                   \ transparent
 
 syn region cssFontExpr              contained
@@ -1396,7 +1404,7 @@ syn region cssCountAtRule           contains=
                                   \ start=
                                       \"\(^\s*\|\*/\s*\)
                                       \\@<=@counter-style\s.*"
-                                  \ end="}\|\(}\s*\)\@<=}"
+                                  \ end="}"
                                   \ transparent
 
 syn region cssCountAtRuleBlock      contains=
@@ -1409,9 +1417,10 @@ syn region cssCountAtRuleBlock      contains=
                                   \ start=
                                       \"\(\(^\s*\|\*/\s*\)
                                       \@counter-style\s.*\|
-                                      \\(^\_s*$\)\@!\n\s*\)
+                                      \\(\1@counter-style\s.*$\)
+                                      \\@<=\n\s*\)
                                       \\@<={"
-                                  \ end="}\|\(}\s*\)\@<=}"
+                                  \ end="}"
                                   \ transparent
 
 syn match cssCountName              "\(^\s*@counter-style\s*\(
@@ -1654,8 +1663,9 @@ syn region cssMediaAtRule           contains=
                                       \cssString,
                                       \cssValOp
                                   \ keepend
-                                  \ start="\(^\s*\|\*/\s*\)\@<=@media"
+                                  \ start="\(^\s*\|\*/\s*\)\@<=@media\s.*"
                                   \ end="}"
+                                  \ transparent
 
 syn region cssMediaAtRuleBlock      contains=
                                       \cssBraceError,
@@ -1666,8 +1676,7 @@ syn region cssMediaAtRuleBlock      contains=
                                   \ matchgroup=cssAtRuleBraces
                                   \ start=
                                       \"\(\(^\s*\|\*/\s*\)@media\s.*\|
-                                      \\(\(^\s*\|\*/\s*\)@media\s.*$\)
-                                      \\@<=\n\s*\)
+                                      \\(\1@media\s.*$\)\@<=\n\s*\)
                                       \\@<={"
                                   \ end="}"
                                   \ transparent

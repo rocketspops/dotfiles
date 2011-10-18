@@ -1,5 +1,6 @@
 /* @Media */
-@media (orientation: portrait) { … }
+@media (orientation: portrait) { … }  
+
 @media all and (orientation: portrait) { … }
 @media all { … }
 @media { … }
@@ -19,7 +20,8 @@
   body { background: black; color: white; }
 }
 
-@media screen, print "Rainbow style" {
+@media screen, print "Rainbow style" 
+{
   p { color: #E0D; } }
  
 @media handheld and (grid) and (max-width: 15em) { … }
