@@ -1,0 +1,32 @@
+.blah {
+  voice-volume:-06.0dB;
+}
+
+a
+{
+  cue-before: url(/audio/bell.aiff) -3dB;
+  cue-after: url(dong.wav);
+}
+                
+h1
+{
+  cue-before: url(../clips-1/pop.au) +6dB;
+  cue-after: url(../clips-2/pop.au) 6dB;
+}
+
+div.caution { cue-before: url(./audio/caution.wav) +8dB; }
+h1 { voice-pitch: 250Hz; } /* positive offset relative to the inherited absolute frequency */
+h1 { voice-pitch: +250Hz; } /* identical to the line above */
+h2 { voice-pitch: +30Hz absolute; } /* not an increment */
+h2 { voice-pitch: absolute 30Hz; } /* identical to the line above */
+h3 { voice-pitch: -20Hz; } /* negative offset (decrement) relative to the inherited absolute frequency */
+h4 { voice-pitch: -20Hz absolute; } /* illegal syntax => value ignored ("absolute" keyword not allowed with negative frequency) */
+h5 { voice-pitch: -3.5st; } /* semitones, negative offset */
+h6 { voice-pitch: 25%; } /* this means "add a quarter of the inherited value, to the inherited value" */
+h6 { voice-pitch: +25%; } /* identical to the line above */
+
+span.default-emphasis { voice-stress: normal; }
+span.lowered-emphasis { voice-stress: reduced; }
+span.removed-emphasis { voice-stress: none; }
+span.normal-emphasis { voice-stress: moderate; }
+span.huge-emphasis { voice-stress: strong; }

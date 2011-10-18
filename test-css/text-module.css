@@ -1,0 +1,11 @@
+abbr:lang(ja) { text-transform: full-width; }
+
+@namespace m "http://www.w3.org/1998/Math/MathML";
+
+m|* {
+  text-space-collapse: discard;
+}
+
+m|mi, m|mn, m|mo, m|ms, m|mtext {
+  text-space-collapse: trim-inner;
+}

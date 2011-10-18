@@ -312,8 +312,7 @@ syn keyword cssTypeSel              a
 
 "Universal Selectors -------------------------------------------------------- 
 
-syn match cssUniversalSel           "\(\(^\|\a\+\|\s\+\)\@<=
-                                    \\(|\*\)\|
+syn match cssUniversalSel           "\(\(^\|\a\+\|\s\+\)\(|\*\)\|
                                     \\S\@<!\(\*|\*\|\*\)\)"
 
 "=C S S 3  V A L U E S  A N D  U N I T S  M O D U L E           
@@ -426,6 +425,9 @@ syn match cssFreqUnit               contained
 syn match cssGridUnit               contained
                                   \ "\(\d\)\@<=\(gr\)\(\;\|,\|/\|)\|\s\+\)\@="
 
+syn match cssSpeechUnit             contained
+                                  \ "\(\d\)\@<=\(dB\|st\)\(\;\|,\|/\|)\|\s\+\)\@="
+
 syn match cssTimeUnit               contained
                                   \ "\(\d\)\@<=\(
                                     \ms\|
@@ -532,6 +534,7 @@ syn keyword cssBgBorVal             contained
                                   \ fixed
                                   \ groove
                                   \ hidden
+                                  \ inherit
                                   \ inset
                                   \ left
                                   \ local
@@ -627,6 +630,7 @@ syn keyword cssBoxVal               contained
                                   \ footnote 
                                   \ hide
                                   \ hidden
+                                  \ inherit
                                   \ inline
                                   \ inline-block
                                   \ inline-table
@@ -807,6 +811,7 @@ syn keyword cssColorVal             contained
                                   \
                                   \ indianred
                                   \ indigo
+                                  \ inherit
                                   \ ivory
                                   \
                                   \ khaki
@@ -1193,6 +1198,7 @@ syn keyword cssImgVal               contained
                                   \ fill
                                   \ from-image
                                   \ left
+                                  \ inherit
                                   \ none
                                   \ right
                                   \ scale-down
@@ -1282,6 +1288,7 @@ syn keyword cssGenConVal            contained
                                   \ footnote
                                   \ here 
                                   \ hyphen 
+                                  \ inherit
                                   \ inhibit
                                   \ last
                                   \ list-item
@@ -1356,6 +1363,7 @@ syn region cssGenConPageProp        contained
 
 syn keyword cssGenConPageVal      contained
                                 \ auto
+                                \ inherit
                                 \ manual
                                 \ none
 
@@ -1478,7 +1486,6 @@ syn keyword cssCountVal             contained
                                   \ fullwidth-lower-roman
                                   \ fullwidth-upper-alpha
                                   \ fullwidth-upper-roman
-                                  \ dash
                                   \ gedeo
                                   \ georgian
                                   \ greek
@@ -1491,6 +1498,7 @@ syn keyword cssCountVal             contained
                                   \ hindi
                                   \ hiragana-iroha
                                   \ hiragana
+                                  \ inherit
                                   \ japanese-informal
                                   \ japanese-formal
                                   \ kaffa
@@ -1638,6 +1646,7 @@ syn keyword cssMarqVal              contained
                                   \ fast
                                   \ forward
                                   \ infinite
+                                  \ inherit
                                   \ marquee
                                   \ marquee-block
                                   \ marquee-line
@@ -1795,6 +1804,7 @@ syn keyword cssMultiColVal          contained
                                   \ fill-available
                                   \ fit-content
                                   \ left
+                                  \ inherit
                                   \ medium
                                   \ max-content
                                   \ min-content
@@ -1818,7 +1828,7 @@ syn region cssNamespace             contains=
                                   \ keepend
                                   \ start=
                                       \"\(^\s*\|\*/\s*\)
-                                      \@namespace\s\+.*"
+                                      \@namespace\s\+"
                                   \ end=";"
                                   \ transparent
 
@@ -2019,6 +2029,7 @@ syn keyword cssPageVal              contained
                                   \ left
                                   \ legal
                                   \ letter
+                                  \ inherit
                                   \ meet
                                   \ none
                                   \ open
@@ -2026,19 +2037,6 @@ syn keyword cssPageVal              contained
                                   \ top
                                   \ right
                                   \ slice
-
-"=R E N D E R  P R O P S + V A L U E S
-"----------------------------------------------------------------------------
-
-syn keyword cssRenderProp   contained
-                          \ marker-offset
-
-syn match cssRenderVal      contained
-                          \ "\<\(
-                            \bidi-override\|
-                            \embed\|
-                            \marker\|
-                            \\)\>"
 
 "C S S 3  =R U B Y  M O D U L E                              
 "----------------------------------------------------------------------------
@@ -2068,6 +2066,7 @@ syn keyword cssRubyVal              contained
                                   \ distribute-letter
                                   \ distribute-space
                                   \ end
+                                  \ inherit
                                   \ left
                                   \ line-edge
                                   \ inline
@@ -2076,60 +2075,96 @@ syn keyword cssRubyVal              contained
                                   \ right
                                   \ start
 
-"C S S 3  =S P E E C H  M O D U L E                          W3C WD 8/18/2011
+"C S S 3  =S P E E C H  M O D U L E                          
+"----------------------------------------------------------------------------
+"W3C Working Draft (18 AUG 2011)                   www.w3.org/TR/css3-speech/  
 "----------------------------------------------------------------------------
 
-syn keyword cssSpeechProp   contained
-                          \ cue
-                          \ cue-after
-                          \ cue-before
-                          \ pause
-                          \ pause-after
-                          \ pause-before
-                          \ play-during
-                          \ richness
-                          \ rest
-                          \ rest-after
-                          \ rest-before
-                          \ speak
-                          \ speak-as
-                          \ voice-balance
-                          \ voice-duration
-                          \ voice-family
-                          \ voice-rate
-                          \ voice-pitch
-                          \ voice-range
-                          \ voice-stress
-                          \ voice-volume
+syn region cssSpeechProp            contained
+                                  \ contains=
+                                      \cssDataExpr,
+                                      \cssFreqUnit,
+                                      \cssNumber,
+                                      \cssPercentUnit,
+                                      \cssSpeechUnit,
+                                      \cssSpeechVal,
+                                      \cssString,
+                                      \cssTimeUnit,
+                                      \cssValOp
+                                  \ keepend
+                                  \ start=
+                                      \"\(\(^\|{\|\;\|\*/\)\s*\)\@<=\(
+                                      \cue\|
+                                      \cue-after\|
+                                      \cue-before\|
+                                      \pause\|
+                                      \pause-after\|
+                                      \pause-before\|
+                                      \play-during\|
+                                      \richness\|
+                                      \rest\|
+                                      \rest-after\|
+                                      \rest-before\|
+                                      \speak\|
+                                      \speak-as\|
+                                      \voice-balance\|
+                                      \voice-duration\|
+                                      \voice-family\|
+                                      \voice-rate\|
+                                      \voice-pitch\|
+                                      \voice-range\|
+                                      \voice-stress\|
+                                      \voice-volume
+                                      \\)\s*:"
+                                  \ end=";"
 
-syn match cssSpeechVal      contained
-                          \ "\<\(child\|
-                            \code\|
-                            \continuous\|
-                            \faster\|
-                            \female\|
-                            \high\|
-                            \literal-punctuation\|
-                            \leftwards\|
-                            \loud\|
-                            \low\|
-                            \lower\|
-                            \male\|
-                            \mix\|
-                            \moderate\|
-                            \neutral\|
-                            \no-punctuation\|
-                            \normal\|
-                            \old\|
-                            \rightwards\|
-                            \silent\|
-                            \slower\|
-                            \soft\|
-                            \spell-out\|
-                            \
-                            \\(x-\)\=\(fast\|high\|loud\|low\|reduced\|soft\|
-                            \strong\|young\|weak\)\)\>"
-
+syn keyword cssSpeechVal            contained
+                                  \ absolute
+                                  \ auto
+                                  \ center
+                                  \ child
+                                  \ code
+                                  \ continuous
+                                  \ digits
+                                  \ fast
+                                  \ female
+                                  \ high
+                                  \ inherit
+                                  \ left
+                                  \ leftwards
+                                  \ literal-punctuation
+                                  \ loud
+                                  \ low
+                                  \ lower
+                                  \ male
+                                  \ medium
+                                  \ mix
+                                  \ moderate
+                                  \ neutral
+                                  \ none
+                                  \ no-punctuation
+                                  \ normal
+                                  \ old
+                                  \ preserve
+                                  \ reduced
+                                  \ right
+                                  \ rightwards
+                                  \ silent
+                                  \ slow
+                                  \ soft
+                                  \ spell-out
+                                  \ strong
+                                  \ weak
+                                  \ x-fast
+                                  \ x-high
+                                  \ x-loud
+                                  \ x-low
+                                  \ x-soft
+                                  \ x-slow
+                                  \ x-strong
+                                  \ x-weak
+                                  \ young
+                            
 "=T A B L E  P R O P S + V A L U E S
 "----------------------------------------------------------------------------
 
@@ -2147,128 +2182,141 @@ syn match cssTableVal       contained
                             \hide\|
                             \once\)\>"
 
-"C S S 3  =TE X T  M O D U L E                               W3C WD 9/01/2011
+"C S S 3  T E X T  M O D U L E                               
 "----------------------------------------------------------------------------
+"W3C Working Draft (01 SEP 2011)                      www.w3.org/TR/css3-text 
+"----------------------------------------------------------------------------
+syn region cssTextProp              contained
+                                  \ contains=
+                                      \cssTextVal,
+                                      \cssValOp
+                                  \ keepend
+                                  \ start=
+                                      \"\(\(^\|{\|\;\|\*/\)\s*\)\@<=\(
+                                      \baseline-shift\|
+                                      \hanging-punctuation\|
+                                      \hyphens\|
+                                      \hyphenate-character\|
+                                      \hyphenate-limit-chars\|
+                                      \hyphenate-limit-lines\|
+                                      \hyphentate-limit-last\|
+                                      \hyphenate-limit-zone\|
+                                      \line-break\|
+                                      \letter-spacing\|
+                                      \line-height\|
+                                      \overflow-wrap\|
+                                      \tab-size\|
+                                      \text-align\|
+                                      \text-align-last\|
+                                      \text-decoration\|
+                                      \text-decoration-color\|
+                                      \text-decoration-skip\|
+                                      \text-decoration-style\|
+                                      \text-emphasis\|
+                                      \text-emphasis-color\|
+                                      \text-emphasis-position\|
+                                      \text-emphasis-skip\|
+                                      \text-emphasis-style\|
+                                      \text-indent\|
+                                      \text-justify\|
+                                      \text-rendering\|
+                                      \text-shadow\|
+                                      \text-spacing\|
+                                      \text-space-collapse\|
+                                      \text-transform\|
+                                      \text-underline-position\|
+                                      \text-wrap\|
+                                      \vertical-align\|
+                                      \white-space\|
+                                      \word-break\|
+                                      \word-spacing
+                                      \\)\s*:"
+                                  \ end=";"
 
-syn keyword cssTextProp     contained
-                          \ baseline-shift
-                          \ hanging-punctuation
-                          \ hyphens
-                          \ hyphenate-character
-                          \ hyphenate-limit-chars
-                          \ hyphenate-limit-lines
-                          \ hyphentate-limit-last
-                          \ hyphenate-limit-zone
-                          \ line-break
-                          \ letter-spacing
-                          \ line-height
-                          \ overflow-wrap
-                          \ tab-size
-                          \ text-align
-                          \ text-align-last
-                          \ text-decoration
-                          \ text-decoration-color
-                          \ text-decoration-skip
-                          \ text-decoration-style
-                          \ text-emphasis
-                          \ text-emphasis-color
-                          \ text-emphasis-position
-                          \ text-emphasis-skip
-                          \ text-emphasis-style
-                          \ text-indent
-                          \ text-justify
-                          \ text-rendering
-                          \ text-shadow
-                          \ text-spacing
-                          \ text-space-collapse
-                          \ text-transform
-                          \ text-underline-position
-                          \ text-wrap
-                          \ vertical-align
-                          \ white-space
-                          \ word-break
-                          \ word-spacing
-
-syn match cssTextVal        contained
-                          \ "\<\(allow-end\|
-                            \alphabetic\|
-                            \baseline\|
-                            \below-left\|
-                            \below-right\|
-                            \blink\|
-                            \break-all\|
-                            \break-word\|
-                            \capitalize\|
-                            \center\|
-                            \consume-after\|
-                            \consume-before\|
-                            \discard\|
-                            \distribute\|
-                            \double-circle\|
-                            \dot\|
-                            \each-line\|
-                            \edges\|
-                            \filled\|
-                            \first\|
-                            \force-end\|
-                            \full-width\|
-                            \full-size-kana\|
-                            \hanging\|
-                            \hyphenate\|
-                            \ideograph-alpha\|
-                            \ideograph-numeric\|
-                            \ink\|
-                            \inter-cluster\|
-                            \inter-ideograph\|
-                            \inter-word\|
-                            \justify\|
-                            \kashida\|
-                            \keep-all\|
-                            \line-through\|
-                            \lowercase\|
-                            \loose\|
-                            \manual\|
-                            \match-parent\|
-                            \middle\|
-                            \narrow\|
-                            \no-compress\|
-                            \no-line-through\|
-                            \no-overline\|
-                            \no-underline\|
-                            \nowrap\|
-                            \objects\|
-                            \open\|
-                            \optimizeLegibility\|
-                            \overline\|
-                            \pre\|
-                            \pre-wrap\|
-                            \pre-line\|
-                            \preserve-breaks\|
-                            \punctuation\|
-                            \remove-all\|
-                            \replace-line-through\|
-                            \replace-overline\|
-                            \replace-underline\|
-                            \sesame\|
-                            \spaces\|
-                            \space-adjacent\|
-                            \space-start\|
-                            \space-end\|
-                            \spread\|
-                            \strict\|
-                            \sub\|
-                            \super\|
-                            \symbols\|
-                            \text-bottom\|
-                            \text-top\|
-                            \triangle\|
-                            \trim-adjacent\|
-                            \trim-start\|
-                            \trim-end\|
-                            \trim-inner\|
-                            \underline\|
-                            \uppercase\|
-                            \wavy\)\>"
+syn keyword cssTextVal              contained
+                                  \ allow-end
+                                  \ alphabetic
+                                  \ baseline
+                                  \ below-left
+                                  \ below-right
+                                  \ blink
+                                  \ break-all
+                                  \ break-word
+                                  \ capitalize
+                                  \ center
+                                  \ collapse
+                                  \ consume-after
+                                  \ consume-before
+                                  \ discard
+                                  \ distribute
+                                  \ double-circle
+                                  \ dot
+                                  \ each-line
+                                  \ edges
+                                  \ filled
+                                  \ first
+                                  \ force-end
+                                  \ full-width
+                                  \ full-size-kana
+                                  \ hanging
+                                  \ hyphenate
+                                  \ ideograph-alpha
+                                  \ ideograph-numeric
+                                  \ ink
+                                  \ inherit
+                                  \ inter-cluster
+                                  \ inter-ideograph
+                                  \ inter-word
+                                  \ justify
+                                  \ kashida
+                                  \ keep-all
+                                  \ line-through
+                                  \ lowercase
+                                  \ loose
+                                  \ manual
+                                  \ match-parent
+                                  \ middle
+                                  \ narrow
+                                  \ none
+                                  \ no-compress
+                                  \ no-line-through
+                                  \ no-overline
+                                  \ no-underline
+                                  \ nowrap
+                                  \ objects
+                                  \ open
+                                  \ optimizeLegibility
+                                  \ overline
+                                  \ pre
+                                  \ pre-wrap
+                                  \ pre-line
+                                  \ preserve
+                                  \ preserve-breaks
+                                  \ punctuation
+                                  \ remove-all
+                                  \ replace-line-through
+                                  \ replace-overline
+                                  \ replace-underline
+                                  \ sesame
+                                  \ spaces
+                                  \ space-adjacent
+                                  \ space-start
+                                  \ space-end
+                                  \ spread
+                                  \ strict
+                                  \ sub
+                                  \ super
+                                  \ symbols
+                                  \ text-bottom
+                                  \ text-top
+                                  \ triangle
+                                  \ trim-adjacent
+                                  \ trim-start
+                                  \ trim-end
+                                  \ trim-inner
+                                  \ underline
+                                  \ uppercase
+                                  \ wavy
 
 "C S S 3  =BA S I C  U I  M O D U L E                        W3C CR 5/11/2004
 "----------------------------------------------------------------------------
@@ -2401,6 +2449,7 @@ syn keyword cssWritingModeVal       contained
                                   \ digits
                                   \ embed
                                   \ horizontal-tb
+                                  \ inherit
                                   \ isolate
                                   \ latin
                                   \ left
@@ -2440,6 +2489,7 @@ hi def link cssGridUnit             Character
 hi def link cssImgResUnit           Character
 hi def link cssPercentUnit          Character
 hi def link cssRelLengthUnit        Character
+hi def link cssSpeechUnit           Character
 hi def link cssTimeUnit             Character
 
 hi def link cssComment              Comment
