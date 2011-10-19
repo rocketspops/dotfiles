@@ -472,7 +472,7 @@ syn region cssString                contained
 syn region cssBgBorProp             contained
                                   \ contains=
                                       \cssBgBorVal,
-                                      \@cssColor, 
+                                      \cssColorProp, 
                                       \@cssCommon,
                                       \cssDataExpr,
                                       \cssImgExpr
@@ -489,39 +489,42 @@ syn region cssBgBorProp             contained
                                       \background-repeat\|
                                       \background-size\|
                                       \border\|
-                                      \border-clip\|
-                                      \border-color\|
-                                      \border-style\|
-                                      \border-width\|
                                       \border-bottom\|
                                       \border-bottom-color\|
                                       \border-bottom-style\|
                                       \border-bottom-width\|
-                                      \border-left\|
-                                      \border-left-color\|
-                                      \border-left-style\|
-                                      \border-left-width\|
-                                      \border-right\|
-                                      \border-right-color\|
-                                      \border-right-style\|
-                                      \border-right-width\|
-                                      \border-top\|
-                                      \border-top-color\|
-                                      \border-top-style\|
-                                      \border-top-width\|
+                                      \border-clip\|
+                                      \border-collapse\|
+                                      \border-color\|
                                       \border-image\|
                                       \border-image-outset\|
                                       \border-image-repeat\|
                                       \border-image-slice\|
                                       \border-image-source\|
                                       \border-image-width\|
+                                      \border-left\|
+                                      \border-left-color\|
+                                      \border-left-style\|
+                                      \border-left-width\|
                                       \border-radius\|
                                       \border-radius-bottom-left\|
                                       \border-radius-bottom-right\|
                                       \border-radius-top-left\|
                                       \border-radius-top-right\|
+                                      \border-right\|
+                                      \border-right-color\|
+                                      \border-right-style\|
+                                      \border-right-width\|
+                                      \border-spacing\|
+                                      \border-style\|
+                                      \border-top\|
+                                      \border-top-color\|
+                                      \border-top-style\|
+                                      \border-top-width\|
+                                      \border-width\|
                                       \box-decoration-break\|
-                                      \box-shadow
+                                      \box-shadow\|
+                                      \empty-cells
                                       \\)\s*:"
                                   \ end=";"
 
@@ -530,6 +533,7 @@ syn keyword cssBgBorVal             contained
                                   \ border-box
                                   \ bottom
                                   \ center
+                                  \ collapse
                                   \ contain
                                   \ content-box
                                   \ cover
@@ -541,6 +545,7 @@ syn keyword cssBgBorVal             contained
                                   \ fill
                                   \ fixed
                                   \ groove
+                                  \ hide
                                   \ hidden
                                   \ inherit
                                   \ inset
@@ -558,6 +563,8 @@ syn keyword cssBgBorVal             contained
                                   \ right
                                   \ round
                                   \ scroll
+                                  \ separate
+                                  \ show
                                   \ slice
                                   \ solid
                                   \ space
@@ -617,6 +624,7 @@ syn region cssBoxProp               contained
                                       \right\|
                                       \rotation\|
                                       \rotation-point\|
+                                      \table-layout\|
                                       \top\|
                                       \visibility\|
                                       \width\|
@@ -1145,7 +1153,7 @@ syn match cssFontVal                contained
 syn region cssImgExpr               contained
                                   \ contains=
                                       \cssAngleUnit,
-                                      \@cssColor, 
+                                      \cssColorProp, 
                                       \@cssCommon,
                                       \cssImgVal,
                                       \cssNumber,
@@ -1778,7 +1786,7 @@ syn match cssMediaValue             contained
 syn region cssMultiColProp          contained
                                   \ contains=
                                     \cssBgBorVal,
-                                    \@cssColor, 
+                                    \cssColorProp, 
                                     \@cssCommon,
                                     \cssInteger,
                                     \cssMultiColVal
@@ -2174,30 +2182,19 @@ syn keyword cssSpeechVal            contained
                                   \ x-weak
                                   \ young
                             
-"=T A B L E  P R O P S + V A L U E S
-"----------------------------------------------------------------------------
-
-syn keyword cssTableProp    contained
-                          \ border-collapse
-                          \ border-spacing
-                          \ empty-cells
-                          \ speak-header
-                          \ table-layout
-
-syn match cssTableVal       contained
-                          \ "\<\(fixed\|
-                            \separate\|
-                            \show\|
-                            \hide\|
-                            \once\)\>"
-
 "C S S 3  T E X T  M O D U L E                               
 "----------------------------------------------------------------------------
 "W3C Working Draft (01 SEP 2011)                      www.w3.org/TR/css3-text 
 "----------------------------------------------------------------------------
 syn region cssTextProp              contained
                                   \ contains=
-                                      \cssInteger,
+                                      \cssAbsLengthUnit,
+                                      \@cssColor,
+                                      \cssColorVal,
+                                      \cssNumber,
+                                      \cssPercentUnit,
+                                      \cssRelLengthUnit,
+                                      \cssString,
                                       \cssTextVal,
                                       \cssValOp
                                   \ keepend
@@ -2209,7 +2206,7 @@ syn region cssTextProp              contained
                                       \hyphenate-character\|
                                       \hyphenate-limit-chars\|
                                       \hyphenate-limit-lines\|
-                                      \hyphentate-limit-last\|
+                                      \hyphenate-limit-last\|
                                       \hyphenate-limit-zone\|
                                       \line-break\|
                                       \letter-spacing\|
@@ -2220,6 +2217,7 @@ syn region cssTextProp              contained
                                       \text-align-last\|
                                       \text-decoration\|
                                       \text-decoration-color\|
+                                      \text-decoration-line\|
                                       \text-decoration-skip\|
                                       \text-decoration-style\|
                                       \text-emphasis\|
@@ -2244,26 +2242,34 @@ syn region cssTextProp              contained
                                   \ end=";"
 
 syn keyword cssTextVal              contained
+                                  \ above
                                   \ allow-end
                                   \ alphabetic
+                                  \ always
                                   \ auto
+                                  \ avoid
                                   \ baseline
-                                  \ below-left
-                                  \ below-right
+                                  \ below
                                   \ blink
                                   \ break-all
                                   \ break-word
                                   \ capitalize
                                   \ center
+                                  \ circle
                                   \ collapse
+                                  \ column
                                   \ consume-after
                                   \ consume-before
+                                  \ dashed
                                   \ discard
                                   \ distribute
+                                  \ double
                                   \ double-circle
                                   \ dot
+                                  \ dotted
                                   \ each-line
                                   \ edges
+                                  \ end
                                   \ filled
                                   \ first
                                   \ force-end
@@ -2282,6 +2288,7 @@ syn keyword cssTextVal              contained
                                   \ kashida
                                   \ keep-all
                                   \ line-through
+                                  \ left
                                   \ lowercase
                                   \ loose
                                   \ manual
@@ -2291,6 +2298,7 @@ syn keyword cssTextVal              contained
                                   \ normal
                                   \ none
                                   \ no-compress
+                                  \ no-limit
                                   \ no-line-through
                                   \ no-overline
                                   \ no-underline
@@ -2299,6 +2307,7 @@ syn keyword cssTextVal              contained
                                   \ open
                                   \ optimizeLegibility
                                   \ overline
+                                  \ page
                                   \ pre
                                   \ pre-wrap
                                   \ pre-line
@@ -2309,12 +2318,15 @@ syn keyword cssTextVal              contained
                                   \ replace-line-through
                                   \ replace-overline
                                   \ replace-underline
+                                  \ right
                                   \ sesame
+                                  \ solid
                                   \ spaces
                                   \ space-adjacent
                                   \ space-start
                                   \ space-end
                                   \ spread
+                                  \ start
                                   \ strict
                                   \ sub
                                   \ super
