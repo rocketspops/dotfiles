@@ -71,7 +71,7 @@ syn region cssDecBlock              contains=
                                       \\(\S\+\s*$\)
                                       \\@<=\n\s*\)
                                       \\@<={"
-                                  \ end='}'
+                                  \ end='\(;\s*\|;\s*\_$\n\s*\)\@<=}'
                                   \ transparent
 
 syn match cssImportant              contained "!\s*important\>"
@@ -184,9 +184,12 @@ syn match cssIdSel                  "\#\(\\[0-9A-F]\{2}\s\|
 
 "Namespace Selectors -------------------------------------------------------- 
 
-syn match cssNamespaceSel           "\(\(^\|\(\S\)\@<!\*\|
-                                    \\[\|\a\+\|\s\+\)\@<=
-                                    \\(|\)\)\a\@="
+syn match cssNamespaceSel           contains=
+                                      \cssAttrSel,
+                                      \cssClassSel,
+                                      \cssIdSel,
+                                      \cssTypeSel 
+                                  \ "\(^\|\(\S\)\@<!\*\|\a\+\|\s\+\)|\w\+"
 
 "Type Selectors ------------------------------------------------------------- 
 
@@ -312,8 +315,13 @@ syn keyword cssTypeSel              a
 
 "Universal Selectors -------------------------------------------------------- 
 
-syn match cssUniversalSel           "\(\(^\|\a\+\|\s\+\)\(|\*\)\|
-                                    \\S\@<!\(\*|\*\|\*\)\)"
+syn match cssUniversalSel           contains=
+                                      \cssAttrSel,
+                                      \cssClassSel,
+                                      \cssIdSel,
+                                      \cssTypeSel 
+                                  \ "\(^\|\w\+\|\s\+\)|\*\s\|\(\w\)\@<!|\*\|
+                                    \\(^\|\s\)\*\S*\(|\)\@!\|\*\(|\*\)\@="
 
 "=C S S 3  V A L U E S  A N D  U N I T S  M O D U L E           
 "----------------------------------------------------------------------------
@@ -1821,6 +1829,7 @@ syn keyword cssMultiColVal          contained
 syn keyword cssNamespaceAtRule      contained @namespace
 
 syn region cssNamespace             contains=
+                                      \cssDataExpr,
                                       \cssNamespaceAtRule,
                                       \cssNamespacePrefix,
                                       \cssString,
@@ -2188,6 +2197,7 @@ syn match cssTableVal       contained
 "----------------------------------------------------------------------------
 syn region cssTextProp              contained
                                   \ contains=
+                                      \cssInteger,
                                       \cssTextVal,
                                       \cssValOp
                                   \ keepend
@@ -2236,6 +2246,7 @@ syn region cssTextProp              contained
 syn keyword cssTextVal              contained
                                   \ allow-end
                                   \ alphabetic
+                                  \ auto
                                   \ baseline
                                   \ below-left
                                   \ below-right
@@ -2277,6 +2288,7 @@ syn keyword cssTextVal              contained
                                   \ match-parent
                                   \ middle
                                   \ narrow
+                                  \ normal
                                   \ none
                                   \ no-compress
                                   \ no-line-through
