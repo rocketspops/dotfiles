@@ -17,21 +17,24 @@ button#b1 {
 }
 
 button#b2 {
-	top:50%; left:100%;
+	top:50%; 
+        left:100%;
 	nav-index:2;
 	nav-right:#b3; nav-left:#b1;
 	nav-down:#b3; nav-up:#b1;
 }
 
 button#b3 {
-	top:100%; left:50%;
+	top:100%; 
+        left:50%;
 	nav-index:3;
 	nav-right:#b4; nav-left:#b2;
 	nav-down:#b4; nav-up:#b2;
 }
 	
 button#b4 {
-	top:50%; left:0;
+	top:50%; 
+        left:0;
 	nav-index:4;
 	nav-right:#b1; nav-left:#b3;
 	nav-down:#b1; nav-up:#b3;
