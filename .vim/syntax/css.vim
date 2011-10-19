@@ -117,7 +117,7 @@ syn match cssPseudoSel              "\(
                                     \::alternate\|
                                     \\(:\|::\)before\|
                                     \:checked\|
-                                    \:choices\|
+                                    \::choices\|
                                     \:default\|
                                     \:disabled\|
                                     \:empty\|
@@ -145,15 +145,15 @@ syn match cssPseudoSel              "\(
                                     \::outside\|
                                     \:read-only\|
                                     \:read-write\|
-                                    \:repeat-index\|
-                                    \:repeat-item\|
+                                    \::repeat-index\|
+                                    \::repeat-item\|
                                     \:required\|
                                     \:root\|
                                     \::selection\|
                                     \::-moz-selection\|
                                     \::-webkit-selection\|
                                     \:target\|
-                                    \:value\|
+                                    \::value\|
                                     \:valid\|
                                     \:visited
                                     \\)"
@@ -524,7 +524,13 @@ syn region cssBgBorProp             contained
                                       \border-width\|
                                       \box-decoration-break\|
                                       \box-shadow\|
-                                      \empty-cells
+                                      \box-sizing\|
+                                      \empty-cells\|
+                                      \outline\|
+                                      \outline-color\|
+                                      \outline-offset\|
+                                      \outline-style\|
+                                      \outline-width
                                       \\)\s*:"
                                   \ end=";"
 
@@ -549,6 +555,7 @@ syn keyword cssBgBorVal             contained
                                   \ hidden
                                   \ inherit
                                   \ inset
+                                  \ invert
                                   \ left
                                   \ local
                                   \ medium
@@ -637,7 +644,6 @@ syn keyword cssBoxVal               contained
                                   \ alternate
                                   \ auto
                                   \ block
-                                  \ bottom
                                   \ collapse
                                   \ compact
                                   \ fill-available
@@ -652,7 +658,6 @@ syn keyword cssBoxVal               contained
                                   \ inline-table
                                   \ inside 
                                   \ intrude
-                                  \ left
                                   \ list-item
                                   \ max-content
                                   \ min-content
@@ -660,7 +665,6 @@ syn keyword cssBoxVal               contained
                                   \ next
                                   \ none
                                   \ outside
-                                  \ right
                                   \ relative
                                   \ ruby
                                   \ ruby-base
@@ -681,12 +685,130 @@ syn keyword cssBoxVal               contained
                                   \ table-header-group
                                   \ table-row
                                   \ table-row-group
-                                  \ top
                                   \ unless-room
                                   \ visible
 
 syn match cssBoxVal                 contained 
-                                  \ "page\((\)\@!"
+                                  \ "page\((\)\@!\|
+                                    \\(bottom\|left\|right\|top\)
+                                    \\(:\)\@!"
+
+"C S S 3  =B A S I C  U S E R  I N T E R F A C E  M O D U L E                        
+"----------------------------------------------------------------------------
+"W3C Candidate Recommendation (11 MAY 2004)            www.w3.org/TR/css3-ui/ 
+"----------------------------------------------------------------------------
+
+syn region cssUIProp                contained
+                                  \ contains=
+                                      \cssDataExpr,
+                                      \cssIdSel,
+                                      \cssNumber,
+                                      \cssString,
+                                      \cssUIVal,
+                                      \cssValOp
+                                  \ keepend
+                                  \ start=
+                                      \"\(\(^\|{\|\;\|\*/\)\s*\)\@<=\(
+                                      \appearance\|
+                                      \cursor\|
+                                      \icon\|
+                                      \nav-index\|
+                                      \nav-up\|
+                                      \nav-right\|
+                                      \nav-down\|
+                                      \nav-left\|
+                                      \resize
+                                      \\)\s*:"
+                                  \ end=";"
+                         
+syn keyword cssUIVal                contained
+                                  \ alias
+                                  \ all-scroll
+                                  \ auto
+                                  \ both
+                                  \ cell
+                                  \ context-menu
+                                  \ col-resize
+                                  \ copy
+                                  \ crosshair
+                                  \ default
+                                  \ e-resize
+                                  \ ew-resize
+                                  \ help
+                                  \ horizontal
+                                  \ inherit
+                                  \ move
+                                  \ nesw-resize
+                                  \ none
+                                  \ normal
+                                  \ no-drop
+                                  \ not-allowed
+                                  \ n-resize
+                                  \ ne-resize
+                                  \ nw-resize
+                                  \ ns-resize
+                                  \ nesw-resize
+                                  \ nwse-resize
+                                  \ pointer
+                                  \ progress
+                                  \ row-resize
+                                  \ s-resize
+                                  \ se-resize
+                                  \ sw-resize
+                                  \ text
+                                  \ vertical
+                                  \ vertical-text
+                                  \ wait
+                                  \ w-resize
+
+"The following values are for the appearance property and represent only
+"those values listed in the W3C Candidate Recommendation or that are
+"supported by both Webkit and Gecko browsers.
+
+syn keyword cssUIVal                contained
+                                  \ button
+                                  \ caption
+                                  \ checkbox
+                                  \ checkbox-group
+                                  \ combo-box
+                                  \ desktop
+                                  \ dialog
+                                  \ document
+                                  \ field
+                                  \ hyperlink
+                                  \ icon
+                                  \ list-menu
+                                  \ listbox
+                                  \ menu
+                                  \ menu-item
+                                  \ menubar
+                                  \ menulist
+                                  \ menulist-button
+                                  \ menulist-textfield
+                                  \ message-box
+                                  \ outline-tree
+                                  \ password
+                                  \ pop-up-menu
+                                  \ pull-down-menu
+                                  \ push-button
+                                  \ radio
+                                  \ radio-button
+                                  \ radio-group
+                                  \ range
+                                  \ scrollbarbutton-down
+                                  \ scrollbarbutton-left
+                                  \ scrollbarbutton-right
+                                  \ scrollbarbutton-up
+                                  \ scrollbartrack-horizontal
+                                  \ scrollbartrack-vertical
+                                  \ small-caption
+                                  \ status-bar
+                                  \ signature
+                                  \ tab
+                                  \ textfield
+                                  \ tooltip
+                                  \ window
+                                  \ workspace
 
 "C S S 3  =C A S C A D I N G  A N D  I N H E R I T A N C E  M O D U L E                                
 "----------------------------------------------------------------------------
@@ -1038,6 +1160,7 @@ syn region cssFontProp              contained
                                       \cssFontName,
                                       \cssFontVal,
                                       \cssString,
+                                      \cssUIVal,
                                       \cssUnicode
                                   \ keepend
                                   \ start=
@@ -1304,6 +1427,7 @@ syn keyword cssGenConVal            contained
                                   \ footnote
                                   \ here 
                                   \ hyphen 
+                                  \ icon
                                   \ inherit
                                   \ inhibit
                                   \ last
@@ -2341,98 +2465,6 @@ syn keyword cssTextVal              contained
                                   \ underline
                                   \ uppercase
                                   \ wavy
-
-"C S S 3  =BA S I C  U I  M O D U L E                        W3C CR 5/11/2004
-"----------------------------------------------------------------------------
-
-syn keyword cssUIProp       contained
-                          \ appearance
-                          \ box-sizing
-                          \ cursor
-                          \ icon
-                          \ nav-index
-                          \ nav-up
-                          \ nav-right
-                          \ nav-down
-                          \ nav-left
-                          \ outline
-                          \ outline-color
-                          \ outline-offset
-                          \ outline-style
-                          \ outline-width
-                          \ resize
-
-syn match cssUIVal          contained
-                          \ "\<\(alias\|
-                            \all-scroll\|
-                            \both\|
-                            \cell\|
-                            \context-menu\|
-                            \col-resize\|
-                            \copy\|
-                            \crosshair\|
-                            \ew-resize\|
-                            \help\|
-                            \horizontal\|
-                            \move\|
-                            \nesw-resize\|
-                            \no-drop\|
-                            \not-allowed\|
-                            \\([ns]\=[ew]\=-resize\)\|
-                            \ns-resize\|
-                            \nwse-resize
-                            \pointer\|
-                            \progress\|
-                            \row-resize\|
-                            \text\|
-                            \vertical\|
-                            \vertical-text\|
-                            \wait\)\>"
-
-"The following values are for the appearance property and represent only
-"those values listed in the W3C Candidate Recommendation or that are
-"supported by both Webkit and Gecko browsers.
-
-syn match cssUIVal          contained
-                          \ "\<\(button\|
-                            \checkbox\|
-                            \check-box-group\|
-                            \combo-box\|
-                            \desktop\|
-                            \dialog\|
-                            \document\|
-                            \field\|
-                            \hyperlink\|
-                            \icon\|
-                            \list-menu\|
-                            \listbox\|
-                            \menu\|
-                            \menu-item\|
-                            \menubar\|
-                            \menulist\|
-                            \menulist-button\|
-                            \menulist-textfield\|
-                            \outline-tree\|
-                            \password\|
-                            \pop-up-menu\|
-                            \pull-down-menu\|
-                            \push-button\|
-                            \radio\|
-                            \radio-button\|
-                            \radio-group\|
-                            \range\|
-                            \scrollbarbutton-down\|
-                            \scrollbarbutton-left\|
-                            \scrollbarbutton-right\|
-                            \scrollbarbutton-up\|
-                            \scrollbartrack-horizontal\|
-                            \scrollbartrack-vertical\|
-                            \signature\|
-                            \tab\|
-                            \textfield\|
-                            \tooltip\|
-                            \window\|
-                            \workspace\)\>"
 
 "=C S S 3  =W R I T I N G  M O D E S  M O D U L E             
 "----------------------------------------------------------------------------
