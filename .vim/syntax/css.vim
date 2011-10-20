@@ -1,10 +1,10 @@
 "
 " Vim syntax file
 "
-" Language:	CSS
-" Maintainer:	Billy Whited (rocketspops@gmail.com)
+" Language:	CSS Level 3
+" Maintainer:	Billy Whited (billy@8thlight.com)
 " URL:		
-" Last Change:  September 22nd, 2011
+" Last Change:  October 18th, 2011
 
 if exists("b:current_syntax")
   finish
@@ -172,6 +172,7 @@ syn region cssPseudoExpr            keepend
                                       \:nth-last-child\|
                                       \:not\|
                                       \::outside\|
+                                      \::slot
                                       \\)("
                                   \ end=")"
 
@@ -338,7 +339,7 @@ syn match cssAbsLengthUnit          contained
                                     \pc\|
                                     \pt\|
                                     \px\)
-                                    \\(\;\|,\|/\|)\|\s\+\)\@="
+                                    \\(\;\|,\|/\|)\|$\|\s\+\)\@="
 
 syn match cssRelLengthUnit          contained
                                   \ "\(\d\)\@<=\(
@@ -349,7 +350,7 @@ syn match cssRelLengthUnit          contained
                                     \vh\|
                                     \vm\|
                                     \vw\)
-                                    \\(\;\|,\|/\|)\|\s\+\)\@="
+                                    \\(\;\|,\|/\|)\|$\|\s\+\)\@="
 
 "Functional Notations ------------------------------------------------------- 
 
@@ -472,7 +473,7 @@ syn region cssString                contained
 syn region cssBgBorProp             contained
                                   \ contains=
                                       \cssBgBorVal,
-                                      \cssColorProp, 
+                                      \@cssColor,
                                       \@cssCommon,
                                       \cssDataExpr,
                                       \cssImgExpr
@@ -576,6 +577,8 @@ syn keyword cssBgBorVal             contained
                                   \ solid
                                   \ space
                                   \ stretch
+                                  \ thick
+                                  \ thin
                                   \ top
 
 syn match cssBgBorVal               contained "\<transparent\>"
@@ -586,11 +589,12 @@ syn match cssBgBorVal               contained "\<transparent\>"
 "----------------------------------------------------------------------------
 
 syn region cssBoxExpr             contained
+                                  \ contains=cssValOp
                                   \ keepend
                                   \ matchgroup=cssBoxExprType
                                   \ oneline
                                   \ start=
-                                    \"\(running\|page\)(\(\a\+\)\@="
+                                    \"\(running\|minmax\|page\)(\(\w\+\)\@="
                                   \ end="\()\)\(\s\+\|;\|,\|\s*)\)\@="
 
 syn region cssBoxProp               contained
@@ -598,8 +602,11 @@ syn region cssBoxProp               contained
                                       \cssAngleUnit,
                                       \cssBoxExpr,
                                       \cssBoxVal,
+                                      \cssCalcOp,
                                       \@cssCommon,
-                                      \cssGridUnit
+                                      \cssGridUnit,
+                                      \cssString,
+                                      \cssTemplateVal
                                   \ keepend
                                   \ start=
                                       \"\(\(^\|{\|\;\|\*/\)\s*\)\@<=\(
@@ -692,6 +699,12 @@ syn match cssBoxVal                 contained
                                   \ "page\((\)\@!\|
                                     \\(bottom\|left\|right\|top\)
                                     \\(:\)\@!"
+                            
+"The CSS3 Basic Box Module shares the 'display' and ' position' properties 
+"with the CSS3 Template Layout Module (http://www.w3.org/TR/css3-layout/)
+
+syn match cssTemplateVal             contained
+                                  \ "\<\(\(\a\)\|intrinsic\|same\)\>"
 
 "C S S 3  =B A S I C  U S E R  I N T E R F A C E  M O D U L E                        
 "----------------------------------------------------------------------------
@@ -1276,7 +1289,7 @@ syn match cssFontVal                contained
 syn region cssImgExpr               contained
                                   \ contains=
                                       \cssAngleUnit,
-                                      \cssColorProp, 
+                                      \@cssColor, 
                                       \@cssCommon,
                                       \cssImgVal,
                                       \cssNumber,
@@ -1910,7 +1923,7 @@ syn match cssMediaValue             contained
 syn region cssMultiColProp          contained
                                   \ contains=
                                     \cssBgBorVal,
-                                    \cssColorProp, 
+                                    \@cssColor, 
                                     \@cssCommon,
                                     \cssInteger,
                                     \cssMultiColVal
@@ -2019,7 +2032,7 @@ syn region cssPageAtRuleBlock       contains=
                                       \cssBgBorProp,
                                       \cssBoxProp,
                                       \cssBraceError,
-                                      \cssColorProp,
+                                      \@cssColor,
                                       \cssFontProp,
                                       \cssGenConProp,
                                       \cssPageProp,
@@ -2067,7 +2080,7 @@ syn region cssPageSelAtRuleBlock    contains=
                                       \cssBgBorProp,
                                       \cssBoxProp,
                                       \cssBraceError,
-                                      \cssColorProp,
+                                      \@cssColor,
                                       \cssFontProp,
                                       \cssGenConProp,
                                       \cssTextProp
@@ -2305,11 +2318,12 @@ syn keyword cssSpeechVal            contained
                                   \ x-strong
                                   \ x-weak
                                   \ young
-                            
+
 "C S S 3  T E X T  M O D U L E                               
 "----------------------------------------------------------------------------
 "W3C Working Draft (01 SEP 2011)                      www.w3.org/TR/css3-text 
 "----------------------------------------------------------------------------
+
 syn region cssTextProp              contained
                                   \ contains=
                                       \cssAbsLengthUnit,
@@ -2375,6 +2389,7 @@ syn keyword cssTextVal              contained
                                   \ baseline
                                   \ below
                                   \ blink
+                                  \ bottom
                                   \ break-all
                                   \ break-word
                                   \ capitalize
@@ -2457,6 +2472,7 @@ syn keyword cssTextVal              contained
                                   \ symbols
                                   \ text-bottom
                                   \ text-top
+                                  \ top
                                   \ triangle
                                   \ trim-adjacent
                                   \ trim-start
@@ -2570,11 +2586,10 @@ hi def link cssMarqVal              Constant
 hi def link cssMediaValue           Constant
 hi def link cssMultiColVal          Constant
 hi def link cssPageVal              Constant
-hi def link cssRenderVal            Constant
 hi def link cssRubyVal              Constant
 hi def link cssSharedVal            Constant
 hi def link cssSpeechVal            Constant
-hi def link cssTableVal             Constant
+hi def link cssTemplateVal          Constant
 hi def link cssTextVal              Constant
 hi def link cssUIVal                Constant
 hi def link cssWritingModeVal       Constant
@@ -2655,10 +2670,8 @@ hi def link cssMarqProp             Type
 hi def link cssMediaFeature         Type
 hi def link cssMultiColProp         Type
 hi def link cssPageProp             Type
-hi def link cssRenderProp           Type
 hi def link cssRubyProp             Type
 hi def link cssSpeechProp           Type
-hi def link cssTableProp            Type
 hi def link cssTextProp             Type
 hi def link cssUIProp               Type
 hi def link cssWritingModeProp      Type
