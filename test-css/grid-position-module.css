@@ -1,0 +1,18 @@
+body { columns:3; column-gap:0.5in; } 
+img { float:page top right; width:3gr; }
+/* Figure 1 */
+
+
+body { 
+  grid-columns: inherit * * (0.5in * *)[2];
+  grid-rows: 20% *;
+  columns:3; 
+  column-gap:0.5in; 
+}
+       
+img  { float:page top left;
+       float-offset: 4gr 1gr; }
+
+div { grid-rows: 4em (0.25em 1em); }
+div { grid-columns: * (1em *)[2]; }
+* { grid-columns:*; grid-rows:*; }

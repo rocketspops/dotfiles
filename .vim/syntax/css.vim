@@ -602,7 +602,6 @@ syn region cssBoxProp               contained
                                       \cssAngleUnit,
                                       \cssBoxExpr,
                                       \cssBoxVal,
-                                      \cssCalcOp,
                                       \@cssCommon,
                                       \cssGridUnit,
                                       \cssString,
@@ -703,8 +702,13 @@ syn match cssBoxVal                 contained
 "The CSS3 Basic Box Module shares the 'display' and ' position' properties 
 "with the CSS3 Template Layout Module (http://www.w3.org/TR/css3-layout/)
 
-syn match cssTemplateVal             contained
-                                  \ "\<\(\(\a\)\|intrinsic\|same\)\>"
+syn match cssTemplateVal            contained
+                                  \ "\<\(
+                                    \\(\a\)\|
+                                    \intrinsic\|
+                                    \same\)\>\|
+                                    \\(\(\w\)\@<!\*\(\w\)\@!\)"
+
 
 "C S S 3  =B A S I C  U S E R  I N T E R F A C E  M O D U L E                        
 "----------------------------------------------------------------------------
@@ -1281,7 +1285,53 @@ syn match cssFontVal                contained
                                     \jis90
                                     \\)\>"
 
-"C S S 3  =I M A G E  V A L U E S  M O D U L E                          
+"C S S 3  G R I D  P O S I T I O N I N G  M O D U L E
+"----------------------------------------------------------------------------
+"W3C Working Draft (5 SEP 2007)                      www.w3.org/TR/css3-grid/
+"----------------------------------------------------------------------------
+
+syn region cssGridPosExpr           contained
+                                  \ matchgroup=cssGridPosExprType
+                                  \ oneline
+                                  \ contains=
+                                      \cssAbsLengthUnit,
+                                      \cssGridPosVal,
+                                      \cssNumber,
+                                      \cssPercentUnit,
+                                      \cssRelLengthUnit,
+                                      \cssValOp
+                                  \ keepend
+                                  \ oneline
+                                  \ start="\(\s\)\@<=(\|\["
+                                  \ end=")\|\]"
+                                  \ transparent
+
+syn region cssGridPosProp           contained 
+                                  \ contains=
+                                      \cssAbsLengthUnit,
+                                      \cssGridPosExpr,
+                                      \cssGridPosVal,
+                                      \cssNumber,
+                                      \cssPercentUnit,
+                                      \cssRelLengthUnit,
+                                      \cssString,
+                                      \cssValOp
+                                  \ keepend
+                                  \ start=
+                                      \"\(\(^\|{\|\;\|\*/\)\s*\)\@<=\(
+                                      \grid-columns\|
+                                      \grid-rows
+                                      \\)\s*:"
+                                  \ end=";"
+
+syn match cssGridPosVal             contained
+                                  \ "\<\(
+                                    \inherit\|
+                                    \none
+                                    \\)\>\|
+                                    \\(\(\w\)\@<!\*\(\w\)\@!\)"
+
+"C S S 3  I M A G E  V A L U E S  M O D U L E                          
 "----------------------------------------------------------------------------
 "W3C Working Draft (8 SEP 2011)                    www.w3.org/TR/css3-images/
 "----------------------------------------------------------------------------
@@ -2586,6 +2636,7 @@ hi def link cssMarqVal              Constant
 hi def link cssMediaValue           Constant
 hi def link cssMultiColVal          Constant
 hi def link cssPageVal              Constant
+hi def link cssGridPosVal           Constant
 hi def link cssRubyVal              Constant
 hi def link cssSharedVal            Constant
 hi def link cssSpeechVal            Constant
@@ -2603,10 +2654,10 @@ hi def link cssCalcExprType         Function
 hi def link cssColorExprType        Function
 hi def link cssCycleExprType        Function
 hi def link cssDataExprType         Function
-hi def link cssExprType             Function
 hi def link cssFontExprType         Function
 hi def link cssGenConExprType       Function
 hi def link cssGenConPageExprType   Function
+hi def link cssGridPosExprType      Function
 hi def link cssListValExprType      Function
 hi def link cssImgExprType          Function
 hi def link cssMediaExpr            Function
@@ -2662,6 +2713,7 @@ hi def link cssBoxProp              Type
 hi def link cssColorProp            Type
 hi def link cssCountDesc            Type
 hi def link cssFontProp             Type
+hi def link cssGridPosProp          Type
 hi def link cssImgProp              Type
 hi def link cssListProp             Type
 hi def link cssGenConProp           Type
