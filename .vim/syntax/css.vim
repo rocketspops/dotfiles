@@ -71,7 +71,7 @@ syn region cssDecBlock              contains=
                                       \\(\S\+\s*$\)
                                       \\@<=\n\s*\)
                                       \\@<={"
-                                  \ end='\(;\s*\|;\s*\_$\n\s*\)\@<=}'
+                                  \ end='}'
                                   \ transparent
 
 syn match cssImportant              contained "!\s*important\>"
@@ -100,7 +100,10 @@ syn match cssAttrSelOp              contained "\([*~|$^]=\|=\)"
 
 "Class Selectors ------------------------------------------------------------ 
 
-syn match cssClassSel               "\.\(\\[0-9A-F]\{2}\s\|
+syn match cssClassSel               contains=
+                                      \cssPseudoExpr,
+                                      \cssPseudoSel  
+                                  \ "\.\(\\[0-9A-F]\{2}\s\|
                                     \[^[:punct:][:space:][:cntrl:]]\|
                                     \\\[[:print:]]\|
                                     \\(\.\)\@<![\-_]\)\+"
@@ -165,6 +168,7 @@ syn region cssPseudoExpr            keepend
                                       \"\(
                                       \\(:\|::\)after\|
                                       \\(:\|::\)before\|
+                                      \::grid-cell\|
                                       \:lang\|
                                       \:nth-child\|
                                       \:nth-of-type\|
@@ -178,7 +182,10 @@ syn region cssPseudoExpr            keepend
 
 "ID Selectors ---------------------------------------------------------------
 
-syn match cssIdSel                  "\#\(\\[0-9A-F]\{2}\s\|
+syn match cssIdSel                  contains=
+                                      \cssPseudoExpr,
+                                      \cssPseudoSel
+                                  \ "\#\(\\[0-9A-F]\{2}\s\|
                                     \[^[:punct:][:space:][:cntrl:]]\|
                                     \\\[[:graph:]]\|
                                     \\(\#\S*\)\@<=[\-_:.]\)\+"
@@ -460,6 +467,7 @@ syn region cssDataExpr              contained
                                   \ end="\()\)\(\s\+\|;\|,\|\s*)\)\@="
 
 syn region cssString                contained
+                                  \ contains=NONE   
                                   \ keepend
                                   \ start=+\'\|\"+
                                   \ skip=+\\'\|\\"+
@@ -492,6 +500,8 @@ syn region cssBgBorProp             contained
                                       \border\|
                                       \border-bottom\|
                                       \border-bottom-color\|
+                                      \border-bottom-left-radius\|
+                                      \border-bottom-right-radius\|
                                       \border-bottom-style\|
                                       \border-bottom-width\|
                                       \border-clip\|
@@ -508,10 +518,6 @@ syn region cssBgBorProp             contained
                                       \border-left-style\|
                                       \border-left-width\|
                                       \border-radius\|
-                                      \border-radius-bottom-left\|
-                                      \border-radius-bottom-right\|
-                                      \border-radius-top-left\|
-                                      \border-radius-top-right\|
                                       \border-right\|
                                       \border-right-color\|
                                       \border-right-style\|
@@ -520,6 +526,8 @@ syn region cssBgBorProp             contained
                                       \border-style\|
                                       \border-top\|
                                       \border-top-color\|
+                                      \border-top-left-radius\|
+                                      \border-top-right-radius\|
                                       \border-top-style\|
                                       \border-top-width\|
                                       \border-width\|
@@ -603,6 +611,7 @@ syn region cssBoxProp               contained
                                       \cssBoxExpr,
                                       \cssBoxVal,
                                       \@cssCommon,
+                                      \cssGridLayExpr,
                                       \cssGridUnit,
                                       \cssString,
                                       \cssTemplateVal
@@ -656,11 +665,13 @@ syn keyword cssBoxVal               contained
                                   \ fit-content
                                   \ fixed
                                   \ footnote 
+                                  \ grid
                                   \ hide
                                   \ hidden
                                   \ inherit
                                   \ inline
                                   \ inline-block
+                                  \ inline-grid
                                   \ inline-table
                                   \ inside 
                                   \ intrude
@@ -708,7 +719,6 @@ syn match cssTemplateVal            contained
                                     \intrinsic\|
                                     \same\)\>\|
                                     \\(\(\w\)\@<!\*\(\w\)\@!\)"
-
 
 "C S S 3  =B A S I C  U S E R  I N T E R F A C E  M O D U L E                        
 "----------------------------------------------------------------------------
@@ -1285,131 +1295,6 @@ syn match cssFontVal                contained
                                     \jis90
                                     \\)\>"
 
-"C S S 3  G R I D  P O S I T I O N I N G  M O D U L E
-"----------------------------------------------------------------------------
-"W3C Working Draft (5 SEP 2007)                      www.w3.org/TR/css3-grid/
-"----------------------------------------------------------------------------
-
-syn region cssGridPosExpr           contained
-                                  \ matchgroup=cssGridPosExprType
-                                  \ oneline
-                                  \ contains=
-                                      \cssAbsLengthUnit,
-                                      \cssGridPosVal,
-                                      \cssNumber,
-                                      \cssPercentUnit,
-                                      \cssRelLengthUnit,
-                                      \cssValOp
-                                  \ keepend
-                                  \ oneline
-                                  \ start="\(\s\)\@<=(\|\["
-                                  \ end=")\|\]"
-                                  \ transparent
-
-syn region cssGridPosProp           contained 
-                                  \ contains=
-                                      \cssAbsLengthUnit,
-                                      \cssGridPosExpr,
-                                      \cssGridPosVal,
-                                      \cssNumber,
-                                      \cssPercentUnit,
-                                      \cssRelLengthUnit,
-                                      \cssString,
-                                      \cssValOp
-                                  \ keepend
-                                  \ start=
-                                      \"\(\(^\|{\|\;\|\*/\)\s*\)\@<=\(
-                                      \grid-columns\|
-                                      \grid-rows
-                                      \\)\s*:"
-                                  \ end=";"
-
-syn match cssGridPosVal             contained
-                                  \ "\<\(
-                                    \inherit\|
-                                    \none
-                                    \\)\>\|
-                                    \\(\(\w\)\@<!\*\(\w\)\@!\)"
-
-"C S S 3  I M A G E  V A L U E S  M O D U L E                          
-"----------------------------------------------------------------------------
-"W3C Working Draft (8 SEP 2011)                    www.w3.org/TR/css3-images/
-"----------------------------------------------------------------------------
-
-syn region cssImgExpr               contained
-                                  \ contains=
-                                      \cssAngleUnit,
-                                      \@cssColor, 
-                                      \@cssCommon,
-                                      \cssImgVal,
-                                      \cssNumber,
-                                      \cssString,
-                                      \cssValOp
-                                  \ matchgroup=cssImgExprType
-                                  \ oneline
-                                  \ start=
-                                      \"\(
-                                      \element\|
-                                      \image\|
-                                      \linear-gradient\|
-                                      \radial-gradient\|
-                                      \repeating-linear-gradient\|
-                                      \repeating-radial-gradient\|
-                                      \\)("
-                                  \ end="\()\)\(\s\+\|;\|,\|\s*)\)\@="
-                                  \ transparent
-
-syn region cssImgProp               contained
-                                  \ contains=
-                                      \cssDataExpr,
-                                      \cssNumber,
-                                      \cssImgExpr,
-                                      \cssImgResUnit,
-                                      \cssImgVal,
-                                      \cssValOp
-                                  \ keepend
-                                  \ start=
-                                      \"\(\(^\|{\|\;\|\*/\)\s*\)\@<=\(
-                                      \image-orientation\|
-                                      \image-rendering\|
-                                      \image-resolution\|
-                                      \object-fit\|
-                                      \object-position
-                                      \\)\s*:"
-                                  \ end=";"
-
-syn match cssImgResUnit             contained
-                                  \ "\(\d\)\@<=\(
-                                    \dpi\|
-                                    \dpcm\|
-                                    \dppx\)
-                                    \\(\;\|,\|)\|\s\+\)\@="
-
-syn keyword cssImgVal               contained
-                                  \ bottom
-                                  \ center
-                                  \ circle
-                                  \ closest-corner
-                                  \ closest-side
-                                  \ contain
-                                  \ cover
-                                  \ crisp-rendering
-                                  \ ellipse
-                                  \ farthest-corner
-                                  \ farthest-side
-                                  \ fill
-                                  \ from-image
-                                  \ left
-                                  \ inherit
-                                  \ none
-                                  \ right
-                                  \ scale-down
-                                  \ snap
-                                  \ top
-
-syn match cssImgVal                 contained
-                                  \ "to\(\s\(bottom\|left\|right\|top\)\)\@=" 
-
 "C S S 3  =G E N E R A T E D  A N D  R E P L A C E D  C O N T E N T  
 "          M O D U L E
 "----------------------------------------------------------------------------
@@ -1569,6 +1454,208 @@ syn keyword cssGenConPageVal      contained
                                 \ inherit
                                 \ manual
                                 \ none
+
+"C S S 3  G R I D  L A Y O U T  M O D U L E
+"----------------------------------------------------------------------------
+"W3C Working Draft (07 APR 2011)              www.w3.org/TR/css3-grid-layout/
+"----------------------------------------------------------------------------
+
+syn region cssGridLayExpr           contained
+                                  \ contains=
+                                      \cssAbsLengthUnit,
+                                      \cssFracUnit,
+                                      \cssGridLayVal,
+                                      \cssGridUnit,
+                                      \cssNumber,
+                                      \cssPercentUnit,
+                                      \cssRelLengthUnit,
+                                      \cssValOp
+                                  \ extend
+                                  \ keepend
+                                  \ matchgroup=cssGridLayExprType
+                                  \ oneline
+                                  \ start="\(minmax\)(\(\w\+\)\@="
+                                  \ end="\()\)\(\s\+\|;\|,\|\s*)\)\@="
+
+syn region cssGridLayProp           contained 
+                                  \ contains=
+                                      \cssAbsLengthUnit,
+                                      \cssFracUnit,
+                                      \cssGridLayExpr,
+                                      \cssGridLayVal,
+                                      \cssGridUnit,
+                                      \cssNumber,
+                                      \cssPercentVal,
+                                      \cssRelLengthUnit,
+                                      \cssString,
+                                      \cssValOp
+                                  \ keepend
+                                  \ start=
+                                      \"\(\(^\|{\|\;\|\*/\)\s*\)\@<=\(
+                                      \grid-cell\|
+                                      \grid-cell-stacking\|
+                                      \grid-column\|
+                                      \grid-column-align\|
+                                      \grid-column-sizing\|
+                                      \grid-column-span\|
+                                      \grid-flow\|
+                                      \grid-layer\|
+                                      \grid-row\|
+                                      \grid-row-align\|
+                                      \grid-row-sizing\|
+                                      \grid-row-span\|
+                                      \grid-template
+                                      \\)\s*:"
+                                  \ end=";"
+
+syn match cssGridLayVal             contained
+                                  \ "\<\(
+                                    \auto\|
+                                    \center\|
+                                    \columns\|
+                                    \end\|
+                                    \fit-content\|
+                                    \layer\|
+                                    \max-content\|
+                                    \min-content\|
+                                    \none\|
+                                    \rows\|
+                                    \start\|
+                                    \stretch
+                                    \\)\>"
+
+"C S S 3  G R I D  P O S I T I O N I N G  M O D U L E
+"----------------------------------------------------------------------------
+"W3C Working Draft (5 SEP 2007)                      www.w3.org/TR/css3-grid/
+"----------------------------------------------------------------------------
+
+syn region cssGridPosExpr           contained
+                                  \ matchgroup=cssGridPosExprType
+                                  \ oneline
+                                  \ contains=
+                                      \cssAbsLengthUnit,
+                                      \cssFracUnit,
+                                      \cssGridLayExpr,
+                                      \cssGridPosVal,
+                                      \cssNumber,
+                                      \cssPercentUnit,
+                                      \cssRelLengthUnit,
+                                      \cssString,
+                                      \cssValOp
+                                  \ keepend
+                                  \ oneline
+                                  \ start="\(\s\)\@<=(\|\["
+                                  \ end=")\|\]"
+                                  \ transparent
+
+syn region cssGridPosProp           contained 
+                                  \ contains=
+                                      \cssAbsLengthUnit,
+                                      \cssCalcExpr,
+                                      \cssFracUnit,
+                                      \cssGridLayExpr,
+                                      \cssGridPosExpr,
+                                      \cssGridPosVal,
+                                      \cssGridUnit,
+                                      \cssNumber,
+                                      \cssPercentUnit,
+                                      \cssRelLengthUnit,
+                                      \cssString,
+                                      \cssValOp
+                                  \ keepend
+                                  \ start=
+                                      \"\(\(^\|{\|\;\|\*/\)\s*\)\@<=\(
+                                      \grid-columns\|
+                                      \grid-rows
+                                      \\)\s*:"
+                                  \ end=";"
+
+syn match cssGridPosVal             contained
+                                  \ "\<\(
+                                    \auto\|
+                                    \inherit\|
+                                    \none
+                                    \\)\>\|
+                                    \\(\(\w\)\@<!\*\(\w\)\@!\)"
+
+"C S S 3  I M A G E  V A L U E S  M O D U L E                          
+"----------------------------------------------------------------------------
+"W3C Working Draft (8 SEP 2011)                    www.w3.org/TR/css3-images/
+"----------------------------------------------------------------------------
+
+syn region cssImgExpr               contained
+                                  \ contains=
+                                      \cssAngleUnit,
+                                      \@cssColor, 
+                                      \@cssCommon,
+                                      \cssImgVal,
+                                      \cssNumber,
+                                      \cssString,
+                                      \cssValOp
+                                  \ matchgroup=cssImgExprType
+                                  \ oneline
+                                  \ start=
+                                      \"\(
+                                      \element\|
+                                      \image\|
+                                      \linear-gradient\|
+                                      \radial-gradient\|
+                                      \repeating-linear-gradient\|
+                                      \repeating-radial-gradient\|
+                                      \\)("
+                                  \ end="\()\)\(\s\+\|;\|,\|\s*)\)\@="
+                                  \ transparent
+
+syn region cssImgProp               contained
+                                  \ contains=
+                                      \cssDataExpr,
+                                      \cssNumber,
+                                      \cssImgExpr,
+                                      \cssImgResUnit,
+                                      \cssImgVal,
+                                      \cssValOp
+                                  \ keepend
+                                  \ start=
+                                      \"\(\(^\|{\|\;\|\*/\)\s*\)\@<=\(
+                                      \image-orientation\|
+                                      \image-rendering\|
+                                      \image-resolution\|
+                                      \object-fit\|
+                                      \object-position
+                                      \\)\s*:"
+                                  \ end=";"
+
+syn match cssImgResUnit             contained
+                                  \ "\(\d\)\@<=\(
+                                    \dpi\|
+                                    \dpcm\|
+                                    \dppx\)
+                                    \\(\;\|,\|)\|\s\+\)\@="
+
+syn keyword cssImgVal               contained
+                                  \ bottom
+                                  \ center
+                                  \ circle
+                                  \ closest-corner
+                                  \ closest-side
+                                  \ contain
+                                  \ cover
+                                  \ crisp-rendering
+                                  \ ellipse
+                                  \ farthest-corner
+                                  \ farthest-side
+                                  \ fill
+                                  \ from-image
+                                  \ left
+                                  \ inherit
+                                  \ none
+                                  \ right
+                                  \ scale-down
+                                  \ snap
+                                  \ top
+
+syn match cssImgVal                 contained
+                                  \ "to\(\s\(bottom\|left\|right\|top\)\)\@=" 
 
 "C S S 3  =L I S T S  A N D  C O U N T E R S  M O D U L E
 "----------------------------------------------------------------------------
@@ -2632,11 +2719,13 @@ hi def link cssFontVal              Constant
 hi def link cssImgVal               Constant
 hi def link cssListVal              Constant
 hi def link cssGenConVal            Constant
+hi def link cssGenConPageVal        Constant
+hi def link cssGridLayVal           Constant
+hi def link cssGridPosVal           Constant
 hi def link cssMarqVal              Constant
 hi def link cssMediaValue           Constant
 hi def link cssMultiColVal          Constant
 hi def link cssPageVal              Constant
-hi def link cssGridPosVal           Constant
 hi def link cssRubyVal              Constant
 hi def link cssSharedVal            Constant
 hi def link cssSpeechVal            Constant
@@ -2657,6 +2746,7 @@ hi def link cssDataExprType         Function
 hi def link cssFontExprType         Function
 hi def link cssGenConExprType       Function
 hi def link cssGenConPageExprType   Function
+hi def link cssGridLayExprType      Function
 hi def link cssGridPosExprType      Function
 hi def link cssListValExprType      Function
 hi def link cssImgExprType          Function
@@ -2713,11 +2803,12 @@ hi def link cssBoxProp              Type
 hi def link cssColorProp            Type
 hi def link cssCountDesc            Type
 hi def link cssFontProp             Type
+hi def link cssGenConProp           Type
+hi def link cssGenConPageProp       Type
+hi def link cssGridLayProp          Type
 hi def link cssGridPosProp          Type
 hi def link cssImgProp              Type
 hi def link cssListProp             Type
-hi def link cssGenConProp           Type
-hi def link cssGenConPageProp       Type
 hi def link cssMarqProp             Type
 hi def link cssMediaFeature         Type
 hi def link cssMultiColProp         Type
