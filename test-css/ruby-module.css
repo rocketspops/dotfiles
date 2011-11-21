@@ -1,6 +1,0 @@
-h3       { display: ruby; }
-myrbc        { display: ruby-base-container; }
-myrb         { display: ruby-base; }
-myrtc.before { display: ruby-text-container; ruby-position: before;}
-myrtc.after  { display: ruby-text-container; ruby-position: after;}
-myr         { display: ruby-text; ruby-span: attr(rbspan); }
