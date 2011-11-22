@@ -33,7 +33,7 @@ set formatoptions=tcqw "Default (tcq) + (w) to end para with non-white space
 set showmode
 set history=100	
 
-set laststatus=1
+set laststatus=2
 "set statusline+=%<\                       " cut at start
 "set statusline+=%2*[%n%H%M%R%W]%*\        " buffer number, and flags
 "set statusline+=%-40f\                    " relative path
@@ -89,6 +89,10 @@ function! <SID>SynStack()
   endif
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
+
+"Powerline configuration
+
+let g:Powerline_symbols = 'fancy' 
 
 "Toggle relative line numbers
 function! g:ToggleNuMode() 
