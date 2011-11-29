@@ -18,3 +18,4 @@ fi
 alias aflite="cd /Users/rocketspops/Git/8thlight.com"
 alias blogsrc="cd /Users/rocketspops/Git/8th-Light-Blog-Post-Migration"
 alias jekyllblog="cd /Users/rocketspops/Git/8thlight.github.com"
+alias vimplugs="cd /Users/rocketspops/Git/dotfiles/.vim/bundle/"

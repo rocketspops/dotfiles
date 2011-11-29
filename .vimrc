@@ -8,8 +8,11 @@ filetype plugin indent on
 
 runtime macros/matchit.vim
 
-:set title titlestring=%<%F%=%l/%L-%P titlelen=70
-:set showcmd
+set title titlestring=%<%F%=%l/%L-%P titlelen=70
+
+" MAKE IT EASY TO UPDATE/RELOAD _vimrc
+:nmap ,s :source ~/.vimrc
+:nmap ,v :e ~/.vimrc
 
 set ofu=syntaxcomplete#Complete
 
@@ -30,43 +33,50 @@ set shiftwidth=2
 set softtabstop=2
 set formatoptions=tcqw "Default (tcq) + (w) to end para with non-white space
 
+set showcmd 
 set showmode
-set history=100	
+set shortmess=AaOoT
+set history=1000
+
+set timeout
+set timeoutlen=500
+
+set ttyfast
 
 set laststatus=2
-"set statusline+=%<\                       " cut at start
-"set statusline+=%2*[%n%H%M%R%W]%*\        " buffer number, and flags
-"set statusline+=%-40f\                    " relative path
-"set statusline+=%=                        " seperate between right- and left-aligned
-"set statusline+=%1*%y%*%*\                " file type
-"set statusline+=%10(L(%l/%L)%)\           " line
-"set statusline+=%P                        " percentage of file
 
 set wildmenu 
+set wildignore+=.hg/,.git/,.svn/                    " Version control
 set wildignore=*.dll,*.o,*.obj,*.bak,*.exe,*.pyc
+set wildignore+=*.sw?                            " Vim swap files
+set wildignore+=*.DS_Store                       " OSX bullshit
 set wildmode=list:longest  
 
 set formatprg=par "Use Par engine for text formatting.
+
+" Resize splits when the window is resized
+au VimResized * exe "normal! \<c-w>="
 
 "NERDTree Configuration
 
 map <Leader>n :NERDTreeToggle<CR>
 map <Leader>nf :NERDTreeFind<CR>
 
-:let NERDTreeQuitOnOpen          = 0
-:let NERDChristmasTree           = 1
-:let NERDTreeHighlightCursorline = 0
-:let NERDTreeWinSize             = 35
-:let NERDTreeDirArrows           = 1
-:let NERDTreeStatusline          = ' '
-:let NERDTreeShowHidden          = 1
-:let NERDTreeChDirMode           = 1
-:let NERDTreeShowLineNumbers     = 0
-:let NERDTreeMouseMode           = 2
-:let NERDTreeAutoCenter          = 1
-:let NERDTreeAutoCenterThreshold = 10
-:let g:loaded_netrw              = 1
-:let g:loaded_netrwPlugin        = 1
+let NERDTreeMinimalUI           = 1
+let NERDTreeQuitOnOpen          = 0
+let NERDChristmasTree           = 1
+let NERDTreeHighlightCursorline = 0
+let NERDTreeWinSize             = 35
+let NERDTreeDirArrows           = 1
+let NERDTreeStatusline          = ' '
+let NERDTreeShowHidden          = 1
+let NERDTreeChDirMode           = 1
+let NERDTreeShowLineNumbers     = 0
+let NERDTreeMouseMode           = 2
+let NERDTreeAutoCenter          = 1
+let NERDTreeAutoCenterThreshold = 10
+let g:loaded_netrw              = 1
+let g:loaded_netrwPlugin        = 1
 
 "Zen-Coding Configuration
 let g:user_zen_leader_key = '<C-E>'
@@ -93,6 +103,13 @@ endfunc
 "Powerline configuration
 
 let g:Powerline_symbols = 'fancy' 
+let g:Powerline_theme = 'local' 
+
+"Syntastic Configuration
+
+let g:syntastic_enable_signs=1
+let g:syntastic_quiet_warnings=1
+let g:syntastic_auto_loc_list=1
 
 "Toggle relative line numbers
 function! g:ToggleNuMode() 
