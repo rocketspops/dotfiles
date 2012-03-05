@@ -14,6 +14,7 @@ git_bundles = [
   "git://github.com/Lokaltog/vim-powerline.git",
   "git://github.com/tpope/vim-fugitive.git",
   "git://github.com/scrooloose/syntastic.git",
+  "git://github.com/nathanaelkane/vim-indent-guides.git",
 ]
 
 

@@ -42,6 +42,8 @@ set timeout
 set timeoutlen=500
 
 set ttyfast
+set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors
+set encoding=utf-8 " Necessary to show unicode glyphs
 
 set laststatus=2
 
@@ -103,13 +105,13 @@ endfunc
 "Powerline configuration
 
 let g:Powerline_symbols = 'fancy' 
-let g:Powerline_theme = 'local' 
+let g:Powerline_theme = 'default' 
 
 "Syntastic Configuration
 
+let g:syntastic_auto_loc_list=0
 let g:syntastic_enable_signs=1
 let g:syntastic_quiet_warnings=1
-let g:syntastic_auto_loc_list=1
 
 "Toggle relative line numbers
 function! g:ToggleNuMode() 
@@ -122,11 +124,16 @@ endfunc
 
 nnoremap <C-L> :call g:ToggleNuMode()<cr> 
 
+
 "Implement buffer dimming
 augroup BgHighlight
-  autocmd!
-  autocmd BufEnter * filetype detect 
-  autocmd BufLeave * if &ft != 'nerdtree' | set ft=dim | endif
+ autocmd!
+ autocmd BufEnter * filetype detect 
+ autocmd BufLeave * if &ft != 'nerdtree' | set ft=dim | endif
 augroup END
 
+"Automatically save folds
+
+au BufWinLeave * silent! mkview
+au BufWinEnter * silent! loadview
 

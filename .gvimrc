@@ -1,6 +1,6 @@
 colorscheme railscasts
 
-set guifont=AltoMono-Normal:h14 
+set guifont=Alto-Mono-Powerline-Normal:h14 
 
 set go-=T   "Hide toolbar
 set ruler

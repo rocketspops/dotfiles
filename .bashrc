@@ -13,7 +13,7 @@ if [ -f `brew --prefix`/etc/bash_completion ]; then
   . `brew --prefix`/etc/bash_completion
 fi
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
+[[ -s "/Users/rocketspops/.rvm/scripts/rvm" ]] && source "/Users/rocketspops/.rvm/scripts/rvm"
 
 alias aflite="cd /Users/rocketspops/Git/8thlight.com"
 alias blogsrc="cd /Users/rocketspops/Git/8th-Light-Blog-Post-Migration"

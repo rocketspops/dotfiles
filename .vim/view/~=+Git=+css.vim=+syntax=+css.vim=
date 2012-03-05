@@ -1,0 +1,317 @@
+let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
+argglobal
+vnoremap <buffer> <silent> [" :exe "normal! gv"|call search('\%(^\s*".*\n\)\%(^\s*"\)\@!', "bW")
+nnoremap <buffer> <silent> [" :call search('\%(^\s*".*\n\)\%(^\s*"\)\@!', "bW")
+vnoremap <buffer> <silent> [] m':exe "normal! gv"|call search('^\s*endf*\%[unction]\>', "bW")
+nnoremap <buffer> <silent> [] m':call search('^\s*endf*\%[unction]\>', "bW")
+vnoremap <buffer> <silent> [[ m':exe "normal! gv"|call search('^\s*fu\%[nction]\>', "bW")
+nnoremap <buffer> <silent> [[ m':call search('^\s*fu\%[nction]\>', "bW")
+vnoremap <buffer> <silent> ]" :exe "normal! gv"|call search('^\(\s*".*\n\)\@<!\(\s*"\)', "W")
+nnoremap <buffer> <silent> ]" :call search('^\(\s*".*\n\)\@<!\(\s*"\)', "W")
+vnoremap <buffer> <silent> ][ m':exe "normal! gv"|call search('^\s*endf*\%[unction]\>', "W")
+nnoremap <buffer> <silent> ][ m':call search('^\s*endf*\%[unction]\>', "W")
+vnoremap <buffer> <silent> ]] m':exe "normal! gv"|call search('^\s*fu\%[nction]\>', "W")
+nnoremap <buffer> <silent> ]] m':call search('^\s*fu\%[nction]\>', "W")
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal balloonexpr=
+setlocal nobinary
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=sO:\"\ -,mO:\"\ \ ,eO:\"\",:\"
+setlocal commentstring=\"%s
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'vim'
+setlocal filetype=vim
+endif
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=wcroql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal grepprg=
+setlocal iminsert=2
+setlocal imsearch=2
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=GetVimIndent()
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e,=end,=else,=cat,=fina,=END,0\\
+setlocal noinfercase
+setlocal iskeyword=@,48-57,@-@,-,#
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal nolist
+setlocal nomacmeta
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=octal,hex
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=syntaxcomplete#Complete
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=2
+setlocal noshortname
+setlocal smartindent
+setlocal softtabstop=2
+setlocal spell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=%!Pl#Statusline(0,1)
+setlocal suffixesadd=
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'vim'
+setlocal syntax=vim
+endif
+setlocal tabstop=8
+setlocal tags=~/Git/css.vim/.git/vim.tags,~/Git/css.vim/.git/tags,./tags,tags
+setlocal textwidth=72
+setlocal thesaurus=
+setlocal noundofile
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+25,95fold
+101,109fold
+110,118fold
+119,121fold
+122,192fold
+193,201fold
+202,209fold
+210,328fold
+329,337fold
+96,338fold
+344,365fold
+366,411fold
+412,422fold
+423,453fold
+454,475fold
+339,475fold
+476,604fold
+605,734fold
+735,850fold
+851,872fold
+873,1089fold
+1090,1138fold
+1139,1349fold
+1363,1399fold
+1400,1415fold
+1400,1415fold
+1350,1416fold
+1417,1528fold
+1529,1644fold
+1645,1712fold
+1713,1808fold
+1809,2059fold
+2060,2099fold
+2100,2263fold
+2282,2403fold
+2404,2407fold
+2264,2408fold
+2409,2430fold
+2431,2634fold
+2635,2698fold
+2699,2734fold
+2735,2823fold
+2824,2988fold
+2989,3049fold
+3050,3107fold
+3111,3122fold
+3123,3125fold
+3126,3131fold
+3132,3178fold
+3179,3182fold
+3183,3201fold
+3202,3211fold
+3212,3218fold
+3219,3227fold
+3228,3230fold
+3231,3244fold
+3245,3253fold
+3254,3256fold
+3257,3283fold
+3108,3284fold
+25
+normal zo
+96
+normal zo
+101
+normal zc
+110
+normal zc
+119
+normal zc
+122
+normal zc
+193
+normal zc
+202
+normal zc
+210
+normal zc
+329
+normal zc
+96
+normal zc
+339
+normal zo
+344
+normal zc
+366
+normal zc
+412
+normal zc
+423
+normal zc
+454
+normal zc
+339
+normal zc
+476
+normal zo
+605
+normal zc
+735
+normal zc
+851
+normal zc
+873
+normal zc
+1090
+normal zc
+1139
+normal zc
+1350
+normal zo
+1363
+normal zo
+1400
+normal zo
+1400
+normal zc
+1400
+normal zc
+1350
+normal zo
+1417
+normal zc
+1529
+normal zc
+1645
+normal zc
+1713
+normal zc
+1809
+normal zc
+2060
+normal zc
+2100
+normal zo
+2264
+normal zo
+2282
+normal zc
+2404
+normal zc
+2264
+normal zc
+2409
+normal zc
+2431
+normal zc
+2635
+normal zc
+2699
+normal zc
+2735
+normal zc
+2824
+normal zc
+2989
+normal zc
+3050
+normal zc
+3108
+normal zo
+3111
+normal zc
+3123
+normal zc
+3126
+normal zc
+3132
+normal zc
+3179
+normal zc
+3183
+normal zc
+3202
+normal zc
+3212
+normal zc
+3219
+normal zc
+3228
+normal zc
+3231
+normal zc
+3245
+normal zc
+3254
+normal zc
+3257
+normal zc
+3108
+normal zc
+let s:l = 2178 - ((1 * winheight(0) + 24) / 48)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+2178
+normal! 038l
+let &so = s:so_save | let &siso = s:siso_save
+doautoall SessionLoadPost
+" vim: set ft=vim :
