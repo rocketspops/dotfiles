@@ -31,10 +31,13 @@ hi Cursor                    guibg=#FFFFFF
 hi CursorLine                guibg=#333435
 hi Search                    guibg=#5A647E
 hi Visual                    guibg=#5A647E
-hi LineNr                    guibg=#333435 guifg=#777777 gui=NONE
+hi LineNr                    guibg=#2B2B2B guifg=#777777 gui=NONE
 hi StatusLine                guibg=#414243 gui=NONE
 hi StatusLineNC              guibg=#262626 guifg=#1F1F1F gui=NONE
-hi VertSplit                 guibg=#414243 gui=NONE
+hi VertSplit                 guibg=#2B2B2B guifg=#777777 gui=NONE 
+hi NonText                   guifg=#2B2B2B guibg=#2B2B2B
+hi IndentGuidesOdd           guibg=#303030  
+hi IndentGuidesEven          guibg=#303030 
 
 " Folds
 " -----
@@ -58,61 +61,23 @@ hi PMenuSbar                 guibg=#5A647E gui=NONE
 hi PMenuThumb                guibg=#AAAAAA gui=NONE
 
 
-"rubyComment
 hi Comment                   guifg=#BC9458 gui=italic
 hi Todo                      guifg=#BC9458 guibg=NONE gui=italic
-
-"rubyPseudoVariable
-"nil, self, symbols, etc
 hi Constant                  guifg=#6D9CBE
-
-"rubyClass, rubyModule, rubyDefine
-"def, end, include, etc
 hi Define                    guifg=#CC7833
-
-"rubyInterpolation
 hi Delimiter                 guifg=#519F50
-
-"rubyError, rubyInvalidVariable
 hi Error                     guifg=#FFFFFF guibg=#990000
-
-"rubyFunction
 hi Function                  guifg=#FFC66D gui=NONE
-
-"rubyIdentifier
-"@var, @@var, $var, etc
 hi Identifier                guifg=#D0D0FF gui=NONE
-
-"rubyInclude
-"include, autoload, extend, load, require
 hi Include                   guifg=#CC7833 gui=NONE
-
-"rubyKeyword, rubyKeywordAsMethod
-"alias, undef, super, yield, callcc, caller, lambda, proc
 hi Keyword                   guifg=#CC7833
-
-" same as define
 hi Macro                     guifg=#CC7833 gui=NONE
-
-"rubyInteger
 hi Number                    guifg=#A5C261
-
-" #if, #else, #endif
 hi PreCondit                 guifg=#CC7833 gui=NONE
-
-" generic preprocessor
 hi PreProc                   guifg=#CC7833 gui=NONE
-
-"rubyControl, rubyAccess, rubyEval
-"case, begin, do, for, if unless, while, until else, etc.
 hi Statement                 guifg=#CC7833 gui=NONE
-
-"rubyString
 hi String                    guifg=#A5C261
-
 hi Title                     guifg=#FFFFFF
-
-"rubyConstant
 hi Type                      guifg=#DA4939 gui=NONE
 
 hi DiffAdd                   guifg=#E6E1DC guibg=#144212

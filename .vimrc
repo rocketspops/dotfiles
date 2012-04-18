@@ -11,6 +11,7 @@ runtime macros/matchit.vim
 set title titlestring=%<%F%=%l/%L-%P titlelen=70
 
 " MAKE IT EASY TO UPDATE/RELOAD _vimrc
+
 :nmap ,s :source ~/.vimrc
 :nmap ,v :e ~/.vimrc
 
@@ -25,6 +26,7 @@ set hlsearch    "hilight searches by default
 
 set spell   "Enable spell checking		 	        	
 set foldenable  "Enable code folding
+set foldmethod=syntax
 set autoindent
 set smartindent
 
@@ -44,7 +46,7 @@ set timeoutlen=500
 set ttyfast
 set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors
 set encoding=utf-8 " Necessary to show unicode glyphs
-
+set nuw=5
 set laststatus=2
 
 set wildmenu 
@@ -61,7 +63,7 @@ au VimResized * exe "normal! \<c-w>="
 
 "NERDTree Configuration
 
-map <Leader>n :NERDTreeToggle<CR>
+map <Leader>nt :NERDTreeToggle<CR>
 map <Leader>nf :NERDTreeFind<CR>
 
 let NERDTreeMinimalUI           = 1
@@ -82,6 +84,17 @@ let g:loaded_netrwPlugin        = 1
 
 "Zen-Coding Configuration
 let g:user_zen_leader_key = '<C-E>'
+
+"Zen-Coding Configuration
+
+let g:EasyMotion_leader_key = '<Leader>'
+
+"Indent Guides Configuration
+
+let g:indent_guides_guide_size = 1
+let g:indent_guides_color_change_percent = 0 
+let g:indent_guides_auto_colors = 0
+let g:indent_guides_enable_on_vim_startup = 1
 
 "Alphabetically sort CSS properties in file with :SortCSS 
 :command! SortCSS :g#\({\n\)\@<=#.,/}/sort   
@@ -107,12 +120,6 @@ endfunc
 let g:Powerline_symbols = 'fancy' 
 let g:Powerline_theme = 'default' 
 
-"Syntastic Configuration
-
-let g:syntastic_auto_loc_list=0
-let g:syntastic_enable_signs=1
-let g:syntastic_quiet_warnings=1
-
 "Toggle relative line numbers
 function! g:ToggleNuMode() 
   if(&rnu == 1) 
@@ -124,16 +131,4 @@ endfunc
 
 nnoremap <C-L> :call g:ToggleNuMode()<cr> 
 
-
-"Implement buffer dimming
-augroup BgHighlight
- autocmd!
- autocmd BufEnter * filetype detect 
- autocmd BufLeave * if &ft != 'nerdtree' | set ft=dim | endif
-augroup END
-
-"Automatically save folds
-
-au BufWinLeave * silent! mkview
-au BufWinEnter * silent! loadview
 
