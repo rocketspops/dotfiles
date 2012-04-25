@@ -56,7 +56,17 @@ set wildignore+=*.sw?                            " Vim swap files
 set wildignore+=*.DS_Store                       " OSX bullshit
 set wildmode=list:longest  
 
-set formatprg=par "Use Par engine for text formatting.
+set go-=T   "Hide toolbar
+set ruler
+set number 
+set wrap  
+set textwidth=72  
+set mousehide "Hide the mouse cursor when typing
+
+set showmatch   "Show matching brackets
+
+set lines=50  
+set linespace=0  
 
 " Resize splits when the window is resized
 au VimResized * exe "normal! \<c-w>="
