@@ -1,6 +1,6 @@
 [core]
 	excludesfile = /Users/rocketspops/.gitignore
-	editor = mate
+	editor = vim
 [alias]
 	st = status
 	ci = commit
