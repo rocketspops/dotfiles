@@ -15,6 +15,11 @@ set title titlestring=%<%F%=%l/%L-%P titlelen=70
 :nmap ,s :source ~/.vimrc
 :nmap ,v :e ~/.vimrc
 
+syntax enable
+set background=dark
+colorscheme solarized
+set guifont=Alto\ Mono\ Normal:h13
+
 set ofu=syntaxcomplete#Complete
 
 set bs=indent,eol,start  "Allow backspacing over everything in insert mode
@@ -127,8 +132,8 @@ endfunc
 
 "Powerline configuration
 
-let g:Powerline_symbols = 'fancy' 
-let g:Powerline_theme = 'default' 
+let g:Powerline_symbols = 'compatible' 
+let g:Powerline_theme = 'skwp' 
 
 "Toggle relative line numbers
 function! g:ToggleNuMode() 
