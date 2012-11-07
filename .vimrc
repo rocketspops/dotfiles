@@ -18,7 +18,7 @@ set title titlestring=%<%F%=%l/%L-%P titlelen=70
 syntax enable
 set background=dark
 colorscheme solarized
-set guifont=Alto\ Mono\ Normal:h13
+set guifont=Source\ Code\ Pro:h11
 
 set ofu=syntaxcomplete#Complete
 

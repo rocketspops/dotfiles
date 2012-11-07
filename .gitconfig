@@ -1,18 +1,18 @@
 [core]
-	excludesfile = /Users/rocketspops/.gitignore
-	editor = vim
+  excludesfile = /Users/billy.whited/.gitignore
+  editor = vim
 [alias]
-	st = status
-	ci = commit
-	co = checkout
-	br = branch
+  st = status
+  ci = commit
+  co = checkout
+  br = branch
 [user]
-	name = rocketspops
-	email = billy@8thlight.com
+  name = rocketspops
+  email = rocketspops@gmail.com
 [color]
-	branch = auto
-	diff = auto
-	interactive = auto
-	status = auto
+  branch = auto
+  diff = auto
+  interactive = auto
+  status = auto
 [merge]
-	tool = opendiff
+  tool = opendiff

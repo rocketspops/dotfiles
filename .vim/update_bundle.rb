@@ -11,8 +11,8 @@ git_bundles = [
   "git://github.com/mattn/zencoding-vim.git",
   "git://github.com/Lokaltog/vim-powerline.git",
   "git://github.com/nathanaelkane/vim-indent-guides.git",
+  "git://github.com/altercation/vim-colors-solarized.git",
 ]
-
 
 require 'fileutils'
 
