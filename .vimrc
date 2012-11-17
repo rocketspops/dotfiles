@@ -55,10 +55,10 @@ set nuw=5
 set laststatus=2
 
 set wildmenu 
-set wildignore+=.hg/,.git/,.svn/                    " Version control
-set wildignore=*.dll,*.o,*.obj,*.bak,*.exe,*.pyc
-set wildignore+=*.sw?                            " Vim swap files
-set wildignore+=*.DS_Store                       " OSX bullshit
+set wildignore=.hg/,.git/,.svn/                    
+set wildignore+=*.dll,*.o,*.obj,*.bak,*.exe,*.pyc
+set wildignore+=*.swp,*.swo                           
+set wildignore+=*.DS_Store                       
 set wildmode=list:longest  
 
 set go-=T   "Hide toolbar
@@ -106,10 +106,8 @@ let g:EasyMotion_leader_key = '<Leader>'
 
 "Indent Guides Configuration
 
-let g:indent_guides_guide_size = 1
-let g:indent_guides_color_change_percent = 0 
-let g:indent_guides_auto_colors = 0
 let g:indent_guides_enable_on_vim_startup = 1
+:nmap <silent> <Leader>ig <Plug>IndentGuidesToggle
 
 "Alphabetically sort CSS properties in file with :SortCSS 
 :command! SortCSS :g#\({\n\)\@<=#.,/}/sort   
@@ -132,8 +130,8 @@ endfunc
 
 "Powerline configuration
 
-let g:Powerline_symbols = 'compatible' 
-let g:Powerline_theme = 'skwp' 
+let g:Powerline_symbols = 'unicode' 
+let g:Powerline_theme = 'solarized256' 
 
 "Toggle relative line numbers
 function! g:ToggleNuMode() 
