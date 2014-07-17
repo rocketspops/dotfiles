@@ -1,0 +1,9 @@
+{
+  "css": {
+    "filters": "css",
+    "profile": "css",
+    "snippets": {
+      "test": "this is a test"
+    }
+  }
+}

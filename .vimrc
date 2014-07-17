@@ -7,6 +7,7 @@ syntax on
 filetype plugin indent on
 
 runtime macros/matchit.vim
+set runtimepath^=~/.vim/bundle/ctrlp.vim
 
 set title titlestring=%<%F%=%l/%L-%P titlelen=70
 
@@ -21,7 +22,6 @@ colorscheme solarized
 set guifont=Source\ Code\ Pro:h11
 
 set ofu=syntaxcomplete#Complete
-
 set bs=indent,eol,start  "Allow backspacing over everything in insert mode
 
 set noeb vb t_vb= "Disable Visual bell and error bell
@@ -29,7 +29,7 @@ set noeb vb t_vb= "Disable Visual bell and error bell
 set incsearch   "find the next match as we type the search
 set hlsearch    "hilight searches by default
 
-set spell   "Enable spell checking		 	        	
+set spell   "Enable spell checking
 set foldenable  "Enable code folding
 set foldmethod=syntax
 set autoindent
@@ -40,7 +40,7 @@ set shiftwidth=2
 set softtabstop=2
 set formatoptions=tcqw "Default (tcq) + (w) to end para with non-white space
 
-set showcmd 
+set showcmd
 set showmode
 set shortmess=AaOoT
 set history=1000
@@ -54,24 +54,24 @@ set encoding=utf-8 " Necessary to show unicode glyphs
 set nuw=5
 set laststatus=2
 
-set wildmenu 
-set wildignore=.hg/,.git/,.svn/                    
+set wildmenu
+set wildignore=.hg/,.git/,.svn/
 set wildignore+=*.dll,*.o,*.obj,*.bak,*.exe,*.pyc
-set wildignore+=*.swp,*.swo                           
-set wildignore+=*.DS_Store                       
-set wildmode=list:longest  
+set wildignore+=*.*.sw*,*.*.sw*.*
+set wildignore+=*.DS_Store
+set wildmode=list:longest
 
 set go-=T   "Hide toolbar
 set ruler
-set number 
-set wrap  
-set textwidth=72  
+set number
+set wrap
+set textwidth=0
 set mousehide "Hide the mouse cursor when typing
 
 set showmatch   "Show matching brackets
 
-set lines=50  
-set linespace=0  
+set lines=50
+set linespace=0
 
 " Resize splits when the window is resized
 au VimResized * exe "normal! \<c-w>="
@@ -97,51 +97,44 @@ let NERDTreeAutoCenterThreshold = 10
 let g:loaded_netrw              = 1
 let g:loaded_netrwPlugin        = 1
 
-"Zen-Coding Configuration
-let g:user_zen_leader_key = '<C-E>'
+let NERDTreeIgnore = ['\.sw*', '\.DS_\a*']
 
-"Zen-Coding Configuration
-
-let g:EasyMotion_leader_key = '<Leader>'
+"Emmet Configuration
+let g:user_emmet_leader_key='<C-E>'
+let g:user_emmet_install_global = 0
+let g:user_emmet_mode='a' "enables all functions in all modes.
+let g:user_emmet_settings = webapi#json#decode(join(readfile(expand('~/git/dotfiles/.snippets_custom.json')), "\n"))
+autocmd FileType html,css EmmetInstall
 
 "Indent Guides Configuration
-
-let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_enable_on_vim_startup = 0
 :nmap <silent> <Leader>ig <Plug>IndentGuidesToggle
-
-"Alphabetically sort CSS properties in file with :SortCSS 
-:command! SortCSS :g#\({\n\)\@<=#.,/}/sort   
 
 "Custom Mappings
 nmap <Leader>md :%!/usr/local/bin/Markdown.pl --html4tags <CR>
-inoremap {      {}<Left> 
+inoremap {      {}<Left>
 inoremap {<CR>  {<CR>}<Esc>O
 inoremap {{     {
 inoremap {}     {}
 
-"Show syntax highlighting groups for word under cursor
-nmap <C-S-P> :call <SID>SynStack()<CR>
-function! <SID>SynStack()
-  if !exists("*synstack")
-    return
-  endif
-  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
+"Airline configuration
 
-"Powerline configuration
-
-let g:Powerline_symbols = 'unicode' 
-let g:Powerline_theme = 'solarized256' 
+let g:airline_left_sep=''
+let g:airline_right_sep=''
 
 "Toggle relative line numbers
-function! g:ToggleNuMode() 
-  if(&rnu == 1) 
-    set nu 
-  else 
-    set rnu 
-  endif 
-endfunc 
+function! g:ToggleNuMode()
+  if(&rnu == 1)
+    set nu
+  else
+    set rnu
+  endif
+endfunc
 
-nnoremap <C-L> :call g:ToggleNuMode()<cr> 
+nnoremap <C-L> :call g:ToggleNuMode()<cr>
+
+" Highlight and remove trailing white spaces
+match ErrorMsg '\s\+$'
+nnoremap <Leader>rtw :%s/\s\+$//e<CR>
 
 
