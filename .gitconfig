@@ -1,6 +1,6 @@
 [core]
   excludesfile = /Users/billy.whited/.gitignore
-  editor = vim
+	editor = atom --wait
 [alias]
   st = status
   ci = commit
