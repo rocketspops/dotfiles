@@ -9,8 +9,8 @@ if [ -f ~/.bash_aliases ]; then
 fi
 
 # Load Bash completion
-if [ -f `brew --prefix`/etc/bash_completion ]; then
-  . `brew --prefix`/etc/bash_completion
+if [ -f $(brew --prefix)/share/bash-completion/bash_completion ]; then
+  . $(brew --prefix)/share/bash-completion/bash_completion
 fi
 
 # Git Prompt Configuration
@@ -22,8 +22,13 @@ GIT_PS1_SHOWCOLORHINTS="true"
 PROMPT_COMMAND='__git_ps1 "\w" "\\\$ "'
 
 # Augment PATH variable
-export PATH=./.bin:/usr/local/bin:/usr/local/share/npm/bin:$PATH
+export PATH="./.bin:/usr/local/bin:/usr/local/share/npm/bin:/usr/local/sbin:$PATH"
 
 # RBENV configuration
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
+
+#GOLANG configuration
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:/usr/local/opt/go/libexec/bin
