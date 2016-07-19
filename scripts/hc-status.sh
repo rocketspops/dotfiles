@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#Arguments
+# Arguments
 status="$1"
 message="$2"
 
 # Usage
-# > $ hc-status.sh chat "I'm available to answer questions."
+# ~ $ hc-status.sh chat "I'm available to answer questions."
 
-#HipChat API Parameters
+# HipChat API Parameters
 api_token=c9kTooyd0EKFdByz3fAStpRFmiJq8glIITbI4DWQ
 name="Billy Whited"
 mention_name="Billy"
