@@ -1,6 +1,6 @@
 # Aliases for ~/bin/hc-status.sh
 alias chat="hc-status.sh chat"
-alias away="hc-status.sh away"
+alias away="hc-status.sh xa"
 alias dnd="hc-status.sh dnd"
 alias done="hc-status.sh done"
 

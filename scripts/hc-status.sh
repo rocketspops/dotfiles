@@ -60,7 +60,7 @@ case $status in
     update_status
     print_status "tput setaf 2" # Print status w/ green text
     ;;
-  away)
+  xa)
     blink1-tool -q --rgb=#FF9900
     update_status
     print_status "tput setaf 208"
