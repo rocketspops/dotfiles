@@ -1,5 +1,5 @@
 [core]
-  excludesfile = /Users/billy.whited/.gitignore
+  excludesfile = /Users/wwhite11/.gitignore
 	editor = atom --wait
 [alias]
   st = status

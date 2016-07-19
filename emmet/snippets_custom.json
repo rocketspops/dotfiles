@@ -8,8 +8,6 @@
       "cms": "/* ==========================================================================\n   SECTION NAME${cursor}\n   ========================================================================== */",
       "cmss": "/* Sub-section Name${cursor}\n   ========================================================================== */",
       "defn": "/** @define ${1:Name}; use strict */",
-      "holo": "/*doc\n---\ntitle: ${1}\nname: ${2}\ncategory: ${3}\nparent: ${4}\n---\n\n${5:Description}\n\n```html_example\n${6}\n```\n*/",
-      "lgbul": "legible-underline: ${1:underline-color} ${2:text-color} ${3:baseline-mulitplier} ${4:shadow-color};"
     }
   }
 
