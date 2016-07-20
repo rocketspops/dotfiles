@@ -1,13 +1,21 @@
 #!/bin/bash
 
+# USAGE
+# 1. Install Homebrew (http://brew.sh/)
+# 2. Install blink1-tool: $ brew install blink1
+# 3. Grab a copy of hc-status.sh (https://git.io/vK6Ao) and place it in ~/bin
+# 4. Grab a copy of hc-status.cfg (https://git.io/vK6x3) and place it in ~/bin
+# 5. Create 2 personal API tokens scoped to Admin Group and View Group  (https://www.hipchat.com/sign_in?d=%2Faccount%2Fapi)
+# 6. Update hc-status.cfg with your API tokens
+# 5. Get your current user info: $ sh hc-status.sh get
+# 6. Update the rest of hc-status.cfg with correct user info
+# 7. Update your status and Blink1 light: $ sh hc-status.sh chat "I'm available to answer questions."
+
 source ~/bin/hc-status.cfg
 
 # Arguments
 status="$1"
 message="$2"
-
-# Usage
-# ~ $ hc-status.sh chat "I'm available to answer questions."
 
 function get_status() {
   curl --header "content-type: application/json" \
