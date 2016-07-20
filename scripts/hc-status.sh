@@ -1,22 +1,13 @@
 #!/bin/bash
 
+source ~/bin/hc-status.cfg
+
 # Arguments
 status="$1"
 message="$2"
 
 # Usage
 # ~ $ hc-status.sh chat "I'm available to answer questions."
-
-# HipChat API Parameters
-admin_token=c9kTooyd0EKFdByz3fAStpRFmiJq8glIITbI4DWQ
-view_token=Gf641la2tp9i3gsPyppGaBQj9Ttyreh102mxLZef
-name="Billy Whited"
-mention_name="Billy"
-email="billy.whited@ampf.com"
-title="Sr. Mgr. UI Design & Development"
-timezone="America/Chicago"
-is_admin=true
-roles=(admin owner user)
 
 function get_status() {
   curl --header "content-type: application/json" \
@@ -28,6 +19,7 @@ function get_status() {
 }
 
 function update_status () {
+  echo "Connecting to HipChat..."
   curl --header "content-type: application/json" \
        --header "Authorization: Bearer $admin_token" \
        --request PUT \
@@ -75,7 +67,7 @@ case $status in
     echo "HipChat Status: $(tput setaf 208)Your Blink(1) is off, but you are still connected to HipChat.$(tput sgr0)"
     ;;
   get)
-    echo -e "$(tput bold)Fetching user object via HipChat API…$(tput sgr0)"
+    echo -e "$(tput bold)Fetching user object via HipChat API...$(tput sgr0)"
     get_status
     ;;
   *)
