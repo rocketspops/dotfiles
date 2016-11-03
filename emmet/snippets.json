@@ -1,5 +1,4 @@
 {
-
   "css": {
     "filters": "css",
     "profile": "css",
@@ -10,5 +9,4 @@
       "defn": "/** @define ${1:Name}; use strict */",
     }
   }
-
 }

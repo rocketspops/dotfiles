@@ -7,3 +7,5 @@ alias done="hc-status.sh done"
 # Show/Hide hidden files
 alias shf="defaults write com.apple.Finder AppleShowAllFiles YES; killall Finder"
 alias hhf="defaults write com.apple.Finder AppleShowAllFiles NO; killall Finder"
+
+alias adel="cd ~/Code/adel/"
