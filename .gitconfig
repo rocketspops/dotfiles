@@ -7,8 +7,8 @@
   co = checkout
   br = branch
 [user]
-	name = 
-	email = 
+	name = Billy Whited
+	email = billy.whited@ampf.com
 [color]
   branch = auto
   diff = auto
