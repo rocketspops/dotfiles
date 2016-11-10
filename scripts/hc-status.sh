@@ -27,37 +27,44 @@ while true; do
   user_presence=$(echo $get_user | jq -r ".presence.is_online")
   user_status=$(echo $get_user | jq -r ".presence.show")
 
-  echo "$user_presence"
-  echo "$user_status"
-
   get_last_color=$(blink1-tool --rgbread  --quiet)
   last_color=$(printf "rgb(%d,%d,%d)\n" ${get_last_color//,/ })
-  echo $last_color
 
-  case $user_status in
-    "chat")
-      if [ "$last_color" != "rgb(0,255,0)" ]; then
-        blink1-tool --rgb=0,255,0 --nogamma --quiet
-        echo "Your status has changed to: ${user_status}"
-      fi
-      ;;
-    "away"|"xa")
-      if [ "$last_color" != "rgb(255,100,0)" ]; then
-        blink1-tool --rgb=255,100,0 --nogamma --quiet
-        echo "Your status has changed to: ${user_status}"
-      fi
-      ;;
-    "dnd")
-      if [ "$last_color" != "rgb(255,0,0)" ]; then
-        blink1-tool --rgb=255,0,0 --nogamma --quiet
-        echo "Your status has changed to: ${user_status}"
-      fi
-      ;;
-    *)
-      echo "..."
-      ;;
-  esac
+  if [ "$user_presence" == "true" ]; then
 
+    echo "$user_presence"
+    echo "$user_status"
+    echo "$last_color"
+
+    case $user_status in
+      "chat")
+        if [ "$last_color" != "rgb(0,255,0)" ]; then
+          blink1-tool --rgb=0,255,0 --nogamma --quiet
+          echo "Your status has changed to: ${user_status}"
+        fi
+        ;;
+      "away"|"xa")
+        if [ "$last_color" != "rgb(255,100,0)" ]; then
+          blink1-tool --rgb=255,100,0 --nogamma --quiet
+          echo "Your status has changed to: ${user_status}"
+        fi
+        ;;
+      "dnd")
+        if [ "$last_color" != "rgb(255,0,0)" ]; then
+          blink1-tool --rgb=255,0,0 --nogamma --quiet
+          echo "Your status has changed to: ${user_status}"
+        fi
+        ;;
+      *)
+        echo "..."
+        ;;
+    esac
+
+  else
+    echo "You aren't logged in to HipChat"
+    blink1-tool --off --quiet
+    exit 1;
+  fi
 
   sleep 10
 done
