@@ -34,15 +34,30 @@ while true; do
   last_color=$(printf "rgb(%d,%d,%d)\n" ${get_last_color//,/ })
   echo $last_color
 
-  if [ "$user_status" == "chat" ] && [ "$last_color" != "rgb(0,255,0)" ]; then
-    blink1-tool --rgb=0,255,0 --nogamma --quiet
-    echo "Your status has changed to: ${user_status}"
-  elif [ "$user_status" == "away" ] || [ "$user_status" == "xa" ] && [ "$last_color" != "rgb(255,100,0)" ]; then
-    blink1-tool --rgb=255,100,0 --nogamma --quiet
-    echo "Your status has changed to: ${user_status}"
-  elif [ "$user_status" == "dnd" ] && [ "$last_color" != "rgb(255,0,0)" ]; then
-    blink1-tool --rgb=255,0,0 --nogamma --quiet
-    echo "Your status has changed to: ${user_status}"
-  fi
+  case $user_status in
+    "chat")
+      if [ "$last_color" != "rgb(0,255,0)" ]; then
+        blink1-tool --rgb=0,255,0 --nogamma --quiet
+        echo "Your status has changed to: ${user_status}"
+      fi
+      ;;
+    "away"|"xa")
+      if [ "$last_color" != "rgb(255,100,0)" ]; then
+        blink1-tool --rgb=255,100,0 --nogamma --quiet
+        echo "Your status has changed to: ${user_status}"
+      fi
+      ;;
+    "dnd")
+      if [ "$last_color" != "rgb(255,0,0)" ]; then
+        blink1-tool --rgb=255,0,0 --nogamma --quiet
+        echo "Your status has changed to: ${user_status}"
+      fi
+      ;;
+    *)
+      echo "..."
+      ;;
+  esac
+
+
   sleep 10
 done
