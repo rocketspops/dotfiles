@@ -2,8 +2,10 @@
 
 source ~/bin/hc-status.cfg
 
-# Check if there are any connected Blink1 devices: `grep` output of `blink1-tool --list` using
-# `-q` to silence the output, then return the exit status of the command using `echo`.
+# Check if there are any connected Blink1 devices:
+# 1. Execute `blink1-tool --list` command
+# 2. Check for the presence of a Blink1 ID using `grep -q` to silence output
+# 3. Return the exit status of the command using `echo`
 
 blink1_devices=$(blink1-tool --list | grep -q "id:[0-9]\+"; echo $?)
 
