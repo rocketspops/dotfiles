@@ -2,12 +2,30 @@
 
 source ~/bin/hc-status.cfg
 
+trap ctrl_c INT
+
+ctrl_c() {
+  printf "\n%s\n" "Disconnecting..."
+  blink1-tool --off --quiet
+  exit 1
+}
+
 get_user() {
-  curl \
-      --silent \
-      --header "content-type: application/json" \
-      --header "Authorization: Bearer ${view_token}" \
-      --request GET https://api.hipchat.com/v2/user/{"${email}"}
+  user=$(
+    curl \
+    --silent \
+    --header "content-type: application/json" \
+    --header "Authorization: Bearer ${view_token}" \
+    --request GET https://api.hipchat.com/v2/user/{"${email}"}
+  )
+  user_name=$(echo ${user} | jq -r '.name')
+  user_presence=$(echo ${user} | jq -r ".presence.is_online")
+  user_current_status=$(echo ${user} | jq -r ".presence.show")
+}
+
+blink1_detect() {
+  blink1-tool --list | grep -q "id:[0-9]\+"
+  blink1_detected=$(echo $?)
 }
 
 # Check if there are any connected Blink1 devices:
@@ -15,37 +33,38 @@ get_user() {
 # 2. Check for the presence of a Blink1 ID using `grep -q` to silence output
 # 3. Return the exit status of the command using `echo`
 
-blink1-tool --list | grep "id:[0-9]\+"
-blink1_devices=$(echo $?)
-echo ${blink1_devices}
-
-until [ "${blink1_devices}" == 0 ]; do
-  printf "%s\n" "No Blink1 detected!"
-  sleep 10
-done
-
-until [ "$(get_user | jq -r '.presence.is_online')" == "true" ]; do
-  printf "\n%s\n" "You aren’t logged in to HipChat!"
-  sleep 10
-done
-
 initalize="true"
+last_status="null"
 
 while true; do
 
-  user=$(get_user)
-  user_name=$(echo ${user} | jq -r '.name')
-  user_presence=$(echo ${user} | jq -r ".presence.is_online")
-  user_last_status="${user_current_status}"
-  user_current_status=$(echo ${user} | jq -r ".presence.show")
+  blink1_detect
+  get_user
+
+  until [ "${blink1_detected}" == 0 ]; do
+    printf "%s\n" "No Blink1 detected!"
+    blink1_detect
+    export initalize="true"
+    export last_status="null"
+    sleep 5
+  done
+
+  until [ "${user_presence}" == "true" ]; do
+    blink1-tool --off
+    printf "%s\n" "You aren’t logged in to HipChat!"
+    get_user
+    export initalize="true"
+    export last_status="offline"
+    sleep 5
+  done
 
   if [ "${initalize}" == "true" ]; then
-    echo "$(tput bold)Checking user status via HipChat API…$(tput sgr0)"
+    echo "$(tput bold)Checking user status via HipChat API...$(tput sgr0)"
     echo "User:   ${user_name}"
-    echo "Blink1: Detected"
+    echo "Blink1: $(blink1-tool --list | grep 'id:[0-9]\+')"
   fi
 
-  if [ "${user_current_status}" != "${user_last_status}" ]; then
+  if [ "${user_current_status}" != "${last_status}" ]; then
 
     case ${user_current_status} in
       "chat")
@@ -65,15 +84,14 @@ while true; do
         ;;
     esac
 
-
-
-    printf "$(tput bold)${print_color}•$(tput sgr0)"
+    printf "$(tput bold)${print_color}∙$(tput sgr0)"
 
   else
-    printf "•"
+    printf "∙"
   fi
 
   initalize="false"
+  last_status="$user_current_status"
   sleep 5
 
 done
