@@ -42,26 +42,63 @@ while true; do
   get_user
 
   until [ "${blink1_detected}" == 0 ]; do
-    printf "%s\n" "No Blink1 detected!"
+
+    message="$(tput bold)No Blink1 detected...$(tput sgr0)"
+
+    case ${last_status} in
+      "chat" | "away" | "xa" | "dnd")
+        printf "\n\n%s" "${message}"
+        ;;
+      "blinkless")
+        printf "."
+        ;;
+      *)
+        printf "${message}"
+        ;;
+    esac
+
     blink1_detect
     export initalize="true"
-    export last_status="null"
+    export last_status="blinkless"
     sleep 5
   done
 
+  if [ "${last_status}" == "blinkless" ]; then
+    printf "%s\n" "$(tput bold)$(tput setaf 2)✔$(tput sgr0)"
+  fi
+
   until [ "${user_presence}" == "true" ]; do
-    blink1-tool --off
-    printf "%s\n" "You aren’t logged in to HipChat!"
+
+    message="$(tput bold)User not logged into HipChat...$(tput sgr0)"
+
+    case ${last_status} in
+      "chat" | "away" | "xa" | "dnd")
+        printf "\n\n%s" "${message}"
+        ;;
+      "offline")
+        printf "."
+        ;;
+      *)
+        printf "${message}"
+        ;;
+    esac
+
+    blink1-tool --off --quiet
     get_user
     export initalize="true"
     export last_status="offline"
     sleep 5
   done
 
+  if [ "${last_status}" == "offline" ]; then
+    printf "%s\n" "$(tput bold)$(tput setaf 2)✔$(tput sgr0)"
+  fi
+
   if [ "${initalize}" == "true" ]; then
-    echo "$(tput bold)Checking user status via HipChat API...$(tput sgr0)"
+    printf "%s\n" "$(tput bold)Checking user status via HipChat API...$(tput setaf 2)✔$(tput sgr0)"
     echo "User:   ${user_name}"
     echo "Blink1: $(blink1-tool --list | grep 'id:[0-9]\+')"
+    export initalize="false"
   fi
 
   if [ "${user_current_status}" != "${last_status}" ]; then
@@ -90,7 +127,6 @@ while true; do
     printf "∙"
   fi
 
-  initalize="false"
   last_status="$user_current_status"
   sleep 5
 
