@@ -69,6 +69,13 @@ while true; do
 
   until [ "${user_presence}" == "true" ]; do
 
+    blink1_detect
+
+    if [ "${blink1_detected}" != 0 ]; then
+      echo ${blink1_detected}
+      continue 2
+    fi
+
     message="$(tput bold)User not logged into HipChat...$(tput sgr0)"
 
     case ${last_status} in
