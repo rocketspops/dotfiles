@@ -1,13 +1,33 @@
 #!/bin/bash
 
 source ~/bin/hc-status.cfg
-
 trap ctrl_c INT
 
+stty -echo
+tput civis
+
+icn="▯"
+x_icn="$(tput setaf 1)✘$(tput sgr0)"
+c_icn="$(tput bold)$(tput setaf 2)✔$(tput sgr0)"
+
+iteration=0
+last_status="null"
+
 ctrl_c() {
-  printf "\n%s\n" "Disconnecting..."
+  msg="$(tput bold)Disconnecting...$(tput setaf 2)✔$(tput sgr0)"
+  case ${last_status} in
+    "chat"|"away"|"xa"|"dnd" ) printf "%s\n\n%s\n" "${icn}" "${msg}" ;;
+    *) printf "%s\n%s\n" "${x_icn}" "${msg}" ;;
+  esac
   blink1-tool --off --quiet
+  tput cnorm
+  stty sane
   exit 1
+}
+
+blink1_detect() {
+  blink1-tool --list | grep -q "id:[0-9]\+"
+  blink1_detected=$(echo $?)
 }
 
 get_user() {
@@ -19,22 +39,12 @@ get_user() {
     --request GET https://api.hipchat.com/v2/user/{"${email}"}
   )
   user_name=$(echo ${user} | jq -r '.name')
+  user_title=$(echo ${user} | jq -r '.title')
   user_presence=$(echo ${user} | jq -r ".presence.is_online")
   user_current_status=$(echo ${user} | jq -r ".presence.show")
+  user_last_active=$(echo ${user} | jq -r ".last_active")
+  user_client_type=$(echo ${user} | jq -r ".presence.client.type")
 }
-
-blink1_detect() {
-  blink1-tool --list | grep -q "id:[0-9]\+"
-  blink1_detected=$(echo $?)
-}
-
-# Check if there are any connected Blink1 devices:
-# 1. Execute `blink1-tool --list` command
-# 2. Check for the presence of a Blink1 ID using `grep -q` to silence output
-# 3. Return the exit status of the command using `echo`
-
-initalize="true"
-last_status="null"
 
 while true; do
 
@@ -42,81 +52,63 @@ while true; do
   get_user
 
   until [ "${blink1_detected}" == 0 ]; do
-
-    message="$(tput bold)No Blink1 detected...$(tput sgr0)"
-
-    case ${last_status} in
-      "chat" | "away" | "xa" | "dnd")
-        printf "\n\n%s" "${message}"
-        ;;
-      "blinkless")
-        printf "."
-        ;;
-      *)
-        printf "${message}"
-        ;;
-    esac
-
+    if [ "${last_status}" != "blinkless" ]; then
+      msg="$(tput bold)Connect a Blink1 device to continue...$(tput sgr0)"
+      case ${last_status} in
+        "chat"|"away"|"xa"|"dnd" ) printf "%s\n\n%s" "${icn}" "${msg}" ;;
+        *) printf "%s" "${msg}" ;;
+      esac
+    fi
     blink1_detect
-    export initalize="true"
+    export iteration=0
     export last_status="blinkless"
-    sleep 5
+    sleep 3
   done
 
-  if [ "${last_status}" == "blinkless" ]; then
-    printf "%s\n" "$(tput bold)$(tput setaf 2)✔$(tput sgr0)"
-  fi
+  if [ "${last_status}" == "blinkless" ]; then printf "%s\n" "${c_icn}"; fi
 
   until [ "${user_presence}" == "true" ]; do
-
     blink1_detect
-
     if [ "${blink1_detected}" != 0 ]; then
-      echo ${blink1_detected}
+      printf "%s\n" "${x_icn}"
       continue 2
+    elif [ "${last_status}" != "offline" ]; then
+      msg="$(tput bold)Log into HipChat to continue...$(tput sgr0)"
+      case ${last_status} in
+        "chat"|"away"|"xa"|"dnd" ) printf "%s\n\n%s" "${icn}" "${msg}" ;;
+        *) printf "%s" "${msg}" ;;
+      esac
     fi
-
-    message="$(tput bold)User not logged into HipChat...$(tput sgr0)"
-
-    case ${last_status} in
-      "chat" | "away" | "xa" | "dnd")
-        printf "\n\n%s" "${message}"
-        ;;
-      "offline")
-        printf "."
-        ;;
-      *)
-        printf "${message}"
-        ;;
-    esac
-
     blink1-tool --off --quiet
     get_user
-    export initalize="true"
+    export iteration=0
     export last_status="offline"
-    sleep 5
+    sleep 3
   done
 
-  if [ "${last_status}" == "offline" ]; then
-    printf "%s\n" "$(tput bold)$(tput setaf 2)✔$(tput sgr0)"
-  fi
+  if [ "${last_status}" == "offline" ]; then printf "%s\n" "${c_icn}"; fi
 
-  if [ "${initalize}" == "true" ]; then
-    printf "%s\n" "$(tput bold)Checking user status via HipChat API...$(tput setaf 2)✔$(tput sgr0)"
-    echo "User:   ${user_name}"
-    echo "Blink1: $(blink1-tool --list | grep 'id:[0-9]\+')"
-    export initalize="false"
+  if [ "${iteration}" == 0 ]; then
+    printf "%s\n\n" "$(tput bold)Establishing connection to HipChat API...$(tput setaf 2)✔$(tput sgr0)"
+    printf "%-15s%s\n" "Blink1:" "$(blink1-tool --list | grep 'id:[0-9]\+')"
+    printf "%-15s%s\n" "User:" "${user_name}"
+    printf "%-15s%s\n" "Title:" "${user_title}"
+    printf "%-15s%s\n" "Last Active:" "${user_last_active}"
+    printf "%-15s%s\n" "Client:" "${user_client_type}"
+    printf "%-15s" "Status:"
+  elif [ "${iteration}" == 40 ]; then
+    printf "\n%-15s"
+    export iteration=0
   fi
 
   if [ "${user_current_status}" != "${last_status}" ]; then
-
     case ${user_current_status} in
       "chat")
         # Set Blink1 to rgb(0,255,0)
         blink1-tool --rgb=0,255,0 --nogamma --quiet
         print_color=$(tput setaf 2)
         ;;
-      "away" | "xa")
+      "away"|"xa")
         # Set Blink1 to rgb(255,100,0)
         blink1-tool --rgb=255,100,0 --nogamma --quiet
         print_color=$(tput setaf 208)
@@ -127,14 +119,13 @@ while true; do
         print_color=$(tput setaf 1)
         ;;
     esac
-
-    printf "$(tput bold)${print_color}∙$(tput sgr0)"
-
+    printf "%s" "${print_color}▮$(tput sgr0)"
   else
-    printf "∙"
+    printf "%s" "${print_color}▯$(tput sgr0)"
   fi
 
+  let iteration+=1
   last_status="$user_current_status"
-  sleep 5
+  sleep 3
 
 done
