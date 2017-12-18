@@ -11,7 +11,6 @@ if [ -f ~/.git-flow-completion.bash ]; then
   source ~/.git-flow-completion.bash
 fi
 
-
 # Add bash aliases
 if [ -f ~/.bash_aliases ]; then
   source ~/.bash_aliases
