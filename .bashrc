@@ -4,8 +4,13 @@ if [ -f ~/.git-prompt.sh ]; then
 fi
 
 if [ -f ~/.git-completion.bash ]; then
-  . ~/.git-completion.bash
+  source ~/.git-completion.bash
 fi
+
+if [ -f ~/.git-flow-completion.bash ]; then
+  source ~/.git-flow-completion.bash
+fi
+
 
 # Add bash aliases
 if [ -f ~/.bash_aliases ]; then
