@@ -1,4 +1,4 @@
-# Load the git branch prompt script
+# Load the git branch prompt scripts
 if [ -f ~/.git-prompt.sh ]; then
   source ~/.git-prompt.sh
 fi
